@@ -368,2144 +368,567 @@ summary {
 
 <pre><code>## Parsed with column specification:
 ## cols(
-##   .default = col_logical(),
+##   .default = col_double(),
 ##   Project = col_character(),
 ##   PrincipalRevisionPair = col_character(),
-##   `#matches_10` = col_double(),
-##   `#actions_10` = col_double(),
-##   `#inserts_10` = col_double(),
-##   `#deletes_10` = col_double(),
-##   `#updates_10` = col_double(),
-##   `#moves_10` = col_double(),
-##   `#matches_32` = col_double(),
-##   `#actions_32` = col_double(),
-##   `#inserts_32` = col_double(),
-##   `#deletes_32` = col_double(),
-##   `#updates_32` = col_double(),
-##   `#moves_32` = col_double()
+##   `#matches_2010Vs10` = col_logical(),
+##   `#actions_2010Vs10` = col_logical(),
+##   `#inserts_2010Vs10` = col_logical(),
+##   `#deletes_2010Vs10` = col_logical(),
+##   `#updates_2010Vs10` = col_logical(),
+##   `#moves_2010Vs10` = col_logical(),
+##   `#matches_10Vs2010` = col_logical(),
+##   `#actions_10Vs2010` = col_logical(),
+##   `#inserts_10Vs2010` = col_logical(),
+##   `#deletes_10Vs2010` = col_logical(),
+##   `#updates_10Vs2010` = col_logical(),
+##   `#moves_10Vs2010` = col_logical()
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_32.txt -------------- C(10)et,rl C(32)it,rl
-## TOTAL  18457
-## LR:  18457 (% 100 )
-## RL:  18457 (% 100 )
-## L_leq_R:  5836 (% 31.62 )
-## R_leq_L:  1117 (% 6.05 )
-## L_neq_R:  6953 (% 37.67 )
+<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_10.txt -------------- C*(2010)et,rl C(10)et,rl
+## TOTAL  18136
+## LR:  18136 (% 100 )
+## RL:  18136 (% 100 )
+## L_leq_R:  5068 (% 27.94 )
+## R_leq_L:  7137 (% 39.35 )
+## L_neq_R:  12205 (% 67.3 )
 ## 
-## LvsR: &lt; 25.57 %
+## LvsR: &gt; 11.41 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 3434840, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  5502 (% 29.81 )
-## Ins &lt; 22.4 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 1387286, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Del L_neq_R:  4083 (% 22.12 )
-## Del &lt; 10.03 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 1559275, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  1285 (% 6.96 )
-## Upd &gt; 1.59 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 533615, p-value &lt; 2.2e-16
+## V = 44380899, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is greater than 0
 ## 
 ## 
 ## 
-## Mov L_neq_R:  2614 (% 14.16 )
-## Mov &gt; 2.77 %
+## Mismatches: 
+## L_leq_R:  6053 (% 33.38 )
+## R_leq_L:  2943 (% 16.23 )
+## L_neq_R:  10181 (% 56.14 )
+## Mismatch &lt; 17.15 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 2091424, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_48` = col_double(),
-##   `#actions_48` = col_double(),
-##   `#inserts_48` = col_double(),
-##   `#deletes_48` = col_double(),
-##   `#updates_48` = col_double(),
-##   `#moves_48` = col_double(),
-##   `#matches_42` = col_double(),
-##   `#actions_42` = col_double(),
-##   `#inserts_42` = col_double(),
-##   `#deletes_42` = col_double(),
-##   `#updates_42` = col_double(),
-##   `#moves_42` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_42.txt -------------- C(48)et,pl C(42)it,pl
-## TOTAL  17294
-## LR:  17294 (% 100 )
-## RL:  17294 (% 100 )
-## L_leq_R:  5454 (% 31.54 )
-## R_leq_L:  1215 (% 7.03 )
-## L_neq_R:  6669 (% 38.56 )
-## 
-## LvsR: &lt; 24.51 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 3436300, p-value &lt; 2.2e-16
+## data:  as.vector(BetweenSymptomsStats[[28]]) and as.vector(BetweenSymptomsStats[[29]])
+## V = 7105743, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Ins L_neq_R:  5271 (% 30.48 )
-## Ins &lt; 21.38 %
+## Ins L_neq_R:  8302 (% 45.78 )
+## Ins &lt; 4.6 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 1393923, p-value &lt; 2.2e-16
+## V = 18726514, p-value = 1
 ## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Del L_neq_R:  4040 (% 23.36 )
-## Del &lt; 8.55 %
+## Del L_neq_R:  7885 (% 43.48 )
+## Del &lt; 2.2 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 1742400, p-value &lt; 2.2e-16
+## V = 19174861, p-value = 1
 ## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Upd L_neq_R:  1789 (% 10.34 )
-## Upd &lt; 1.37 %
+## Upd L_neq_R:  5451 (% 30.06 )
+## Upd &gt; 12.39 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 756996, p-value = 0.02109
-## alternative hypothesis: true location shift is less than 0
+## V = 10367815, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0
 ## 
 ## 
 ## 
-## Mov L_neq_R:  2359 (% 13.64 )
-## Mov &gt; 4.53 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 1890990, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_10` = col_double(),
-##   `#actions_10` = col_double(),
-##   `#inserts_10` = col_double(),
-##   `#deletes_10` = col_double(),
-##   `#updates_10` = col_double(),
-##   `#moves_10` = col_double(),
-##   `#matches_48` = col_double(),
-##   `#actions_48` = col_double(),
-##   `#inserts_48` = col_double(),
-##   `#deletes_48` = col_double(),
-##   `#updates_48` = col_double(),
-##   `#moves_48` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_48.txt -------------- C(10)et,rl C(48)et,pl
-## TOTAL  18346
-## LR:  18346 (% 100 )
-## RL:  18346 (% 100 )
-## L_leq_R:  2831 (% 15.43 )
-## R_leq_L:  1296 (% 7.06 )
-## L_neq_R:  4127 (% 22.5 )
-## 
-## LvsR: &lt; 8.37 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 2498568, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  3987 (% 21.73 )
-## Ins &lt; 7.44 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 2876048, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Del L_neq_R:  3981 (% 21.7 )
-## Del &lt; 7.44 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 2871016, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  2033 (% 11.08 )
-## Upd &lt; 7.11 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 311837, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  1995 (% 10.87 )
-## Mov &lt; 1.18 %
+## Mov L_neq_R:  6458 (% 35.61 )
+## Mov &lt; 5.24 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 811883, p-value = 3.395e-13
+## V = 8083750, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is less than 0</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
-##   .default = col_logical(),
+##   .default = col_double(),
 ##   Project = col_character(),
 ##   PrincipalRevisionPair = col_character(),
-##   `#matches_32` = col_double(),
-##   `#actions_32` = col_double(),
-##   `#inserts_32` = col_double(),
-##   `#deletes_32` = col_double(),
-##   `#updates_32` = col_double(),
-##   `#moves_32` = col_double(),
-##   `#matches_42` = col_double(),
-##   `#actions_42` = col_double(),
-##   `#inserts_42` = col_double(),
-##   `#deletes_42` = col_double(),
-##   `#updates_42` = col_double(),
-##   `#moves_42` = col_double()
+##   `#matches_2010Vs2032` = col_logical(),
+##   `#actions_2010Vs2032` = col_logical(),
+##   `#inserts_2010Vs2032` = col_logical(),
+##   `#deletes_2010Vs2032` = col_logical(),
+##   `#updates_2010Vs2032` = col_logical(),
+##   `#moves_2010Vs2032` = col_logical(),
+##   `#matches_2032Vs2010` = col_logical(),
+##   `#actions_2032Vs2010` = col_logical(),
+##   `#inserts_2032Vs2010` = col_logical(),
+##   `#deletes_2032Vs2010` = col_logical(),
+##   `#updates_2032Vs2010` = col_logical(),
+##   `#moves_2032Vs2010` = col_logical()
 ## )
 ## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_32_42.txt -------------- C(32)it,rl C(42)it,pl
-## TOTAL  19907
-## LR:  19907 (% 100 )
-## RL:  19907 (% 100 )
-## L_leq_R:  2994 (% 15.04 )
-## R_leq_L:  1640 (% 8.24 )
-## L_neq_R:  4634 (% 23.28 )
+<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2032.txt -------------- C*(2010)et,rl C*(2032)it,rl
+## TOTAL  17969
+## LR:  17969 (% 100 )
+## RL:  17969 (% 100 )
+## L_leq_R:  4767 (% 26.53 )
+## R_leq_L:  5524 (% 30.74 )
+## L_neq_R:  10291 (% 57.27 )
 ## 
-## LvsR: &lt; 6.8 %
+## LvsR: &gt; 4.21 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 3720608, p-value &lt; 2.2e-16
+## V = 23987322, p-value = 1
+## alternative hypothesis: true location shift is greater than 0
+## 
+## 
+## 
+## Mismatches: 
+## L_leq_R:  3964 (% 22.06 )
+## R_leq_L:  172 (% 0.96 )
+## L_neq_R:  4413 (% 24.56 )
+## Mismatch &lt; 21.1 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[28]]) and as.vector(BetweenSymptomsStats[[29]])
+## V = 414483, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Ins L_neq_R:  3847 (% 19.32 )
-## Ins &lt; 5.54 %
+## Ins L_neq_R:  5181 (% 28.83 )
+## Ins &lt; 24.34 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 2822975, p-value &lt; 2.2e-16
+## V = 955731, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Del L_neq_R:  3841 (% 19.29 )
-## Del &lt; 5.52 %
+## Del L_neq_R:  3266 (% 18.18 )
+## Del &lt; 12.87 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 2820781, p-value &lt; 2.2e-16
+## V = 698211, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Upd L_neq_R:  2571 (% 12.92 )
-## Upd &lt; 9.18 %
+## Upd L_neq_R:  4570 (% 25.43 )
+## Upd &gt; 22.52 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 409360, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
+## V = 9892368, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0
 ## 
 ## 
 ## 
-## Mov L_neq_R:  2453 (% 12.32 )
-## Mov &gt; 1.23 %
+## Mov L_neq_R:  5363 (% 29.85 )
+## Mov &gt; 24.14 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 1571986, p-value = 0.02717
+## V = 13061063, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is greater than 0</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
-##   .default = col_logical(),
+##   .default = col_double(),
 ##   Project = col_character(),
 ##   PrincipalRevisionPair = col_character(),
-##   `#matches_28` = col_double(),
-##   `#actions_28` = col_double(),
-##   `#inserts_28` = col_double(),
-##   `#deletes_28` = col_double(),
-##   `#updates_28` = col_double(),
-##   `#moves_28` = col_double(),
-##   `#matches_30` = col_double(),
-##   `#actions_30` = col_double(),
-##   `#inserts_30` = col_double(),
-##   `#deletes_30` = col_double(),
-##   `#updates_30` = col_double(),
-##   `#moves_30` = col_double()
+##   `#matches_2010Vs2048` = col_logical(),
+##   `#actions_2010Vs2048` = col_logical(),
+##   `#inserts_2010Vs2048` = col_logical(),
+##   `#deletes_2010Vs2048` = col_logical(),
+##   `#updates_2010Vs2048` = col_logical(),
+##   `#moves_2010Vs2048` = col_logical(),
+##   `#matches_2048Vs2010` = col_logical(),
+##   `#actions_2048Vs2010` = col_logical(),
+##   `#inserts_2048Vs2010` = col_logical(),
+##   `#deletes_2048Vs2010` = col_logical(),
+##   `#updates_2048Vs2010` = col_logical(),
+##   `#moves_2048Vs2010` = col_logical()
 ## )
 ## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_30.txt -------------- D(1028)et,rl D(1030)it,rl
-## TOTAL  19162
-## LR:  19162 (% 100 )
-## RL:  19162 (% 100 )
-## L_leq_R:  5722 (% 29.86 )
-## R_leq_L:  255 (% 1.33 )
-## L_neq_R:  5977 (% 31.19 )
+<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2048.txt -------------- C*(2010)et,rl C*(2048)et,pl
+## TOTAL  16957
+## LR:  16957 (% 100 )
+## RL:  16957 (% 100 )
+## L_leq_R:  859 (% 5.07 )
+## R_leq_L:  898 (% 5.3 )
+## L_neq_R:  1757 (% 10.36 )
 ## 
-## LvsR: &lt; 28.53 %
+## LvsR: &gt; 0.23 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 604556, p-value &lt; 2.2e-16
+## V = 617148, p-value = 1
+## alternative hypothesis: true location shift is greater than 0
+## 
+## 
+## 
+## Mismatches: 
+## L_leq_R:  904 (% 5.33 )
+## R_leq_L:  741 (% 4.37 )
+## L_neq_R:  1837 (% 10.83 )
+## Mismatch &lt; 0.96 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[28]]) and as.vector(BetweenSymptomsStats[[29]])
+## V = 773508, p-value = 1
 ## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Ins L_neq_R:  4556 (% 23.78 )
-## Ins &lt; 22.4 %
+## Ins L_neq_R:  1707 (% 10.07 )
+## Ins &gt; 1.08 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 208848, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
+## V = 639212, p-value = 1
+## alternative hypothesis: true location shift is greater than 0
 ## 
 ## 
 ## 
-## Del L_neq_R:  2826 (% 14.75 )
-## Del &lt; 12.6 %
+## Del L_neq_R:  1711 (% 10.09 )
+## Del &gt; 1.09 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 234267, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
+## V = 643717, p-value = 1
+## alternative hypothesis: true location shift is greater than 0
 ## 
 ## 
 ## 
-## Upd L_neq_R:  1035 (% 5.4 )
-## Upd &lt; 1.6 %
+## Upd L_neq_R:  1315 (% 7.75 )
+## Upd &lt; 4.28 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 186294, p-value &lt; 2.2e-16
+## V = 194753, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Mov L_neq_R:  1901 (% 9.92 )
-## Mov &lt; 4.1 %
+## Mov L_neq_R:  1189 (% 7.01 )
+## Mov &lt; 0.19 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 536123, p-value &lt; 2.2e-16
+## V = 320714, p-value = 0.002518
 ## alternative hypothesis: true location shift is less than 0</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
-##   .default = col_logical(),
+##   .default = col_double(),
 ##   Project = col_character(),
 ##   PrincipalRevisionPair = col_character(),
-##   `#matches_1038` = col_double(),
-##   `#actions_1038` = col_double(),
-##   `#inserts_1038` = col_double(),
-##   `#deletes_1038` = col_double(),
-##   `#updates_1038` = col_double(),
-##   `#moves_1038` = col_double(),
-##   `#matches_1040` = col_double(),
-##   `#actions_1040` = col_double(),
-##   `#inserts_1040` = col_double(),
-##   `#deletes_1040` = col_double(),
-##   `#updates_1040` = col_double(),
-##   `#moves_1040` = col_double()
+##   `#matches_2010Vs1050` = col_logical(),
+##   `#actions_2010Vs1050` = col_logical(),
+##   `#inserts_2010Vs1050` = col_logical(),
+##   `#deletes_2010Vs1050` = col_logical(),
+##   `#updates_2010Vs1050` = col_logical(),
+##   `#moves_2010Vs1050` = col_logical(),
+##   `#matches_1050Vs2010` = col_logical(),
+##   `#actions_1050Vs2010` = col_logical(),
+##   `#inserts_1050Vs2010` = col_logical(),
+##   `#deletes_1050Vs2010` = col_logical(),
+##   `#updates_1050Vs2010` = col_logical(),
+##   `#moves_1050Vs2010` = col_logical()
 ## )
 ## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_38_40.txt -------------- D(1038)et,pl D(1040)it,pl
-## TOTAL  18598
-## LR:  18598 (% 100 )
-## RL:  18598 (% 100 )
-## L_leq_R:  7398 (% 39.78 )
-## R_leq_L:  2209 (% 11.88 )
-## L_neq_R:  9607 (% 51.66 )
+<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1050.txt -------------- C*(2010)et,rl E(1050)et,rl
+## TOTAL  18108
+## LR:  18108 (% 100 )
+## RL:  18108 (% 100 )
+## L_leq_R:  5514 (% 30.45 )
+## R_leq_L:  4052 (% 22.38 )
+## L_neq_R:  9566 (% 52.83 )
 ## 
-## LvsR: &lt; 27.9 %
+## LvsR: &lt; 8.07 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 6647664, p-value &lt; 2.2e-16
+## V = 18877759, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Ins L_neq_R:  4480 (% 24.09 )
-## Ins &lt; 22.72 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 222849, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Del L_neq_R:  2695 (% 14.49 )
-## Del &lt; 12.38 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 223295, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  4831 (% 25.98 )
-## Upd &lt; 4.59 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 4425011, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  4906 (% 26.38 )
-## Mov &lt; 3.88 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 4981447, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1028` = col_double(),
-##   `#actions_1028` = col_double(),
-##   `#inserts_1028` = col_double(),
-##   `#deletes_1028` = col_double(),
-##   `#updates_1028` = col_double(),
-##   `#moves_1028` = col_double(),
-##   `#matches_1038` = col_double(),
-##   `#actions_1038` = col_double(),
-##   `#inserts_1038` = col_double(),
-##   `#deletes_1038` = col_double(),
-##   `#updates_1038` = col_double(),
-##   `#moves_1038` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_38.txt -------------- D(1028)et,rl D(1038)et,pl
-## TOTAL  18682
-## LR:  18682 (% 100 )
-## RL:  18682 (% 100 )
-## L_leq_R:  517 (% 2.77 )
-## R_leq_L:  1111 (% 5.95 )
-## L_neq_R:  1628 (% 8.71 )
-## 
-## LvsR: &gt; 3.18 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 838556, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Ins L_neq_R:  1584 (% 8.48 )
-## Ins &gt; 4.39 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 913695, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  1581 (% 8.46 )
-## Del &gt; 4.41 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 911268, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Upd L_neq_R:  1499 (% 8.02 )
-## Upd &lt; 5.28 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 166156, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  1062 (% 5.68 )
-## Mov &gt; 0.31 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 295121, p-value = 0.0966
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1030` = col_double(),
-##   `#actions_1030` = col_double(),
-##   `#inserts_1030` = col_double(),
-##   `#deletes_1030` = col_double(),
-##   `#updates_1030` = col_double(),
-##   `#moves_1030` = col_double(),
-##   `#matches_1040` = col_double(),
-##   `#actions_1040` = col_double(),
-##   `#inserts_1040` = col_double(),
-##   `#deletes_1040` = col_double(),
-##   `#updates_1040` = col_double(),
-##   `#moves_1040` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_30_40.txt -------------- D(1030)it,rl D(1040)it,pl
-## TOTAL  19566
-## LR:  19566 (% 100 )
-## RL:  19566 (% 100 )
-## L_leq_R:  1077 (% 5.5 )
-## R_leq_L:  1514 (% 7.74 )
-## L_neq_R:  2591 (% 13.24 )
-## 
-## LvsR: &gt; 2.23 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 2035659, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Ins L_neq_R:  1731 (% 8.85 )
-## Ins &gt; 4.42 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 1078934, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  1727 (% 8.83 )
-## Del &gt; 4.42 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 1075180, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Upd L_neq_R:  2096 (% 10.71 )
-## Upd &lt; 8.03 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 241257, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  1579 (% 8.07 )
-## Mov &gt; 2.6 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 856145, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1050` = col_double(),
-##   `#actions_1050` = col_double(),
-##   `#inserts_1050` = col_double(),
-##   `#deletes_1050` = col_double(),
-##   `#updates_1050` = col_double(),
-##   `#moves_1050` = col_double(),
-##   `#matches_1052` = col_double(),
-##   `#actions_1052` = col_double(),
-##   `#inserts_1052` = col_double(),
-##   `#deletes_1052` = col_double(),
-##   `#updates_1052` = col_double(),
-##   `#moves_1052` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_36.txt -------------- E(34-1050)et,rl E(36-1052)it,rl
-## TOTAL  18944
-## LR:  18944 (% 100 )
-## RL:  18944 (% 100 )
-## L_leq_R:  7131 (% 37.64 )
-## R_leq_L:  1393 (% 7.35 )
-## L_neq_R:  8524 (% 45 )
-## 
-## LvsR: &lt; 30.29 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 3433258, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  4377 (% 23.1 )
-## Ins &lt; 21.85 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 180234, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Del L_neq_R:  2648 (% 13.98 )
-## Del &lt; 12.52 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 137643, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  2803 (% 14.8 )
-## Upd &lt; 8.42 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 679912, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  4568 (% 24.11 )
-## Mov &lt; 4.08 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 3993747, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1054` = col_double(),
-##   `#actions_1054` = col_double(),
-##   `#inserts_1054` = col_double(),
-##   `#deletes_1054` = col_double(),
-##   `#updates_1054` = col_double(),
-##   `#moves_1054` = col_double(),
-##   `#matches_1056` = col_double(),
-##   `#actions_1056` = col_double(),
-##   `#inserts_1056` = col_double(),
-##   `#deletes_1056` = col_double(),
-##   `#updates_1056` = col_double(),
-##   `#moves_1056` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_44_46.txt -------------- E(44-1054)et,pl E(46-1056)it,pl
-## TOTAL  18295
-## LR:  18295 (% 100 )
-## RL:  18295 (% 100 )
-## L_leq_R:  6838 (% 37.38 )
-## R_leq_L:  1339 (% 7.32 )
-## L_neq_R:  8177 (% 44.7 )
-## 
-## LvsR: &lt; 30.06 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 3183364, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  4190 (% 22.9 )
-## Ins &lt; 21.59 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 178311, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Del L_neq_R:  2507 (% 13.7 )
-## Del &lt; 12.22 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 129298, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  2793 (% 15.27 )
-## Upd &lt; 8.41 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 725794, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  4333 (% 23.68 )
-## Mov &lt; 4.15 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 3566774, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1050` = col_double(),
-##   `#actions_1050` = col_double(),
-##   `#inserts_1050` = col_double(),
-##   `#deletes_1050` = col_double(),
-##   `#updates_1050` = col_double(),
-##   `#moves_1050` = col_double(),
-##   `#matches_1054` = col_double(),
-##   `#actions_1054` = col_double(),
-##   `#inserts_1054` = col_double(),
-##   `#deletes_1054` = col_double(),
-##   `#updates_1054` = col_double(),
-##   `#moves_1054` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_44.txt -------------- E(34-1050)et,rl E(44-1054)et,pl
-## TOTAL  18354
-## LR:  18354 (% 100 )
-## RL:  18354 (% 100 )
-## L_leq_R:  289 (% 1.57 )
-## R_leq_L:  888 (% 4.84 )
-## L_neq_R:  1177 (% 6.41 )
-## 
-## LvsR: &gt; 3.26 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 501140, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Ins L_neq_R:  1243 (% 6.77 )
-## Ins &gt; 5.11 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 673963, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  1243 (% 6.77 )
-## Del &gt; 5.11 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 673963, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Upd L_neq_R:  1211 (% 6.6 )
-## Upd &lt; 6.06 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 23060, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  641 (% 3.49 )
-## Mov &lt; 1.07 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 65021, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1052` = col_double(),
-##   `#actions_1052` = col_double(),
-##   `#inserts_1052` = col_double(),
-##   `#deletes_1052` = col_double(),
-##   `#updates_1052` = col_double(),
-##   `#moves_1052` = col_double(),
-##   `#matches_1056` = col_double(),
-##   `#actions_1056` = col_double(),
-##   `#inserts_1056` = col_double(),
-##   `#deletes_1056` = col_double(),
-##   `#updates_1056` = col_double(),
-##   `#moves_1056` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_36_46.txt -------------- E(36-1052)it,rl E(46-1056)it,pl
-## TOTAL  20027
-## LR:  20027 (% 100 )
-## RL:  20027 (% 100 )
-## L_leq_R:  339 (% 1.69 )
-## R_leq_L:  925 (% 4.62 )
-## L_neq_R:  1264 (% 6.31 )
-## 
-## LvsR: &gt; 2.93 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 560467, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Ins L_neq_R:  1339 (% 6.69 )
-## Ins &gt; 4.85 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 764805, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  1339 (% 6.69 )
-## Del &gt; 4.85 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 764831, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Upd L_neq_R:  1297 (% 6.48 )
-## Upd &lt; 5.85 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 34144, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  729 (% 3.64 )
-## Mov &lt; 1.16 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 81131, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_10` = col_double(),
-##   `#actions_10` = col_double(),
-##   `#inserts_10` = col_double(),
-##   `#deletes_10` = col_double(),
-##   `#updates_10` = col_double(),
-##   `#moves_10` = col_double(),
-##   `#matches_1028` = col_double(),
-##   `#actions_1028` = col_double(),
-##   `#inserts_1028` = col_double(),
-##   `#deletes_1028` = col_double(),
-##   `#updates_1028` = col_double(),
-##   `#moves_1028` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_28.txt -------------- C(10)et,rl D(1028)et,rl
-## TOTAL  18131
-## LR:  18131 (% 100 )
-## RL:  18131 (% 100 )
-## L_leq_R:  6484 (% 35.76 )
-## R_leq_L:  5438 (% 29.99 )
-## L_neq_R:  11922 (% 65.75 )
-## 
-## LvsR: &lt; 5.77 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 33029053, p-value = 9.621e-12
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  7916 (% 43.66 )
-## Ins &gt; 10.26 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 16276294, p-value = 0.001163
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  7611 (% 41.98 )
-## Del &gt; 8.51 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 13416629, p-value = 1
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Upd L_neq_R:  4829 (% 26.63 )
-## Upd &lt; 24.46 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 469473, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  6338 (% 34.96 )
-## Mov &gt; 3.97 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 12286688, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_48` = col_double(),
-##   `#actions_48` = col_double(),
-##   `#inserts_48` = col_double(),
-##   `#deletes_48` = col_double(),
-##   `#updates_48` = col_double(),
-##   `#moves_48` = col_double(),
-##   `#matches_1038` = col_double(),
-##   `#actions_1038` = col_double(),
-##   `#inserts_1038` = col_double(),
-##   `#deletes_1038` = col_double(),
-##   `#updates_1038` = col_double(),
-##   `#moves_1038` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_38.txt -------------- C(48)et,pl D(1038)et,pl
-## TOTAL  16967
-## LR:  16967 (% 100 )
-## RL:  16967 (% 100 )
-## L_leq_R:  5802 (% 34.2 )
-## R_leq_L:  5772 (% 34.02 )
-## L_neq_R:  11574 (% 68.21 )
-## 
-## LvsR: &lt; 0.18 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 34629613, p-value = 0.9993
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  7980 (% 47.03 )
-## Ins &gt; 15.98 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 18647795, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  7729 (% 45.55 )
-## Del &gt; 14.37 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 16103613, p-value = 6.475e-10
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Upd L_neq_R:  4759 (% 28.05 )
-## Upd &lt; 24.81 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 645774, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  5950 (% 35.07 )
-## Mov &gt; 5.16 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 11239331, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_10` = col_double(),
-##   `#actions_10` = col_double(),
-##   `#inserts_10` = col_double(),
-##   `#deletes_10` = col_double(),
-##   `#updates_10` = col_double(),
-##   `#moves_10` = col_double(),
-##   `#matches_1050` = col_double(),
-##   `#actions_1050` = col_double(),
-##   `#inserts_1050` = col_double(),
-##   `#deletes_1050` = col_double(),
-##   `#updates_1050` = col_double(),
-##   `#moves_1050` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_34.txt -------------- C(10)et,rl E(34-1050)et,rl
-## TOTAL  18411
-## LR:  18411 (% 100 )
-## RL:  18411 (% 100 )
-## L_leq_R:  7750 (% 42.09 )
-## R_leq_L:  5467 (% 29.69 )
-## L_neq_R:  13217 (% 71.79 )
-## 
-## LvsR: &lt; 12.4 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 34920698, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  9507 (% 51.64 )
-## Ins &lt; 1.39 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 16748973, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Del L_neq_R:  9131 (% 49.6 )
-## Del &lt; 4.6 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 12257264, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  6177 (% 33.55 )
-## Upd &lt; 16.41 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 4890869, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  7627 (% 41.43 )
-## Mov &gt; 22.76 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 24600931, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_48` = col_double(),
-##   `#actions_48` = col_double(),
-##   `#inserts_48` = col_double(),
-##   `#deletes_48` = col_double(),
-##   `#updates_48` = col_double(),
-##   `#moves_48` = col_double(),
-##   `#matches_1054` = col_double(),
-##   `#actions_1054` = col_double(),
-##   `#inserts_1054` = col_double(),
-##   `#deletes_1054` = col_double(),
-##   `#updates_1054` = col_double(),
-##   `#moves_1054` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_44.txt -------------- C(48)et,pl E(44-1054)et,pl
-## TOTAL  16867
-## LR:  16867 (% 100 )
-## RL:  16867 (% 100 )
-## L_leq_R:  6818 (% 40.42 )
-## R_leq_L:  5647 (% 33.48 )
-## L_neq_R:  12465 (% 73.9 )
-## 
-## LvsR: &lt; 6.94 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 35078311, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  9041 (% 53.6 )
-## Ins &gt; 4.01 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 17460442, p-value = 1
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  8699 (% 51.57 )
-## Del &gt; 1.19 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 13658050, p-value = 1
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Upd L_neq_R:  5951 (% 35.28 )
-## Upd &lt; 17.93 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 4448943, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Mov L_neq_R:  6961 (% 41.27 )
-## Mov &gt; 22.14 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 20368540, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1028` = col_double(),
-##   `#actions_1028` = col_double(),
-##   `#inserts_1028` = col_double(),
-##   `#deletes_1028` = col_double(),
-##   `#updates_1028` = col_double(),
-##   `#moves_1028` = col_double(),
-##   `#matches_1050` = col_double(),
-##   `#actions_1050` = col_double(),
-##   `#inserts_1050` = col_double(),
-##   `#deletes_1050` = col_double(),
-##   `#updates_1050` = col_double(),
-##   `#moves_1050` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_34.txt -------------- D(1028)et,rl E(34-1050)et,rl
-## TOTAL  18690
-## LR:  18690 (% 100 )
-## RL:  18690 (% 100 )
-## L_leq_R:  6478 (% 34.66 )
-## R_leq_L:  4102 (% 21.95 )
-## L_neq_R:  10580 (% 56.61 )
-## 
-## LvsR: &lt; 12.71 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 21139118, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  5856 (% 31.33 )
-## Ins &lt; 13.55 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 4492733, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Del L_neq_R:  5261 (% 28.15 )
-## Del &lt; 18.03 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 1978221, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  6460 (% 34.56 )
-## Upd &gt; 0.73 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 11103302, p-value = 2.747e-06
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Mov L_neq_R:  6739 (% 36.06 )
-## Mov &gt; 16.73 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 18411772, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1038` = col_double(),
-##   `#actions_1038` = col_double(),
-##   `#inserts_1038` = col_double(),
-##   `#deletes_1038` = col_double(),
-##   `#updates_1038` = col_double(),
-##   `#moves_1038` = col_double(),
-##   `#matches_1054` = col_double(),
-##   `#actions_1054` = col_double(),
-##   `#inserts_1054` = col_double(),
-##   `#deletes_1054` = col_double(),
-##   `#updates_1054` = col_double(),
-##   `#moves_1054` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_38_44.txt -------------- D(1038)et,pl E(44-1054)et,pl
-## TOTAL  18054
-## LR:  18054 (% 100 )
-## RL:  18054 (% 100 )
-## L_leq_R:  6214 (% 34.42 )
-## R_leq_L:  4046 (% 22.41 )
-## L_neq_R:  10260 (% 56.83 )
-## 
-## LvsR: &lt; 12.01 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 20422903, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  5542 (% 30.7 )
-## Ins &lt; 12.56 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 4303011, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Del L_neq_R:  4968 (% 27.52 )
-## Del &lt; 17.09 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 1944067, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  6475 (% 35.86 )
-## Upd &gt; 0.04 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 10887893, p-value = 0.003041
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Mov L_neq_R:  6405 (% 35.48 )
-## Mov &gt; 15.85 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 16437155, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_32` = col_double(),
-##   `#actions_32` = col_double(),
-##   `#inserts_32` = col_double(),
-##   `#deletes_32` = col_double(),
-##   `#updates_32` = col_double(),
-##   `#moves_32` = col_double(),
-##   `#matches_33` = col_double(),
-##   `#actions_33` = col_double(),
-##   `#inserts_33` = col_double(),
-##   `#deletes_33` = col_double(),
-##   `#updates_33` = col_double(),
-##   `#moves_33` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_32_33.txt -------------- C(32)it,rl (-1)
-## TOTAL  19912
-## LR:  19912 (% 100 )
-## RL:  19912 (% 100 )
-## L_leq_R:  6011 (% 30.19 )
-## R_leq_L:  2206 (% 11.08 )
-## L_neq_R:  8217 (% 41.27 )
-## 
-## LvsR: &lt; 19.11 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 9319901, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  15319 (% 76.93 )
-## Ins &gt; 14.45 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 73927920, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  15314 (% 76.91 )
-## Del &lt; 40.6 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 24430038, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  1677 (% 8.42 )
-## Upd &gt; 2.86 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 1011192, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Mov L_neq_R:  2643 (% 13.27 )
-## Mov &gt; 4.38 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 2374972, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_42` = col_double(),
-##   `#actions_42` = col_double(),
-##   `#inserts_42` = col_double(),
-##   `#deletes_42` = col_double(),
-##   `#updates_42` = col_double(),
-##   `#moves_42` = col_double(),
-##   `#matches_43` = col_double(),
-##   `#actions_43` = col_double(),
-##   `#inserts_43` = col_double(),
-##   `#deletes_43` = col_double(),
-##   `#updates_43` = col_double(),
-##   `#moves_43` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_42_43.txt -------------- C(42)it,pl (-1)
-## TOTAL  19956
-## LR:  19956 (% 100 )
-## RL:  19956 (% 100 )
-## L_leq_R:  6004 (% 30.09 )
-## R_leq_L:  2213 (% 11.09 )
-## L_neq_R:  8217 (% 41.18 )
-## 
-## LvsR: &lt; 19 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 9357659, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  15265 (% 76.49 )
-## Ins &gt; 14.39 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 73452515, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  15256 (% 76.45 )
-## Del &lt; 40.43 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 24183686, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  1799 (% 9.01 )
-## Upd &gt; 3.18 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 1171790, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Mov L_neq_R:  2660 (% 13.33 )
-## Mov &gt; 4.28 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 2380805, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_48` = col_double(),
-##   `#actions_48` = col_double(),
-##   `#inserts_48` = col_double(),
-##   `#deletes_48` = col_double(),
-##   `#updates_48` = col_double(),
-##   `#moves_48` = col_double(),
-##   `#matches_49` = col_double(),
-##   `#actions_49` = col_double(),
-##   `#inserts_49` = col_double(),
-##   `#deletes_49` = col_double(),
-##   `#updates_49` = col_double(),
-##   `#moves_49` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_49.txt -------------- C(48)et,pl (-1)
-## TOTAL  18270
-## LR:  18270 (% 100 )
-## RL:  18270 (% 100 )
-## L_leq_R:  3283 (% 17.97 )
-## R_leq_L:  2187 (% 11.97 )
-## L_neq_R:  5470 (% 29.94 )
-## 
-## LvsR: &lt; 6 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 6336038, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  14853 (% 81.3 )
-## Ins &gt; 34.75 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 82188485, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  14854 (% 81.3 )
-## Del &lt; 34.73 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 27901798, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  1640 (% 8.98 )
-## Upd &gt; 2.4 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 930131, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Mov L_neq_R:  2410 (% 13.19 )
-## Mov &gt; 4.01 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 1921582, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_10` = col_double(),
-##   `#actions_10` = col_double(),
-##   `#inserts_10` = col_double(),
-##   `#deletes_10` = col_double(),
-##   `#updates_10` = col_double(),
-##   `#moves_10` = col_double(),
-##   `#matches_11` = col_double(),
-##   `#actions_11` = col_double(),
-##   `#inserts_11` = col_double(),
-##   `#deletes_11` = col_double(),
-##   `#updates_11` = col_double(),
-##   `#moves_11` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_11.txt -------------- C(10)et,rl (-1)
-## TOTAL  15465
-## LR:  15465 (% 100 )
-## RL:  15465 (% 100 )
-## L_leq_R:  3516 (% 22.74 )
-## R_leq_L:  2277 (% 14.72 )
-## L_neq_R:  5793 (% 37.46 )
-## 
-## LvsR: &lt; 8.01 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 6982379, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  14998 (% 96.98 )
-## Ins &gt; 42.41 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 84248818, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  14996 (% 96.97 )
-## Del &lt; 42.33 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 27914189, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  1604 (% 10.37 )
-## Upd &gt; 2.97 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 890876, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Mov L_neq_R:  2491 (% 16.11 )
-## Mov &gt; 4.86 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 2045523, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1030` = col_double(),
-##   `#actions_1030` = col_double(),
-##   `#inserts_1030` = col_double(),
-##   `#deletes_1030` = col_double(),
-##   `#updates_1030` = col_double(),
-##   `#moves_1030` = col_double(),
-##   `#matches_1031` = col_double(),
-##   `#actions_1031` = col_double(),
-##   `#inserts_1031` = col_double(),
-##   `#deletes_1031` = col_double(),
-##   `#updates_1031` = col_double(),
-##   `#moves_1031` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1030_1031.txt -------------- D(1030)it,rl (-1)
-## TOTAL  18709
-## LR:  18709 (% 100 )
-## RL:  18709 (% 100 )
-## L_leq_R:  6632 (% 35.45 )
-## R_leq_L:  2924 (% 15.63 )
-## L_neq_R:  9556 (% 51.08 )
-## 
-## LvsR: &lt; 19.82 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 12925356, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  14777 (% 78.98 )
-## Ins &gt; 29.13 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 78590217, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  14775 (% 78.97 )
-## Del &lt; 35.61 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 25506179, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  2972 (% 15.89 )
-## Upd &gt; 1.37 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 2493050, p-value = 1.483e-10
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Mov L_neq_R:  4824 (% 25.78 )
-## Mov &gt; 1.26 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 6322039, p-value = 4.767e-08
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1040` = col_double(),
-##   `#actions_1040` = col_double(),
-##   `#inserts_1040` = col_double(),
-##   `#deletes_1040` = col_double(),
-##   `#updates_1040` = col_double(),
-##   `#moves_1040` = col_double(),
-##   `#matches_1041` = col_double(),
-##   `#actions_1041` = col_double(),
-##   `#inserts_1041` = col_double(),
-##   `#deletes_1041` = col_double(),
-##   `#updates_1041` = col_double(),
-##   `#moves_1041` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1040_1041.txt -------------- D(1040)it,pl (-1)
-## TOTAL  18806
-## LR:  18806 (% 100 )
-## RL:  18806 (% 100 )
-## L_leq_R:  6628 (% 35.24 )
-## R_leq_L:  2901 (% 15.43 )
-## L_neq_R:  9529 (% 50.67 )
-## 
-## LvsR: &lt; 19.82 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 12746894, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  14754 (% 78.45 )
-## Ins &gt; 28.87 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 78329684, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  14748 (% 78.42 )
-## Del &lt; 35.37 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 25378191, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  3157 (% 16.79 )
-## Upd &gt; 1.3 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 2791947, p-value = 6.793e-10
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Mov L_neq_R:  4714 (% 25.07 )
-## Mov &gt; 1.06 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 5950080, p-value = 7.741e-06
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1028` = col_double(),
-##   `#actions_1028` = col_double(),
-##   `#inserts_1028` = col_double(),
-##   `#deletes_1028` = col_double(),
-##   `#updates_1028` = col_double(),
-##   `#moves_1028` = col_double(),
-##   `#matches_1029` = col_double(),
-##   `#actions_1029` = col_double(),
-##   `#inserts_1029` = col_double(),
-##   `#deletes_1029` = col_double(),
-##   `#updates_1029` = col_double(),
-##   `#moves_1029` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1028_1029.txt -------------- D(1028)et,rl (-1)
-## TOTAL  17872
-## LR:  17872 (% 100 )
-## RL:  17872 (% 100 )
-## L_leq_R:  6130 (% 34.3 )
-## R_leq_L:  2803 (% 15.68 )
-## L_neq_R:  8933 (% 49.98 )
-## 
-## LvsR: &lt; 18.62 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 11785634, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  14287 (% 79.94 )
-## Ins &gt; 33.07 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 75204328, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  14292 (% 79.97 )
-## Del &lt; 34.04 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 25163311, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  2712 (% 15.17 )
-## Upd &gt; 1.14 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 2023711, p-value = 1.408e-06
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Mov L_neq_R:  4401 (% 24.63 )
-## Mov &gt; 1.07 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 5127528, p-value = 0.0002703
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1038` = col_double(),
-##   `#actions_1038` = col_double(),
-##   `#inserts_1038` = col_double(),
-##   `#deletes_1038` = col_double(),
-##   `#updates_1038` = col_double(),
-##   `#moves_1038` = col_double(),
-##   `#matches_1039` = col_double(),
-##   `#actions_1039` = col_double(),
-##   `#inserts_1039` = col_double(),
-##   `#deletes_1039` = col_double(),
-##   `#updates_1039` = col_double(),
-##   `#moves_1039` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1038_1039.txt -------------- D(1038)et,pl (-1)
-## TOTAL  17850
-## LR:  17850 (% 100 )
-## RL:  17850 (% 100 )
-## L_leq_R:  6148 (% 34.44 )
-## R_leq_L:  2801 (% 15.69 )
-## L_neq_R:  8949 (% 50.13 )
-## 
-## LvsR: &lt; 18.75 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 11790064, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Ins L_neq_R:  14270 (% 79.94 )
-## Ins &gt; 33.04 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 74992704, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  14274 (% 79.97 )
-## Del &lt; 33.99 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 25106167, p-value &lt; 2.2e-16
-## alternative hypothesis: true location shift is less than 0
-## 
-## 
-## 
-## Upd L_neq_R:  2776 (% 15.55 )
-## Upd &gt; 1.21 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 2131839, p-value = 2.663e-07
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Mov L_neq_R:  4390 (% 24.59 )
-## Mov &gt; 0.9 %
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 5069337, p-value = 0.001119
-## alternative hypothesis: true location shift is greater than 0</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   Project = col_character(),
-##   PrincipalRevisionPair = col_character(),
-##   `#matches_1052` = col_double(),
-##   `#actions_1052` = col_double(),
-##   `#inserts_1052` = col_double(),
-##   `#deletes_1052` = col_double(),
-##   `#updates_1052` = col_double(),
-##   `#moves_1052` = col_double(),
-##   `#matches_1053` = col_double(),
-##   `#actions_1053` = col_double(),
-##   `#inserts_1053` = col_double(),
-##   `#deletes_1053` = col_double(),
-##   `#updates_1053` = col_double(),
-##   `#moves_1053` = col_double()
-## )
-## See spec(...) for full column specifications.</code></pre>
-<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1052_1053.txt -------------- E(1052)it,rl (-1)
-## TOTAL  27
-## LR:  27 (% 100 )
-## RL:  27 (% 100 )
-## L_leq_R:  9 (% 33.33 )
-## R_leq_L:  3 (% 11.11 )
-## L_neq_R:  12 (% 44.44 )
-## 
-## LvsR: &lt; 22.22 %</code></pre>
-<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[4]]),
-## as.vector(BetweenSymptomsStats[[10]]), : cannot compute exact p-value with
-## ties</code></pre>
-<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[4]]),
-## as.vector(BetweenSymptomsStats[[10]]), : cannot compute exact p-value with
+## Mismatches: 
+## L_leq_R:  0 (% 0 )
+## R_leq_L:  0 (% 0 )
+## L_neq_R:  0 (% 0 )
+## Mismatch &gt; 0 %</code></pre>
+<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[28]]),
+## as.vector(BetweenSymptomsStats[[29]]), : cannot compute exact p-value with
 ## zeroes</code></pre>
 <pre><code>## 
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
-## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
-## V = 16, p-value = 0.03849
-## alternative hypothesis: true location shift is less than 0
+## data:  as.vector(BetweenSymptomsStats[[28]]) and as.vector(BetweenSymptomsStats[[29]])
+## V = 0, p-value = 1
+## alternative hypothesis: true location shift is greater than 0
 ## 
 ## 
 ## 
-## Ins L_neq_R:  17 (% 62.96 )
-## Ins &gt; 40.74 %</code></pre>
-<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[5]]),
-## as.vector(BetweenSymptomsStats[[11]]), : cannot compute exact p-value with
-## ties</code></pre>
-<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[5]]),
-## as.vector(BetweenSymptomsStats[[11]]), : cannot compute exact p-value with
-## zeroes</code></pre>
-<pre><code>## 
+## Ins L_neq_R:  4312 (% 23.81 )
+## Ins &lt; 11.54 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
-## V = 132.5, p-value = 0.00429
-## alternative hypothesis: true location shift is greater than 0
-## 
-## 
-## 
-## Del L_neq_R:  16 (% 59.26 )
-## Del &lt; 44.44 %</code></pre>
-<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[6]]),
-## as.vector(BetweenSymptomsStats[[12]]), : cannot compute exact p-value with
-## ties</code></pre>
-<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[6]]),
-## as.vector(BetweenSymptomsStats[[12]]), : cannot compute exact p-value with
-## zeroes</code></pre>
-<pre><code>## 
-## 
-##  Wilcoxon signed rank test with continuity correction
-## 
-## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
-## V = 3, p-value = 0.0004253
+## V = 2035807, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Upd L_neq_R:  3 (% 11.11 )
-## Upd &gt; 11.11 %</code></pre>
-<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[7]]),
-## as.vector(BetweenSymptomsStats[[13]]), : cannot compute exact p-value with
-## ties</code></pre>
-<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[7]]),
-## as.vector(BetweenSymptomsStats[[13]]), : cannot compute exact p-value with
-## zeroes</code></pre>
-<pre><code>## 
+## Del L_neq_R:  4092 (% 22.6 )
+## Del &lt; 12.05 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
+## V = 1719679, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is less than 0
+## 
+## 
+## 
+## Upd L_neq_R:  5846 (% 32.28 )
+## Upd &lt; 4.65 %
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
-## V = 6, p-value = 0.08678
-## alternative hypothesis: true location shift is greater than 0
+## V = 7174862, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is less than 0
 ## 
 ## 
 ## 
-## Mov L_neq_R:  4 (% 14.81 )
-## Mov &lt; 7.41 %</code></pre>
-<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[8]]),
-## as.vector(BetweenSymptomsStats[[14]]), : cannot compute exact p-value with
-## ties</code></pre>
-<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[8]]),
-## as.vector(BetweenSymptomsStats[[14]]), : cannot compute exact p-value with
+## Mov L_neq_R:  6374 (% 35.2 )
+## Mov &gt; 16.57 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
+## V = 16496102, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   Project = col_character(),
+##   PrincipalRevisionPair = col_character(),
+##   `#matches_2010Vs1054` = col_logical(),
+##   `#actions_2010Vs1054` = col_logical(),
+##   `#inserts_2010Vs1054` = col_logical(),
+##   `#deletes_2010Vs1054` = col_logical(),
+##   `#updates_2010Vs1054` = col_logical(),
+##   `#moves_2010Vs1054` = col_logical(),
+##   `#matches_1054Vs2010` = col_logical(),
+##   `#actions_1054Vs2010` = col_logical(),
+##   `#inserts_1054Vs2010` = col_logical(),
+##   `#deletes_1054Vs2010` = col_logical(),
+##   `#updates_1054Vs2010` = col_logical(),
+##   `#moves_1054Vs2010` = col_logical()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1054.txt -------------- C*(2010)et,rl E(1054)et,pl
+## TOTAL  17717
+## LR:  17717 (% 100 )
+## RL:  17717 (% 100 )
+## L_leq_R:  5230 (% 29.52 )
+## R_leq_L:  4259 (% 24.04 )
+## L_neq_R:  9489 (% 53.56 )
+## 
+## LvsR: &lt; 5.48 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
+## V = 19933188, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is less than 0
+## 
+## 
+## 
+## Mismatches: 
+## L_leq_R:  0 (% 0 )
+## R_leq_L:  0 (% 0 )
+## L_neq_R:  0 (% 0 )
+## Mismatch &gt; 0 %</code></pre>
+<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[28]]),
+## as.vector(BetweenSymptomsStats[[29]]), : cannot compute exact p-value with
 ## zeroes</code></pre>
 <pre><code>## 
 ## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
+## data:  as.vector(BetweenSymptomsStats[[28]]) and as.vector(BetweenSymptomsStats[[29]])
+## V = 0, p-value = 1
+## alternative hypothesis: true location shift is greater than 0
+## 
+## 
+## 
+## Ins L_neq_R:  4447 (% 25.1 )
+## Ins &lt; 7.7 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
+## V = 2901467, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is less than 0
+## 
+## 
+## 
+## Del L_neq_R:  4246 (% 23.97 )
+## Del &lt; 8.14 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
+## V = 2534770, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is less than 0
+## 
+## 
+## 
+## Upd L_neq_R:  6140 (% 34.66 )
+## Upd &lt; 8.38 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
+## V = 6780972, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is less than 0
+## 
+## 
+## 
+## Mov L_neq_R:  6211 (% 35.06 )
+## Mov &gt; 16.02 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
 ## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
-## V = 3, p-value = 0.2904
+## V = 15486222, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   Project = col_character(),
+##   PrincipalRevisionPair = col_character(),
+##   `#matches_2010Vs1038` = col_logical(),
+##   `#actions_2010Vs1038` = col_logical(),
+##   `#inserts_2010Vs1038` = col_logical(),
+##   `#deletes_2010Vs1038` = col_logical(),
+##   `#updates_2010Vs1038` = col_logical(),
+##   `#moves_2010Vs1038` = col_logical(),
+##   `#matches_1038Vs2010` = col_logical(),
+##   `#actions_1038Vs2010` = col_logical(),
+##   `#inserts_1038Vs2010` = col_logical(),
+##   `#deletes_1038Vs2010` = col_logical(),
+##   `#updates_1038Vs2010` = col_logical(),
+##   `#moves_1038Vs2010` = col_logical()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1038.txt -------------- Test - C*(2010)et,rl D(1038)et,pl
+## TOTAL  18038
+## LR:  18038 (% 100 )
+## RL:  18038 (% 100 )
+## L_leq_R:  4644 (% 25.75 )
+## R_leq_L:  5629 (% 31.21 )
+## L_neq_R:  10273 (% 56.95 )
+## 
+## LvsR: &gt; 5.46 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
+## V = 29397947, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0
+## 
+## 
+## 
+## Mismatches: 
+## L_leq_R:  0 (% 0 )
+## R_leq_L:  0 (% 0 )
+## L_neq_R:  0 (% 0 )
+## Mismatch &gt; 0 %</code></pre>
+<pre><code>## Warning in wilcox.test.default(as.vector(BetweenSymptomsStats[[28]]),
+## as.vector(BetweenSymptomsStats[[29]]), : cannot compute exact p-value with
+## zeroes</code></pre>
+<pre><code>## 
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[28]]) and as.vector(BetweenSymptomsStats[[29]])
+## V = 0, p-value = 1
+## alternative hypothesis: true location shift is greater than 0
+## 
+## 
+## 
+## Ins L_neq_R:  5110 (% 28.33 )
+## Ins &gt; 6.31 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
+## V = 7667617, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0
+## 
+## 
+## 
+## Del L_neq_R:  4485 (% 24.86 )
+## Del &gt; 10.87 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
+## V = 7281215, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0
+## 
+## 
+## 
+## Upd L_neq_R:  6468 (% 35.86 )
+## Upd &lt; 8.02 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
+## V = 7421368, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is less than 0
+## 
+## 
+## 
+## Mov L_neq_R:  6096 (% 33.8 )
+## Mov &lt; 0.28 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
+## V = 9198692, p-value = 0.2465
 ## alternative hypothesis: true location shift is less than 0</code></pre>
 
 
