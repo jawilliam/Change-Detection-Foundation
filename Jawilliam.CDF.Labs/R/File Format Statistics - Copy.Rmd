@@ -13,44 +13,54 @@ library(PairedData)
 ```
 
 ```{r}
+knitr::opts_chunk$set(echo = FALSE)
 
 behaviorComparisons <- NULL
-behaviorComparisons <- data.frame(list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_32.txt", "C(10)et,rl", "C(32)it,rl"), stringsAsFactors = FALSE)
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_42.txt", "C(48)et,pl", "C(42)it,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_48.txt", "C(10)et,rl", "C(48)et,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_32_42.txt", "C(32)it,rl", "C(42)it,pl"))
+behaviorComparisons <- data.frame(list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_10.txt", "C*(2010)et,rl", "C(10)et,rl"), stringsAsFactors = FALSE)
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2032.txt", "C*(2010)et,rl", "C*(2032)it,rl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2048.txt", "C*(2010)et,rl", "C*(2048)et,pl"))
 
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_30.txt", "D(1028)et,rl", "D(1030)it,rl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_38_40.txt", "D(1038)et,pl", "D(1040)it,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_38.txt", "D(1028)et,rl", "D(1038)et,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_30_40.txt", "D(1030)it,rl", "D(1040)it,pl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1050.txt", "C*(2010)et,rl", "E(1050)et,rl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1054.txt", "C*(2010)et,rl", "E(1054)et,pl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1038.txt", "Test - C*(2010)et,rl", "D(1038)et,pl"))
 
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_36.txt", "E(34-1050)et,rl", "E(36-1052)it,rl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_44_46.txt", "E(44-1054)et,pl", "E(46-1056)it,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_44.txt", "E(34-1050)et,rl", "E(44-1054)et,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_36_46.txt", "E(36-1052)it,rl", "E(46-1056)it,pl"))
-
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_28.txt", "C(10)et,rl", "D(1028)et,rl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_38.txt", "C(48)et,pl", "D(1038)et,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_34.txt", "C(10)et,rl", "E(34-1050)et,rl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_44.txt", "C(48)et,pl", "E(44-1054)et,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_34.txt", "D(1028)et,rl", "E(34-1050)et,rl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_38_44.txt", "D(1038)et,pl", "E(44-1054)et,pl"))
-
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_32_33.txt", "C(32)it,rl", "(-1)"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_42_43.txt", "C(42)it,pl", "(-1)"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_49.txt", "C(48)et,pl", "(-1)"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_11.txt", "C(10)et,rl", "(-1)"))
-
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1030_1031.txt", "D(1030)it,rl", "(-1)"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1040_1041.txt", "D(1040)it,pl", "(-1)"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1028_1029.txt", "D(1028)et,rl", "(-1)"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1038_1039.txt", "D(1038)et,pl", "(-1)"))
-
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1052_1053.txt", "E(1052)it,rl", "(-1)"))
+# behaviorComparisons <- NULL
+# behaviorComparisons <- data.frame(list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_32.txt", "C(10)et,rl", "C(32)it,rl"), stringsAsFactors = FALSE)
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_42.txt", "C(48)et,pl", "C(42)it,pl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_48.txt", "C(10)et,rl", "C(48)et,pl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_32_42.txt", "C(32)it,rl", "C(42)it,pl"))
+# 
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_30.txt", "D(1028)et,rl", "D(1030)it,rl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_38_40.txt", "D(1038)et,pl", "D(1040)it,pl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_38.txt", "D(1028)et,rl", "D(1038)et,pl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_30_40.txt", "D(1030)it,rl", "D(1040)it,pl"))
+# 
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_36.txt", "E(34-1050)et,rl", "E(36-1052)it,rl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_44_46.txt", "E(44-1054)et,pl", "E(46-1056)it,pl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_44.txt", "E(34-1050)et,rl", "E(44-1054)et,pl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_36_46.txt", "E(36-1052)it,rl", "E(46-1056)it,pl"))
+# 
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_28.txt", "C(10)et,rl", "D(1028)et,rl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_38.txt", "C(48)et,pl", "D(1038)et,pl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_34.txt", "C(10)et,rl", "E(34-1050)et,rl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_44.txt", "C(48)et,pl", "E(44-1054)et,pl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_34.txt", "D(1028)et,rl", "E(34-1050)et,rl"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_38_44.txt", "D(1038)et,pl", "E(44-1054)et,pl"))
+# 
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_32_33.txt", "C(32)it,rl", "(-1)"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_42_43.txt", "C(42)it,pl", "(-1)"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_49.txt", "C(48)et,pl", "(-1)"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_11.txt", "C(10)et,rl", "(-1)"))
+# 
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1030_1031.txt", "D(1030)it,rl", "(-1)"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1040_1041.txt", "D(1040)it,pl", "(-1)"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1028_1029.txt", "D(1028)et,rl", "(-1)"))
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1038_1039.txt", "D(1038)et,pl", "(-1)"))
+# 
+# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1052_1053.txt", "E(1052)it,rl", "(-1)"))
 #behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1056_1057.txt", "E(1056)it,pl", "(-1)"))
 #behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1050_1051.txt", "E(1050)et,rl", "(-1)"))
-#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1054_1055.txt", "E(1038)et,pl", "(-1)"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1054_1055.txt", "E(1054)et,pl", "(-1)"))
 
 for (i in 1:nrow(behaviorComparisons)) 
 {
@@ -74,6 +84,7 @@ cat("\n")
 cat("R_leq_L: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] > BetweenSymptomsStats[10]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] > BetweenSymptomsStats[10]),])/total*100, 2), ")")
 cat("\n")
 cat("L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] != BetweenSymptomsStats[10]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] != BetweenSymptomsStats[10]),])/total*100, 2), ")")
+
 cat("\n")
 cat("\n")
 if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] < BetweenSymptomsStats[10]),]) > 
@@ -93,6 +104,40 @@ else
 
   res <- wilcox.test(as.vector(BetweenSymptomsStats[[4]]), 
                    as.vector(BetweenSymptomsStats[[10]]), 
+                   paired = TRUE,
+                   alternative = "great")
+
+}
+  cat("\n")
+  print(res)
+  
+cat("\n")
+cat("\n")
+cat("Mismatches: ")
+  cat("\n")
+  cat("L_leq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] < BetweenSymptomsStats[29]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] < BetweenSymptomsStats[29]),])/total*100, 2), ")")
+cat("\n")
+cat("R_leq_L: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] > BetweenSymptomsStats[29]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] > BetweenSymptomsStats[29]),])/total*100, 2), ")")
+cat("\n")
+cat("L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] > 0),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] > 0),])/total*100, 2), ")")
+cat("\n")
+if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] < BetweenSymptomsStats[29]),]) > 
+   nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] > BetweenSymptomsStats[29]),]))
+{
+  cat("Mismatch <", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] < BetweenSymptomsStats[29]),]) - 
+            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] > BetweenSymptomsStats[29]),]))/total*100, 2), "%")
+  res <- wilcox.test(as.vector(BetweenSymptomsStats[[28]]), 
+                   as.vector(BetweenSymptomsStats[[29]]), 
+                   paired = TRUE,
+                   alternative = "less")
+}
+else
+{
+  cat("Mismatch >", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] > BetweenSymptomsStats[29]),]) - 
+            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] < BetweenSymptomsStats[29]),]))/total*100, 2), "%")
+
+  res <- wilcox.test(as.vector(BetweenSymptomsStats[[28]]), 
+                   as.vector(BetweenSymptomsStats[[29]]), 
                    paired = TRUE,
                    alternative = "great")
 
@@ -213,5 +258,6 @@ else
 }
   cat("\n")
   print(res)
+  
 }
 ```
