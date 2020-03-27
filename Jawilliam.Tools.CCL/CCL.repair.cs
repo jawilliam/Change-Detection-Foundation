@@ -203,7 +203,17 @@ namespace Jawilliam.Tools.CCL
                             }
                             finally
                             {
-                                dbRepository.Flush(true);
+                                try
+                                {
+                                    dbRepository.Flush(true);
+                                }
+                                catch (DbUpdateException ex)
+                                {
+                                    expandedDelta.Matching = null;
+                                    expandedDelta.Differencing = null;
+                                    expandedDelta.Report = typeof(DbUpdateException).Name;
+                                    dbRepository.Flush(true);
+                                }
                             }
                         }
                         if (args.Trace != null)
