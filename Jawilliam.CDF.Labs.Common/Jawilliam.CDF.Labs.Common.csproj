@@ -1,0 +1,204 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DBModel\GitRepository.Context.tt" />
+    <None Remove="DBModel\GitRepository.tt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="DBModel\GitRepository.Context.tt">
+      <LastGenOutput>GitRepository.Context.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+    <Content Include="DBModel\GitRepository.tt">
+      <LastGenOutput>GitRepository.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jawilliam.CDF\Jawilliam.CDF.csproj" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DBModel\BetweenMatchInfo.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\BetweenPartInfo.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\Branch.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\Certainty.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\ChangeDetectionApproaches.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\CodeCategory.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\CoexistenceSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\Commit.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\CommonElementTypeSummary.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\Contributor.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\Delta.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\DeltaComparison.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\DeltaContentSummary.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\ElementContext.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\ElementDescription.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\ElementTypeRevisionPairSummary.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\File.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileAddedChange.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileChange.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileContent.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileContentSummary.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileDeletedChange.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileFormat.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileFormatError.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileFormatKind.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileModifiedChange.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileRenamedChange.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileRevisionPair.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\FileVersion.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\GhostSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\GitRepository.Context.cs">
+      <DependentUpon>GitRepository.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="DBModel\GitRepository.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="DBModel\IncompatibleMatchingSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\MissedElementSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\MissedMatch.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\MissedNameSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\NameCoexistenceSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\PairRevisionInfo.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\Project.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\RedundancyPattern.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\RedundancySymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\RepositoryObject.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\Review.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\ReviewKind.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\ReviewSeverity.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\RevisionPairFlags.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\SpuriositySymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\SpuriousElementSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\SubcorpusKind.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\Symptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\SymptomNotes.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DBModel\Topics.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" /><Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+
+  </ItemGroup>
+
+</Project>

@@ -15,249 +15,207 @@ library(PairedData)
 ```{r}
 knitr::opts_chunk$set(echo = FALSE)
 
+SCCDICAST_Corpus <- read_csv("D:/ExperimentLogs/MSR20/SCCDICAST_Corpus.csv")
+
 behaviorComparisons <- NULL
-behaviorComparisons <- data.frame(list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_10.txt", "C*(2010)et,rl", "C(10)et,rl"), stringsAsFactors = FALSE)
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2032.txt", "C*(2010)et,rl", "C*(2032)it,rl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2048.txt", "C*(2010)et,rl", "C*(2048)et,pl"))
+behaviorComparisons <- data.frame(list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2042_42.txt", "C*(2042)pl,it", "C(42)pl,it"), stringsAsFactors = FALSE)
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2048_48.txt", "C*(2048)pl,et", "C(48)pl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2032_32.txt", "C*(2032)rl,it", "C(32)rl,it"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_10.txt", "C*(2010)rl,et", "C(10)rl,et"))
 
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1050.txt", "C*(2010)et,rl", "E(1050)et,rl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1054.txt", "C*(2010)et,rl", "E(1054)et,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1038.txt", "Test - C*(2010)et,rl", "D(1038)et,pl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2040_1040.txt", "D*(2040)pl,it", "D(1040)pl,it"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2038_1038.txt", "D*(2038)pl,et", "D(1038)pl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2030_1030.txt", "D*(2030)rl,it", "D(1030)rl,it"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2028_1028.txt", "D*(2028)rl,et", "D(1028)rl,et"))
 
-# behaviorComparisons <- NULL
-# behaviorComparisons <- data.frame(list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_32.txt", "C(10)et,rl", "C(32)it,rl"), stringsAsFactors = FALSE)
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_42.txt", "C(48)et,pl", "C(42)it,pl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_48.txt", "C(10)et,rl", "C(48)et,pl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_32_42.txt", "C(32)it,rl", "C(42)it,pl"))
-# 
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_30.txt", "D(1028)et,rl", "D(1030)it,rl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_38_40.txt", "D(1038)et,pl", "D(1040)it,pl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_38.txt", "D(1028)et,rl", "D(1038)et,pl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_30_40.txt", "D(1030)it,rl", "D(1040)it,pl"))
-# 
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_36.txt", "E(34-1050)et,rl", "E(36-1052)it,rl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_44_46.txt", "E(44-1054)et,pl", "E(46-1056)it,pl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_44.txt", "E(34-1050)et,rl", "E(44-1054)et,pl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_36_46.txt", "E(36-1052)it,rl", "E(46-1056)it,pl"))
-# 
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_28.txt", "C(10)et,rl", "D(1028)et,rl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_38.txt", "C(48)et,pl", "D(1038)et,pl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_34.txt", "C(10)et,rl", "E(34-1050)et,rl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_44.txt", "C(48)et,pl", "E(44-1054)et,pl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_34.txt", "D(1028)et,rl", "E(34-1050)et,rl"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_38_44.txt", "D(1038)et,pl", "E(44-1054)et,pl"))
-# 
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_32_33.txt", "C(32)it,rl", "(-1)"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_42_43.txt", "C(42)it,pl", "(-1)"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_49.txt", "C(48)et,pl", "(-1)"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_11.txt", "C(10)et,rl", "(-1)"))
-# 
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1030_1031.txt", "D(1030)it,rl", "(-1)"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1040_1041.txt", "D(1040)it,pl", "(-1)"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1028_1029.txt", "D(1028)et,rl", "(-1)"))
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1038_1039.txt", "D(1038)et,pl", "(-1)"))
-# 
-# behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1052_1053.txt", "E(1052)it,rl", "(-1)"))
-#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1056_1057.txt", "E(1056)it,pl", "(-1)"))
-#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1050_1051.txt", "E(1050)et,rl", "(-1)"))
-#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1054_1055.txt", "E(1054)et,pl", "(-1)"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2042_2040.txt", "C*(2042)pl,it", "D*(2040)pl,it"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2042_1056.txt", "C*(2042)pl,it", "E(1056)pl,it"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2040_1056.txt", "D*(2040)pl,it", "E(1056)pl,it"))
+
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2048_2038.txt", "C*(2048)pl,et", "D*(2038)pl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2048_1054.txt", "C*(2048)pl,et", "E(1054)pl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2038_1054.txt", "D*(2038)pl,et", "E(1054)pl,et"))
+
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2032_2030.txt", "C*(2032)rl,it", "D*(2030)rl,it"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2032_1052.txt", "C*(2032)rl,it", "E(1052)rl,it"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2030_1052.txt", "D*(2030)rl,it", "E(1052)rl,it"))
+
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2028.txt", "C*(2010)rl,et", "D*(2028)rl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1050.txt", "C*(2010)rl,et", "E(1050)rl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2028_1050.txt", "D*(2028)rl,et", "E(1050)rl,et"))
 
 for (i in 1:nrow(behaviorComparisons)) 
 {
   BetweenSymptomsStats <- read_delim(behaviorComparisons[i, 1], ";", escape_double = FALSE, trim_ws = TRUE)
   BetweenSymptomsStats <- BetweenSymptomsStats[which(BetweenSymptomsStats[4] != 0 & BetweenSymptomsStats[10] != 0),] 
+  BetweenSymptomsStats <- subset(BetweenSymptomsStats, Project %in% SCCDICAST_Corpus$Project & 
+                                                       toupper(PrincipalRevisionPair) %in% SCCDICAST_Corpus$RevisionPair_Id) 
   
   cat("-------------", behaviorComparisons[i, 1], "--------------", behaviorComparisons[i, 2], behaviorComparisons[i, 3])  
   
-total <- nrow(BetweenSymptomsStats)
-cat("\n")
-cat("TOTAL ", total)
-cat("\n")
-cat("LR: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] != 0),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] != 0),])/total*100, 2), ")")
-cat("\n")
-cat("RL: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[10] != 0),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[10] != 0),])/total*100, 2), ")")
-cat("\n")
-#cat("LRorRL: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] != 0 | BetweenSymptomsStats[10] != 0),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] != 0 | BetweenSymptomsStats[10] != 0),])/total*100, 2), ")")
-#cat("\n")
-cat("L_leq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] < BetweenSymptomsStats[10]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] < BetweenSymptomsStats[10]),])/total*100, 2), ")")
-cat("\n")
-cat("R_leq_L: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] > BetweenSymptomsStats[10]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] > BetweenSymptomsStats[10]),])/total*100, 2), ")")
-cat("\n")
-cat("L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] != BetweenSymptomsStats[10]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] != BetweenSymptomsStats[10]),])/total*100, 2), ")")
+  total <- nrow(BetweenSymptomsStats)
+  cat("\n\n----------TOTAL (",total,")")
 
-cat("\n")
-cat("\n")
-if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] < BetweenSymptomsStats[10]),]) > 
-   nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] > BetweenSymptomsStats[10]),]))
-{
-  cat("LvsR: <", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] < BetweenSymptomsStats[10]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] > BetweenSymptomsStats[10]),]))/total*100, 2), "%")
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[4]]), 
-                   as.vector(BetweenSymptomsStats[[10]]), 
-                   paired = TRUE,
-                   alternative = "less")
-}
-else
-{
-  cat("LvsR: >", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] > BetweenSymptomsStats[10]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] < BetweenSymptomsStats[10]),]))/total*100, 2), "%")
-
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[4]]), 
-                   as.vector(BetweenSymptomsStats[[10]]), 
-                   paired = TRUE,
-                   alternative = "great")
-
-}
-  cat("\n")
-  print(res)
+  cat("\nLR: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] != 0),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] != 0),])/total*100, 2), ")")
+  cat("\nRL: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[10] != 0),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[10] != 0),])/total*100, 2), ")")
   
-cat("\n")
-cat("\n")
-cat("Mismatches: ")
-  cat("\n")
-  cat("L_leq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] < BetweenSymptomsStats[29]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] < BetweenSymptomsStats[29]),])/total*100, 2), ")")
-cat("\n")
-cat("R_leq_L: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] > BetweenSymptomsStats[29]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] > BetweenSymptomsStats[29]),])/total*100, 2), ")")
-cat("\n")
-cat("L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] > 0),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] > 0),])/total*100, 2), ")")
-cat("\n")
-if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] < BetweenSymptomsStats[29]),]) > 
-   nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] > BetweenSymptomsStats[29]),]))
-{
-  cat("Mismatch <", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] < BetweenSymptomsStats[29]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] > BetweenSymptomsStats[29]),]))/total*100, 2), "%")
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[28]]), 
-                   as.vector(BetweenSymptomsStats[[29]]), 
-                   paired = TRUE,
-                   alternative = "less")
-}
-else
-{
-  cat("Mismatch >", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] > BetweenSymptomsStats[29]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] < BetweenSymptomsStats[29]),]))/total*100, 2), "%")
-
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[28]]), 
-                   as.vector(BetweenSymptomsStats[[29]]), 
-                   paired = TRUE,
-                   alternative = "great")
-
-}
-  cat("\n")
-  print(res)
-
-  cat("\n")
-  cat("\n")
-cat("Ins L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] != BetweenSymptomsStats[11]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] != BetweenSymptomsStats[11]),])/total*100, 2), ")")
-  cat("\n")
-if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] < BetweenSymptomsStats[11]),]) > 
-   nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] > BetweenSymptomsStats[11]),]))
-{
-  cat("Ins <", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] < BetweenSymptomsStats[11]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] > BetweenSymptomsStats[11]),]))/total*100, 2), "%")
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[5]]), 
-                   as.vector(BetweenSymptomsStats[[11]]), 
-                   paired = TRUE,
-                   alternative = "less")
-}
-else
-{
-  cat("Ins >", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] > BetweenSymptomsStats[11]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] < BetweenSymptomsStats[11]),]))/total*100, 2), "%")
-
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[5]]), 
-                   as.vector(BetweenSymptomsStats[[11]]), 
-                   paired = TRUE,
-                   alternative = "great")
-
-}
-  cat("\n")
-  print(res)
+  cat("\n\n----------Delta Comparisons: ")
   
-  
-cat("\n")
-cat("\n")
-cat("Del L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] != BetweenSymptomsStats[12]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] != BetweenSymptomsStats[12]),])/total*100, 2), ")")
-  cat("\n")
-if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] < BetweenSymptomsStats[12]),]) > 
-   nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] > BetweenSymptomsStats[12]),]))
-{
-  cat("Del <", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] < BetweenSymptomsStats[12]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] > BetweenSymptomsStats[12]),]))/total*100, 2), "%")
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[6]]), 
-                   as.vector(BetweenSymptomsStats[[12]]), 
-                   paired = TRUE,
-                   alternative = "less")
-}
-else
-{
-  cat("Del >", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] > BetweenSymptomsStats[12]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] < BetweenSymptomsStats[12]),]))/total*100, 2), "%")
-
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[6]]), 
-                   as.vector(BetweenSymptomsStats[[12]]), 
-                   paired = TRUE,
-                   alternative = "great")
-
-}
-  cat("\n")
-  print(res)
-  
-cat("\n")
-cat("\n")
-cat("Upd L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] != BetweenSymptomsStats[13]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] != BetweenSymptomsStats[13]),])/total*100, 2), ")")
-  cat("\n")
-if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] < BetweenSymptomsStats[13]),]) > 
-   nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] > BetweenSymptomsStats[13]),]))
-{
-  cat("Upd <", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] < BetweenSymptomsStats[13]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] > BetweenSymptomsStats[13]),]))/total*100, 2), "%")
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[7]]), 
-                   as.vector(BetweenSymptomsStats[[13]]), 
-                   paired = TRUE,
-                   alternative = "less")
-}
-else
-{
-  cat("Upd >", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] > BetweenSymptomsStats[13]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] < BetweenSymptomsStats[13]),]))/total*100, 2), "%")
-
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[7]]), 
-                   as.vector(BetweenSymptomsStats[[13]]), 
-                   paired = TRUE,
-                   alternative = "great")
-
-}
-  cat("\n")
-  print(res)
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[4] != BetweenSymptomsStats[10]),]
+  cat("\nL!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  theseValues <- abs(BetweenSymptomsStats[4] - BetweenSymptomsStats[10])
+  summary <- summary(theseValues[which(theseValues[1] != 0),])
+  cat("\nabs(L-R)", "median", summary[3], " ; max", summary[6])
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[4] < BetweenSymptomsStats[10]),]
+  cat("\nL<R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[4] > BetweenSymptomsStats[10]),]
+  cat("\nL>R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
 
   
-cat("\n")
-cat("\n")
-cat("Mov L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] != BetweenSymptomsStats[14]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] != BetweenSymptomsStats[14]),])/total*100, 2), ")")
-  cat("\n")
-if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] < BetweenSymptomsStats[14]),]) > 
-   nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] > BetweenSymptomsStats[14]),]))
-{
-  cat("Mov <", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] < BetweenSymptomsStats[14]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] > BetweenSymptomsStats[14]),]))/total*100, 2), "%")
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[8]]), 
-                   as.vector(BetweenSymptomsStats[[14]]), 
-                   paired = TRUE,
-                   alternative = "less")
-}
-else
-{
-  cat("Mov >", round((nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] > BetweenSymptomsStats[14]),]) - 
-            nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] < BetweenSymptomsStats[14]),]))/total*100, 2), "%")
-
-  res <- wilcox.test(as.vector(BetweenSymptomsStats[[8]]), 
-                   as.vector(BetweenSymptomsStats[[14]]), 
-                   paired = TRUE,
-                   alternative = "great")
-
-}
+  lWins <- nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] < BetweenSymptomsStats[10]),])
+  rWins <- nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[4] > BetweenSymptomsStats[10]),])
+  if(lWins > rWins){
+    cat("\nLvsR: <", round((lWins - rWins)/total*100, 2), "%")
+    res <- wilcox.test(as.vector(BetweenSymptomsStats[[4]]), as.vector(BetweenSymptomsStats[[10]]), paired = TRUE, alternative = "less")
+  }
+  else{
+    cat("\nLvsR: >", round((rWins - lWins)/total*100, 2), "%")
+    res <- wilcox.test(as.vector(BetweenSymptomsStats[[4]]), as.vector(BetweenSymptomsStats[[10]]), paired = TRUE, alternative = "great")
+  }
   cat("\n")
   print(res)
+  theseValues <- BetweenSymptomsStats[4] - BetweenSymptomsStats[10]
+  summary <- summary(theseValues[which(theseValues[1] != 0),])
+  cat("(L-R)", "median", summary[3], " ; max", summary[6])
   
+  cat("\n\n----------Delta Comparisons (INSERT): ")
+  
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[5] != BetweenSymptomsStats[11]),]
+  cat("\nINSERT L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  theseValues <- abs(BetweenSymptomsStats[5] - BetweenSymptomsStats[11])
+  summary <- summary(theseValues[which(theseValues[1] != 0),])
+  cat("\nINSERT abs(L-R)", "median", summary[3], " ; max", summary[6])
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[5] < BetweenSymptomsStats[11]),]
+  cat("\nINSERT L<R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[5] > BetweenSymptomsStats[11]),]
+  cat("\nINSERT L>R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+
+  
+  lWins <- nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] < BetweenSymptomsStats[11]),])
+  rWins <- nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] > BetweenSymptomsStats[11]),])
+  if(lWins > rWins){
+    cat("\nINSERT LvsR: <", round((lWins - rWins)/total*100, 2), "%")
+    res <- wilcox.test(as.vector(BetweenSymptomsStats[[5]]), as.vector(BetweenSymptomsStats[[11]]), paired = TRUE, alternative = "less")
+  }
+  else{
+    cat("\nINSERT LvsR: >", round((rWins - lWins)/total*100, 2), "%")
+    res <- wilcox.test(as.vector(BetweenSymptomsStats[[5]]), as.vector(BetweenSymptomsStats[[11]]), paired = TRUE, alternative = "great")
+  }
+  cat("\n")
+  print(res)
+  theseValues <- BetweenSymptomsStats[5] - BetweenSymptomsStats[11]
+  summary <- summary(theseValues[which(theseValues[1] != 0),])
+  cat("INSERT (L-R)", "median", summary[3], " ; max", summary[6])
+  
+  cat("\n\n----------Delta Comparisons (DELETE): ")
+  
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[6] != BetweenSymptomsStats[12]),]
+  cat("\nDELETE L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  theseValues <- abs(BetweenSymptomsStats[6] - BetweenSymptomsStats[12])
+  summary <- summary(theseValues[which(theseValues[1] != 0),])
+  cat("\nDELETE abs(L-R)", "median", summary[3], " ; max", summary[6])
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[6] < BetweenSymptomsStats[12]),]
+  cat("\nDELETE L<R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[6] > BetweenSymptomsStats[12]),]
+  cat("\nDELETE L>R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+
+  lWins <- nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] < BetweenSymptomsStats[12]),])
+  rWins <- nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] > BetweenSymptomsStats[12]),])
+  if(lWins > rWins){
+    cat("\nDELETE LvsR: <", round((lWins - rWins)/total*100, 2), "%")
+    res <- wilcox.test(as.vector(BetweenSymptomsStats[[6]]), as.vector(BetweenSymptomsStats[[12]]), paired = TRUE, alternative = "less")
+  }
+  else{
+    cat("\nDELETE LvsR: >", round((rWins - lWins)/total*100, 2), "%")
+    res <- wilcox.test(as.vector(BetweenSymptomsStats[[6]]), as.vector(BetweenSymptomsStats[[12]]), paired = TRUE, alternative = "great")
+  }
+  cat("\n")
+  print(res)
+  theseValues <- BetweenSymptomsStats[6] - BetweenSymptomsStats[12]
+  summary <- summary(theseValues[which(theseValues[1] != 0),])
+  cat("DELETE (L-R)", "median", summary[3], " ; max", summary[6])
+  
+  cat("\n\n----------Delta Comparisons (UPDATE): ")
+  
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[7] != BetweenSymptomsStats[13]),]
+  cat("\nUPDATE L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  theseValues <- abs(BetweenSymptomsStats[7] - BetweenSymptomsStats[13])
+  summary <- summary(theseValues[which(theseValues[1] != 0),])
+  cat("\nUPDATE abs(L-R)", "median", summary[3], " ; max", summary[6])
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[7] < BetweenSymptomsStats[13]),]
+  cat("\nUPDATE L<R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[7] > BetweenSymptomsStats[13]),]
+  cat("\nUPDATE L>R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+
+  
+  lWins <- nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] < BetweenSymptomsStats[13]),])
+  rWins <- nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] > BetweenSymptomsStats[13]),])
+  if(lWins > rWins){
+    cat("\nUPDATE LvsR: <", round((lWins - rWins)/total*100, 2), "%")
+    res <- wilcox.test(as.vector(BetweenSymptomsStats[[7]]), as.vector(BetweenSymptomsStats[[13]]), paired = TRUE, alternative = "less")
+  }
+  else{
+    cat("\nUPDATE LvsR: >", round((rWins - lWins)/total*100, 2), "%")
+    res <- wilcox.test(as.vector(BetweenSymptomsStats[[7]]), as.vector(BetweenSymptomsStats[[13]]), paired = TRUE, alternative = "great")
+  }
+  cat("\n")
+  print(res)
+  theseValues <- BetweenSymptomsStats[7] - BetweenSymptomsStats[13]
+  summary <- summary(theseValues[which(theseValues[1] != 0),])
+  cat("UPDATE (L-R)", "median", summary[3], " ; max", summary[6])
+  
+  cat("\n\n----------Delta Comparisons (MOVE): ")
+  
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[8] != BetweenSymptomsStats[14]),]
+  cat("\nMOVE L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  theseValues <- abs(BetweenSymptomsStats[8] - BetweenSymptomsStats[14])
+  summary <- summary(theseValues[which(theseValues[1] != 0),])
+  cat("\nMOVE abs(L-R)", "median", summary[3], " ; max", summary[6])
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[8] < BetweenSymptomsStats[14]),]
+  cat("\nMOVE L<R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[8] > BetweenSymptomsStats[14]),]
+  cat("\nMOVE L>R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+
+  
+  lWins <- nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] < BetweenSymptomsStats[14]),])
+  rWins <- nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] > BetweenSymptomsStats[14]),])
+  if(lWins > rWins){
+    cat("\nMOVE LvsR: <", round((lWins - rWins)/total*100, 2), "%")
+    res <- wilcox.test(as.vector(BetweenSymptomsStats[[8]]), as.vector(BetweenSymptomsStats[[14]]), paired = TRUE, alternative = "less")
+  }
+  else{
+    cat("\nMOVE LvsR: >", round((rWins - lWins)/total*100, 2), "%")
+    res <- wilcox.test(as.vector(BetweenSymptomsStats[[8]]), as.vector(BetweenSymptomsStats[[14]]), paired = TRUE, alternative = "great")
+  }
+  cat("\n")
+  print(res)
+  theseValues <- BetweenSymptomsStats[8] - BetweenSymptomsStats[14]
+  summary <- summary(theseValues[which(theseValues[1] != 0),])
+  cat("MOVE (L-R)", "median", summary[3], " ; max", summary[6])
+  
+  cat("\n\n----------Matching Set Comparisons (all mismatches): ")
+  
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[27] > 0),]
+  cat("\nMISMATCH L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  
+   cat("\n\n----------Matching Set Comparisons (LR mismatches): ")
+  
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[28] > 0),]
+  cat("\nLRMISMATCH L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  
+   cat("\n\n----------Matching Set Comparisons (RL mismatches): ")
+  
+  theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[29] > 0),]
+  cat("\nRLMISMATCH L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
 }
 ```

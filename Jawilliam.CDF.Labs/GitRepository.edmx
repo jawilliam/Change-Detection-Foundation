@@ -1576,6 +1576,15 @@
           <Member Name="RepairedNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia" Value="2030" />
           <Member Name="RepairedNativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling" Value="2038" />
           <Member Name="RepairedNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling" Value="2040" />
+
+          <Member Name="RepairedInverseNativeGTtreefiedRoslynML" Value="2011" />
+          <Member Name="RepairedInverseNativeGTtreefiedRoslynMLWithIncludeTrivia" Value="2033" />
+          <Member Name="RepairedInverseNativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling" Value="2043" />
+          <Member Name="RepairedInverseNativeGTtreefiedRoslynMLAndPermissiveLabeling" Value="2049" />
+          <Member Name="RepairedInverseNativeGTtreefiedRoslynMLWithBasicPruning" Value="2029" />
+          <Member Name="RepairedInverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia" Value="2031" />
+          <Member Name="RepairedInverseNativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling" Value="2039" />
+          <Member Name="RepairedInverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling" Value="2041" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />

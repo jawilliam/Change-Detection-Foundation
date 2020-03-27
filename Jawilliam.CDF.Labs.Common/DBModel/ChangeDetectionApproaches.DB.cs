@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Jawilliam.CDF.Labs.DBModel
+namespace Jawilliam.CDF.Labs.Common.DBModel
 {
     using System;
     
