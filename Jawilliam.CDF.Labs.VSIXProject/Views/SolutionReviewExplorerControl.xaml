@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="Jawilliam.CDF.Labs.VSIXProject.Views.SolutionReviewExplorerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+             xmlns:vm="clr-namespace:Jawilliam.CDF.Labs.VSIXProject.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="540"
+             Name="MyToolWindow"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:models="clr-namespace:Jawilliam.CDF.Labs.VSIXProject.Models"
+             xmlns:dbmodels="clr-namespace:Jawilliam.CDF.Labs.Common.DBModel;assembly=Jawilliam.CDF.Labs.Common"
+             xmlns:local="clr-namespace:Jawilliam.CDF.Labs.VSIXProject">
+    <UserControl.Resources>
+        <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True"/>
+    </UserControl.Resources>
+    <DockPanel DataContext="{Binding SolutionReviewExplorer, Source={StaticResource Locator}}">
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="173"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Project" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="4,2,2,2"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Margin="0,2,2,2"
+                      ItemsSource="{Binding Path=Projects}" SelectedValue="{Binding Path=Model.Project}"/>
+            <TextBlock Text="Left Approach" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="4,2,2,2"/>
+            <ComboBox Grid.Row="1" Grid.Column="1" Margin="0,2,2,2"
+                      ItemsSource="{Binding Path=Approaches}" DisplayMemberPath="Key"
+                      SelectedValuePath="Value" SelectedValue="{Binding Path=Model.LeftApproach}"/>
+            <TextBlock Text="Right Approach" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="4,2,2,2"/>
+            <ComboBox Grid.Row="2" Grid.Column="1" Margin="0,2,2,2"
+                      ItemsSource="{Binding Path=Approaches}" DisplayMemberPath="Key"
+                      SelectedValuePath="Value" SelectedValue="{Binding Path=Model.RightApproach}"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+                <Button Content="DC(s)" ToolTip="Load Delta Comparisons" Width="50"
+                    Command="{Binding RefreshDeltaComparisonsCommand}" Margin="5,2,2,2"></Button>
+                <Button Content="DC(1)" ToolTip="Load This Delta Comparison" Width="50" 
+                    Command="{Binding RefreshDeltaComparisonsCommand}" Margin="6,2,2,2"></Button>
+                <Button Content="DC" ToolTip="Load Delta Comparisons" Width="50" 
+                    Command="{Binding RefreshDeltaComparisonsCommand}" Margin="6,2,0,2"></Button>
+            </StackPanel>            
+            <TextBlock Text="Delta Comparisons" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Margin="4,2,2,2"/>
+            <ComboBox Grid.Row="3" Grid.Column="1" Margin="0,2,2,2" Grid.ColumnSpan="2"
+                      ItemsSource="{Binding Path=Model.DeltaComparisons}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="models:DeltaComparisonDescriptor">
+                        <Grid Margin="0,0,0,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Index}" Grid.Row="0" Grid.RowSpan="2"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                                <TextBlock>
+                                    Left-Id: <Run Text="{Binding Path=LeftId}" FontWeight="Bold"/>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
+                                <TextBlock Padding="15,0,0,0">
+                                    Right-Id: <Run Text="{Binding Path=RightId}" FontWeight="Bold"/>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                                <TextBlock>
+                                    Mismatches (all: <Run Text="{Binding Path=AllMismatches}" FontWeight="Bold"/>, 
+                                                LR: <Run Text="{Binding Path=LrMismatches}" FontWeight="Bold"/>,
+                                                RL: <Run Text="{Binding Path=RlMismatches}" FontWeight="Bold"/>)
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+        <TreeView DockPanel.Dock="Bottom"/>
+    </DockPanel>
+</UserControl>
+
+    

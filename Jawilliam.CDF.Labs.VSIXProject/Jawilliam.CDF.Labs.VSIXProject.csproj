@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,17 +46,52 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models.Impl\MockSolutionReviewExplorerModel.cs" />
+    <Compile Include="Models\DeltaComparisonDescriptor.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Services.Impl\MockSolutionReviewExplorerService.cs" />
+    <Compile Include="Services.Impl\SolutionReviewExplorerService.cs" />
+    <Compile Include="Services\ISolutionReviewExplorerService.cs" />
+    <Compile Include="Models\ISolutionReviewExplorerModel.cs" />
+    <Compile Include="Models.Impl\SolutionReviewExplorerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Jawilliam.CDF.Labs.VSIXProjectPackage.cs" />
     <Compile Include="SolutionReviewExplorer.cs" />
     <Compile Include="SolutionReviewExplorerCommand.cs" />
-    <Compile Include="SolutionReviewExplorerControl.xaml.cs">
+    <Compile Include="Views\SolutionReviewExplorerControl.xaml.cs">
       <DependentUpon>SolutionReviewExplorerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SolutionReviewExplorerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\Jawilliam.CDF.Labs\bin\Debug\GitRepository.csdl">
+      <Link>GitRepository.csdl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\Jawilliam.CDF.Labs\bin\Debug\GitRepository.msl">
+      <Link>GitRepository.msl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\Jawilliam.CDF.Labs\bin\Debug\GitRepository.ssdl">
+      <Link>GitRepository.ssdl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -65,6 +101,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
@@ -85,9 +122,12 @@
     <PackageReference Include="MvvmLightLibs">
       <Version>5.4.1.1</Version>
     </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.5.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="SolutionReviewExplorerControl.xaml">
+    <Page Include="Views\SolutionReviewExplorerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -98,9 +138,7 @@
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Jawilliam.CDF.Labs.Common\Jawilliam.CDF.Labs.Common.csproj">
       <Project>{d9e7abdf-de80-4f09-bf7f-76d2f0e371c2}</Project>

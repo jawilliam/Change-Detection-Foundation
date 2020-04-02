@@ -2,6 +2,7 @@
 {
     using System;
     using System.Runtime.InteropServices;
+    using Jawilliam.CDF.Labs.VSIXProject.Views;
     using Microsoft.VisualStudio.Shell;
 
     /// <summary>

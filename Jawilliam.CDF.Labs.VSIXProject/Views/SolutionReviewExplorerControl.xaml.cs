@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Labs.VSIXProject
+﻿namespace Jawilliam.CDF.Labs.VSIXProject.Views
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
