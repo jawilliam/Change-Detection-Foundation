@@ -1,5 +1,4 @@
 ﻿using Jawilliam.CDF.Labs.Common.DBModel;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -28,6 +27,16 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Models
         /// <summary>
         /// Gets the delta comparison summary to show.
         /// </summary>
-        ObservableCollection<DeltaComparisonDescriptor> DeltaComparisons { get; }
+        ObservableCollection<DisagreedDeltaDescriptor> DisagreedDeltas { get; }
+
+        /// <summary>
+        /// Describes the currently selected delta content.
+        /// </summary>
+        DisagreedDeltaDescriptor SelectedDisagreedDelta { get; set; }
+
+        /// <summary>
+        /// Gets the currently loaded content.
+        /// </summary>
+        DisagreedDeltaContent LoadedDisagreedDelta { get; set; }
     }
 }

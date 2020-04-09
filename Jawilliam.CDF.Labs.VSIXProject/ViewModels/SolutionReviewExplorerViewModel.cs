@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Ioc;
 using Jawilliam.CDF.Labs.Common.DBModel;
 using Jawilliam.CDF.Labs.VSIXProject.Models;
 using Jawilliam.CDF.Labs.VSIXProject.Services;
+using Jawilliam.CDF.Labs.VSIXProject.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,8 +32,8 @@ namespace Jawilliam.CDF.Labs.VSIXProject.ViewModels
                     e.PropertyName == ObservableObject.GetPropertyName(() => this.Model.LeftApproach) ||
                     e.PropertyName == ObservableObject.GetPropertyName(() => this.Model.RightApproach))
                 {
-                    this.Model.DeltaComparisons.Clear();
-                    this.RefreshDeltaComparisonsCommand.RaiseCanExecuteChanged();
+                    this.Model.DisagreedDeltas.Clear();
+                    this.ListDisagreedDeltasCommand.RaiseCanExecuteChanged();
                 }
             };
             this.Service = service ?? throw new ArgumentNullException(nameof(service));
@@ -175,40 +176,167 @@ namespace Jawilliam.CDF.Labs.VSIXProject.ViewModels
         public virtual ISolutionReviewExplorerService Service { get; private set; }
 
         /// <summary>
-        /// Backign field for <see cref="LeftApproach"/>.
+        /// Gets or sets the attached passive view.
         /// </summary>
-        private RelayCommand _refreshDeltaComparisons;
+        public virtual ISolutionReviewExplorerPassiveView PassiveView { get; set; }
+
+        #region ListDisagreedDeltasCommand
+
+        /// <summary>
+        /// Backing field for <see cref="ListDisagreedDeltasCommand"/>.
+        /// </summary>
+        private RelayCommand _listDisagreedDeltasCommand;
 
         /// <summary>
         /// Command to refresh the delta comparisons to show.
         /// </summary>
-        public virtual RelayCommand RefreshDeltaComparisonsCommand
+        public virtual RelayCommand ListDisagreedDeltasCommand
         {
             get 
             {
-                return this._refreshDeltaComparisons ?? 
-                    (this._refreshDeltaComparisons = new RelayCommand(ExecuteRefreshDeltaComparisons, CanExecuteRefreshDeltaComparisons));
+                return this._listDisagreedDeltasCommand ?? 
+                    (this._listDisagreedDeltasCommand = new RelayCommand(ExecuteListDisagreedDeltasCommand, CanExecuteListDisagreedDeltasCommand));
             }
         }
 
         /// <summary>
-        /// Execute logic for <see cref="RefreshDeltaComparisonsCommand"/>.
+        /// Execute logic for <see cref="ListDisagreedDeltasCommand"/>.
         /// </summary>
-        public virtual void ExecuteRefreshDeltaComparisons()
+        public virtual void ExecuteListDisagreedDeltasCommand()
         {
-            this.Model.DeltaComparisons.Clear();
-            var dComparisons = this.Service.GetDeltaComparisons(this.Model.Project, this.Model.LeftApproach, this.Model.RightApproach);
-            dComparisons.ToList().ForEach(dc => Model.DeltaComparisons.Add(dc));
+            this.Model.DisagreedDeltas.Clear();
+            var dComparisons = this.Service.GetDisagreedDeltas(this.Model.Project, this.Model.LeftApproach, this.Model.RightApproach);
+            dComparisons.ToList().ForEach(dc => Model.DisagreedDeltas.Add(dc));
         }
 
         /// <summary>
-        /// CanExecute logic for <see cref="RefreshDeltaComparisonsCommand"/>.
+        /// CanExecute logic for <see cref="ListDisagreedDeltasCommand"/>.
         /// </summary>
-        public virtual bool CanExecuteRefreshDeltaComparisons()
+        public virtual bool CanExecuteListDisagreedDeltasCommand()
         {
             return this.Model.Project != null &&
                    this.Model.LeftApproach != ChangeDetectionApproaches.Manually &&
                    this.Model.RightApproach != ChangeDetectionApproaches.Manually;
         }
+
+        #endregion
+
+        #region LoadSelectedDisagreedDeltaCommand
+
+        /// <summary>
+        /// Backing field for <see cref="LoadSelectedDisagreedDeltaCommand"/>.
+        /// </summary>
+        private RelayCommand _loadSelectedDisagreedDeltaCommand;
+
+        /// <summary>
+        /// Command to refresh the delta comparisons to show.
+        /// </summary>
+        public virtual RelayCommand LoadSelectedDisagreedDeltaCommand
+        {
+            get
+            {
+                return this._loadSelectedDisagreedDeltaCommand ??
+                    (this._loadSelectedDisagreedDeltaCommand = new RelayCommand(ExecuteLoadSelectedDisagreedDeltaCommand, CanExecuteLoadSelectedDisagreedDeltaCommand));
+            }
+        }
+
+        /// <summary>
+        /// Execute logic for <see cref="LoadSelectedDisagreedDeltaCommand"/>.
+        /// </summary>
+        public virtual void ExecuteLoadSelectedDisagreedDeltaCommand()
+        {
+            this.Model.DisagreedDeltas.Clear();
+            var dComparisons = this.Service.GetDisagreedDeltas(this.Model.Project, this.Model.LeftApproach, this.Model.RightApproach);
+            dComparisons.ToList().ForEach(dc => Model.DisagreedDeltas.Add(dc));
+        }
+
+        /// <summary>
+        /// CanExecute logic for <see cref="LoadSelectedDisagreedDeltaCommand"/>.
+        /// </summary>
+        public virtual bool CanExecuteLoadSelectedDisagreedDeltaCommand()
+        {
+            return false;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Informs if a review is in progress.
+        /// </summary>
+        public virtual bool OnReview { get; protected set; }
+
+        #region StartReviewCommand
+
+        /// <summary>
+        /// Backing field for <see cref="StartReviewCommand"/>.
+        /// </summary>
+        private RelayCommand _startReviewCommand;
+
+        /// <summary>
+        /// Command to refresh the delta comparisons to show.
+        /// </summary>
+        public virtual RelayCommand StartReviewCommand
+        {
+            get
+            {
+                return this._startReviewCommand ??
+                    (this._startReviewCommand = new RelayCommand(ExecuteStartReviewCommand, CanExecuteStartReviewCommand));
+            }
+        }
+
+        /// <summary>
+        /// Execute logic for <see cref="StartReviewCommand"/>.
+        /// </summary>
+        public virtual void ExecuteStartReviewCommand()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// CanExecute logic for <see cref="StartReviewCommand"/>.
+        /// </summary>
+        public virtual bool CanExecuteStartReviewCommand()
+        {
+            return this.Model.SelectedDisagreedDelta != null && !this.OnReview;
+        }
+
+        #endregion
+
+        #region EndReviewCommand
+
+        /// <summary>
+        /// Backing field for <see cref="EndReviewCommand"/>.
+        /// </summary>
+        private RelayCommand _endReviewCommand;
+
+        /// <summary>
+        /// Command to refresh the delta comparisons to show.
+        /// </summary>
+        public virtual RelayCommand EndReviewCommand
+        {
+            get
+            {
+                return this._endReviewCommand ??
+                    (this._endReviewCommand = new RelayCommand(ExecuteEndReviewCommand, CanExecuteEndReviewCommand));
+            }
+        }
+
+        /// <summary>
+        /// Execute logic for <see cref="EndReviewCommand"/>.
+        /// </summary>
+        public virtual void ExecuteEndReviewCommand()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// CanExecute logic for <see cref="EndReviewCommand"/>.
+        /// </summary>
+        public virtual bool CanExecuteEndReviewCommand()
+        {
+            return false;
+        }
+
+        #endregion
     }
 }

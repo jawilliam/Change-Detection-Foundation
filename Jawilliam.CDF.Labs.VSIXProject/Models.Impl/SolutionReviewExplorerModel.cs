@@ -46,7 +46,7 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Models.Impl
         }
 
         /// <summary>
-        /// Backign field for <see cref="RightApproach"/>.
+        /// Backing field for <see cref="RightApproach"/>.
         /// </summary>
         private ChangeDetectionApproaches _rightApproach = ChangeDetectionApproaches.RepairedInverseNativeGTtreefiedRoslynML;
 
@@ -66,6 +66,43 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Models.Impl
         /// <summary>
         /// Gets the delta comparison summary to show.
         /// </summary>
-        public virtual ObservableCollection<DeltaComparisonDescriptor> DeltaComparisons { get; } = new ObservableCollection<DeltaComparisonDescriptor>();
+        public virtual ObservableCollection<DisagreedDeltaDescriptor> DisagreedDeltas { get; } = new ObservableCollection<DisagreedDeltaDescriptor>();
+
+        /// <summary>
+        /// Backing field for <see cref="SelectedDisagreedDelta"/>.
+        /// </summary>
+        private DisagreedDeltaDescriptor _selectedDisagreedDelta;
+
+        /// <summary>
+        /// Describes the currently selected delta content.
+        /// </summary>
+        public virtual DisagreedDeltaDescriptor SelectedDisagreedDelta
+        {
+            get { return this._selectedDisagreedDelta; }
+            set
+            {
+                this._selectedDisagreedDelta = value;
+                this.RaisePropertyChanged();
+                this.LoadedDisagreedDelta = null;
+            }
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="LoadedDisagreedDelta"/>.
+        /// </summary>
+        private DisagreedDeltaContent _loadedDisagreedDelta;
+
+        /// <summary>
+        /// Gets the currently loaded content.
+        /// </summary>
+        public virtual DisagreedDeltaContent LoadedDisagreedDelta
+        {
+            get { return this._loadedDisagreedDelta; }
+            set
+            {
+                this._loadedDisagreedDelta = value;
+                this.RaisePropertyChanged();
+            }
+        }
     }
 }

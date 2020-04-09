@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Configuration;
 using Jawilliam.CDF.Labs.VSIXProject.Models;
+using System;
 
 namespace Jawilliam.CDF.Labs.VSIXProject.Services.Impl
 {
@@ -13,9 +14,19 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Services.Impl
     {
         public virtual Configuration GetAppConfig()
         {
-            ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
-            configMap.ExeConfigFilename = @"app.config"; // the path of the custom app.config
+            ExeConfigurationFileMap configMap = new ExeConfigurationFileMap
+            {
+                ExeConfigFilename = @"app.config" // the path of the custom app.config
+            };
             return ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
+        }
+
+        private GitRepository CreateRepository(string project)
+        {
+            Configuration config = this.GetAppConfig();
+            var connectionString = config.ConnectionStrings.ConnectionStrings[project].ConnectionString;
+
+            return new GitRepository(connectionString) { Name = project };
         }
 
         /// <summary>
@@ -25,13 +36,10 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Services.Impl
         /// <param name="leftApproach">left approach.</param>
         /// <param name="rightApproach">right approach.</param>
         /// <returns>A summary for each existing delta comparison.</returns>
-        public virtual IEnumerable<DeltaComparisonDescriptor> GetDeltaComparisons(string project, ChangeDetectionApproaches leftApproach, ChangeDetectionApproaches rightApproach)
+        public virtual IEnumerable<DisagreedDeltaDescriptor> GetDisagreedDeltas(string project, ChangeDetectionApproaches leftApproach, ChangeDetectionApproaches rightApproach)
         {
             IList<DeltaComparison> deltaComparisons = null;
-            Configuration config = this.GetAppConfig();
-            var connectionString = config.ConnectionStrings.ConnectionStrings[project].ConnectionString;
-
-            using (var db = new GitRepository(connectionString) { Name = project })
+            using (var db = this.CreateRepository(project))
             {
                 deltaComparisons = db.DeltaComparisonSet.AsNoTracking().Where(s =>
                      (s.Left.Approach == leftApproach && s.Right.Approach == rightApproach) ||
@@ -48,7 +56,7 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Services.Impl
                          (xComparison.Matching?.OfType<RLMatchSymptom>().Count(s => s.Right.Approach == (int)rightApproach) ?? 0);
                 var total = lr + rl;
 
-                return new DeltaComparisonDescriptor{ 
+                return new DisagreedDeltaDescriptor{ 
                     Index = i + 1,
                     LeftId = deltaComparison.LeftId,
                     RightId = deltaComparison.RightId,
@@ -56,6 +64,30 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Services.Impl
                     LrMismatches = lr,
                     RlMismatches = rl };
             });
+        }
+
+        /// <summary>
+        /// Loads the content of a given disagreed delta.
+        /// </summary>
+        /// <param name="project">project name.</param>
+        /// <param name="leftDeltaId">left delta's ID.</param>
+        /// <param name="rightDeltaId">right delta's ID.</param>
+        /// <returns>The set of found disagreed mismatches.</returns>
+        public virtual DisagreedDeltaContent LoadDisagreedDelta(string project, Guid leftDeltaId, Guid rightDeltaId)
+        {
+            DeltaComparison deltaComparison = null;
+            using (var db = this.CreateRepository(project))
+            {
+                deltaComparison = db.DeltaComparisonSet.AsNoTracking().SingleOrDefault(s =>
+                     (s.LeftId == leftDeltaId && s.RightId == rightDeltaId) ||
+                     (s.RightId == rightDeltaId && s.LeftId == leftDeltaId));
+            }
+
+            return new DisagreedDeltaContent
+            {
+                LeftId = leftDeltaId,
+                RightId = rightDeltaId,
+            };
         }
     }
 }

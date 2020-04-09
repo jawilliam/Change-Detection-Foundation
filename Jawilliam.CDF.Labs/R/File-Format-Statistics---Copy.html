@@ -1240,6 +1240,330 @@ summary {
 ##   .default = col_double(),
 ##   Project = col_character(),
 ##   PrincipalRevisionPair = col_character(),
+##   `#matches_2010Vs2048` = col_logical(),
+##   `#actions_2010Vs2048` = col_logical(),
+##   `#inserts_2010Vs2048` = col_logical(),
+##   `#deletes_2010Vs2048` = col_logical(),
+##   `#updates_2010Vs2048` = col_logical(),
+##   `#moves_2010Vs2048` = col_logical(),
+##   `#matches_2048Vs2010` = col_logical(),
+##   `#actions_2048Vs2010` = col_logical(),
+##   `#inserts_2048Vs2010` = col_logical(),
+##   `#deletes_2048Vs2010` = col_logical(),
+##   `#updates_2048Vs2010` = col_logical(),
+##   `#moves_2048Vs2010` = col_logical()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2048.txt -------------- C*(2010)rl,et C*(2048)pl,et
+## 
+## ----------TOTAL ( 16382 )
+## LR:  16382 (% 100 )
+## RL:  16382 (% 100 )
+## 
+## ----------Delta Comparisons: 
+## L!=R:  1624 (% 9.91 )
+## abs(L-R) median 5  ; max 271
+## L&lt;R:  783 (% 4.78 )
+## L&gt;R:  841 (% 5.13 )
+## LvsR: &gt; 0.35 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
+## V = 536871, p-value = 1
+## alternative hypothesis: true location shift is greater than 0
+## 
+## (L-R) median 1  ; max 122
+## 
+## ----------Delta Comparisons (INSERT): 
+## INSERT L!=R:  1575 (% 9.61 )
+## INSERT abs(L-R) median 3  ; max 608
+## INSERT L&lt;R:  693 (% 4.23 )
+## INSERT L&gt;R:  882 (% 5.38 )
+## INSERT LvsR: &gt; 1.15 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
+## V = 551316, p-value = 0.9999
+## alternative hypothesis: true location shift is greater than 0
+## 
+## INSERT (L-R) median 1  ; max 608
+## 
+## ----------Delta Comparisons (DELETE): 
+## DELETE L!=R:  1579 (% 9.64 )
+## DELETE abs(L-R) median 3  ; max 608
+## DELETE L&lt;R:  694 (% 4.24 )
+## DELETE L&gt;R:  885 (% 5.4 )
+## DELETE LvsR: &gt; 1.17 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
+## V = 555040, p-value = 0.9999
+## alternative hypothesis: true location shift is greater than 0
+## 
+## DELETE (L-R) median 1  ; max 608
+## 
+## ----------Delta Comparisons (UPDATE): 
+## UPDATE L!=R:  1213 (% 7.4 )
+## UPDATE abs(L-R) median 2  ; max 596
+## UPDATE L&lt;R:  943 (% 5.76 )
+## UPDATE L&gt;R:  270 (% 1.65 )
+## UPDATE LvsR: &lt; 4.11 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
+## V = 164739, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is less than 0
+## 
+## UPDATE (L-R) median -1  ; max 16
+## 
+## ----------Delta Comparisons (MOVE): 
+## MOVE L!=R:  1088 (% 6.64 )
+## MOVE abs(L-R) median 2  ; max 600
+## MOVE L&lt;R:  560 (% 3.42 )
+## MOVE L&gt;R:  528 (% 3.22 )
+## MOVE LvsR: &lt; 0.2 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
+## V = 267932, p-value = 0.003022
+## alternative hypothesis: true location shift is less than 0
+## 
+## MOVE (L-R) median -1  ; max 28
+## 
+## ----------Matching Set Comparisons (all mismatches): 
+## MISMATCH L!=R:  1692 (% 10.33 )
+## 
+## ----------Matching Set Comparisons (LR mismatches): 
+## LRMISMATCH L!=R:  1094 (% 6.68 )
+## 
+## ----------Matching Set Comparisons (RL mismatches): 
+## RLMISMATCH L!=R:  1478 (% 9.02 )</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   Project = col_character(),
+##   PrincipalRevisionPair = col_character(),
+##   `#matches_2028Vs2038` = col_logical(),
+##   `#actions_2028Vs2038` = col_logical(),
+##   `#inserts_2028Vs2038` = col_logical(),
+##   `#deletes_2028Vs2038` = col_logical(),
+##   `#updates_2028Vs2038` = col_logical(),
+##   `#moves_2028Vs2038` = col_logical(),
+##   `#matches_2038Vs2028` = col_logical(),
+##   `#actions_2038Vs2028` = col_logical(),
+##   `#inserts_2038Vs2028` = col_logical(),
+##   `#deletes_2038Vs2028` = col_logical(),
+##   `#updates_2038Vs2028` = col_logical(),
+##   `#moves_2038Vs2028` = col_logical()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2028_2038.txt -------------- D*(2028)rl,et D*(2038)pl,et
+## 
+## ----------TOTAL ( 16382 )
+## LR:  16382 (% 100 )
+## RL:  16382 (% 100 )
+## 
+## ----------Delta Comparisons: 
+## L!=R:  1186 (% 7.24 )
+## abs(L-R) median 4  ; max 267
+## L&lt;R:  379 (% 2.31 )
+## L&gt;R:  807 (% 4.93 )
+## LvsR: &gt; 2.61 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
+## V = 440039, p-value = 3.619e-14
+## alternative hypothesis: true location shift is greater than 0
+## 
+## (L-R) median 1.5  ; max 267
+## 
+## ----------Delta Comparisons (INSERT): 
+## INSERT L!=R:  1201 (% 7.33 )
+## INSERT abs(L-R) median 2  ; max 608
+## INSERT L&lt;R:  297 (% 1.81 )
+## INSERT L&gt;R:  904 (% 5.52 )
+## INSERT LvsR: &gt; 3.71 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
+## V = 515051, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0
+## 
+## INSERT (L-R) median 2  ; max 608
+## 
+## ----------Delta Comparisons (DELETE): 
+## DELETE L!=R:  1200 (% 7.33 )
+## DELETE abs(L-R) median 2  ; max 608
+## DELETE L&lt;R:  294 (% 1.79 )
+## DELETE L&gt;R:  906 (% 5.53 )
+## DELETE LvsR: &gt; 3.74 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
+## V = 514724, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0
+## 
+## DELETE (L-R) median 2  ; max 608
+## 
+## ----------Delta Comparisons (UPDATE): 
+## UPDATE L!=R:  1080 (% 6.59 )
+## UPDATE abs(L-R) median 2  ; max 430
+## UPDATE L&lt;R:  921 (% 5.62 )
+## UPDATE L&gt;R:  159 (% 0.97 )
+## UPDATE LvsR: &lt; 4.65 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
+## V = 77284, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is less than 0
+## 
+## UPDATE (L-R) median -2  ; max 15
+## 
+## ----------Delta Comparisons (MOVE): 
+## MOVE L!=R:  754 (% 4.6 )
+## MOVE abs(L-R) median 2  ; max 519
+## MOVE L&lt;R:  369 (% 2.25 )
+## MOVE L&gt;R:  385 (% 2.35 )
+## MOVE LvsR: &gt; 0.1 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
+## V = 142098, p-value = 0.5148
+## alternative hypothesis: true location shift is greater than 0
+## 
+## MOVE (L-R) median 1  ; max 28
+## 
+## ----------Matching Set Comparisons (all mismatches): 
+## MISMATCH L!=R:  1359 (% 8.3 )
+## 
+## ----------Matching Set Comparisons (LR mismatches): 
+## LRMISMATCH L!=R:  716 (% 4.37 )
+## 
+## ----------Matching Set Comparisons (RL mismatches): 
+## RLMISMATCH L!=R:  1264 (% 7.72 )</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   Project = col_character(),
+##   PrincipalRevisionPair = col_character(),
+##   `#matches_1050Vs1054` = col_logical(),
+##   `#actions_1050Vs1054` = col_logical(),
+##   `#inserts_1050Vs1054` = col_logical(),
+##   `#deletes_1050Vs1054` = col_logical(),
+##   `#updates_1050Vs1054` = col_logical(),
+##   `#moves_1050Vs1054` = col_logical(),
+##   `#matches_1054Vs1050` = col_logical(),
+##   `#actions_1054Vs1050` = col_logical(),
+##   `#inserts_1054Vs1050` = col_logical(),
+##   `#deletes_1054Vs1050` = col_logical(),
+##   `#updates_1054Vs1050` = col_logical(),
+##   `#moves_1054Vs1050` = col_logical()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre><code>## ------------- D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1050_1054.txt -------------- E(1050)rl,et E(1054)pl,et
+## 
+## ----------TOTAL ( 16382 )
+## LR:  16382 (% 100 )
+## RL:  16382 (% 100 )
+## 
+## ----------Delta Comparisons: 
+## L!=R:  928 (% 5.66 )
+## abs(L-R) median 3  ; max 448
+## L&lt;R:  224 (% 1.37 )
+## L&gt;R:  704 (% 4.3 )
+## LvsR: &gt; 2.93 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[4]]) and as.vector(BetweenSymptomsStats[[10]])
+## V = 313643, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0
+## 
+## (L-R) median 2  ; max 448
+## 
+## ----------Delta Comparisons (INSERT): 
+## INSERT L!=R:  989 (% 6.04 )
+## INSERT abs(L-R) median 2  ; max 608
+## INSERT L&lt;R:  118 (% 0.72 )
+## INSERT L&gt;R:  871 (% 5.32 )
+## INSERT LvsR: &gt; 4.6 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[5]]) and as.vector(BetweenSymptomsStats[[11]])
+## V = 428012, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0
+## 
+## INSERT (L-R) median 2  ; max 608
+## 
+## ----------Delta Comparisons (DELETE): 
+## DELETE L!=R:  989 (% 6.04 )
+## DELETE abs(L-R) median 2  ; max 608
+## DELETE L&lt;R:  118 (% 0.72 )
+## DELETE L&gt;R:  871 (% 5.32 )
+## DELETE LvsR: &gt; 4.6 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[6]]) and as.vector(BetweenSymptomsStats[[12]])
+## V = 428012, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is greater than 0
+## 
+## DELETE (L-R) median 2  ; max 608
+## 
+## ----------Delta Comparisons (UPDATE): 
+## UPDATE L!=R:  953 (% 5.82 )
+## UPDATE abs(L-R) median 2  ; max 304
+## UPDATE L&lt;R:  916 (% 5.59 )
+## UPDATE L&gt;R:  37 (% 0.23 )
+## UPDATE LvsR: &lt; 5.37 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[7]]) and as.vector(BetweenSymptomsStats[[13]])
+## V = 14033, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is less than 0
+## 
+## UPDATE (L-R) median -2  ; max 8
+## 
+## ----------Delta Comparisons (MOVE): 
+## MOVE L!=R:  488 (% 2.98 )
+## MOVE abs(L-R) median 2  ; max 464
+## MOVE L&lt;R:  319 (% 1.95 )
+## MOVE L&gt;R:  169 (% 1.03 )
+## MOVE LvsR: &lt; 0.92 %
+## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  as.vector(BetweenSymptomsStats[[8]]) and as.vector(BetweenSymptomsStats[[14]])
+## V = 37718, p-value = 6.45e-13
+## alternative hypothesis: true location shift is less than 0
+## 
+## MOVE (L-R) median -1  ; max 17
+## 
+## ----------Matching Set Comparisons (all mismatches): 
+## MISMATCH L!=R:  0 (% 0 )
+## 
+## ----------Matching Set Comparisons (LR mismatches): 
+## LRMISMATCH L!=R:  0 (% 0 )
+## 
+## ----------Matching Set Comparisons (RL mismatches): 
+## RLMISMATCH L!=R:  0 (% 0 )</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   Project = col_character(),
+##   PrincipalRevisionPair = col_character(),
 ##   `#matches_2042Vs2040` = col_logical(),
 ##   `#actions_2042Vs2040` = col_logical(),
 ##   `#inserts_2042Vs2040` = col_logical(),

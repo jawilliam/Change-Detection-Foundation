@@ -3,6 +3,7 @@
     using System;
     using System.Runtime.InteropServices;
     using Jawilliam.CDF.Labs.VSIXProject.Views;
+    using Jawilliam.CDF.Labs.VSIXProject.Views.Impl;
     using Microsoft.VisualStudio.Shell;
 
     /// <summary>

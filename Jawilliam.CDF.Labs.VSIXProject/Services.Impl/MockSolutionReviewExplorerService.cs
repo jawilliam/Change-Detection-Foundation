@@ -8,7 +8,7 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Services.Impl
     /// <summary>
     /// Implements a EF-based <see cref="ViewModels.SolutionReviewExplorerViewModel"/>'s service that .
     /// </summary>
-    public class MockSolutionReviewExplorerService : ISolutionReviewExplorerService
+    public class MockSolutionReviewExplorerService : SolutionReviewExplorerService
     {
         /// <summary>
         /// Gets the delta comparisons existing in a given project between the given left approach and the given right approach. 
@@ -17,12 +17,12 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Services.Impl
         /// <param name="leftApproach">left approach.</param>
         /// <param name="rightApproach">right approach.</param>
         /// <returns>A summary for each existing delta comparison.</returns>
-        public virtual IEnumerable<DeltaComparisonDescriptor> GetDeltaComparisons(string project, ChangeDetectionApproaches leftApproach, ChangeDetectionApproaches rightApproach)
+        public override IEnumerable<DisagreedDeltaDescriptor> GetDisagreedDeltas(string project, ChangeDetectionApproaches leftApproach, ChangeDetectionApproaches rightApproach)
         {
-            yield return new DeltaComparisonDescriptor { Index = 1, LeftId = Guid.Empty, RightId = Guid.Empty, AllMismatches = 4, LrMismatches = 2, RlMismatches = 0 };
-            yield return new DeltaComparisonDescriptor { Index = 2, LeftId = Guid.Empty, RightId = Guid.Empty, AllMismatches = 6, LrMismatches = 2, RlMismatches = 4 };
-            yield return new DeltaComparisonDescriptor { Index = 3, LeftId = Guid.Empty, RightId = Guid.Empty, AllMismatches = 14, LrMismatches = 3, RlMismatches = 11 };
-            yield return new DeltaComparisonDescriptor { Index = 4, LeftId = Guid.Empty, RightId = Guid.Empty, AllMismatches = 17, LrMismatches = 12, RlMismatches = 5 };
+            yield return new DisagreedDeltaDescriptor { Index = 1, LeftId = Guid.Empty, RightId = Guid.Empty, AllMismatches = 4, LrMismatches = 2, RlMismatches = 0 };
+            yield return new DisagreedDeltaDescriptor { Index = 2, LeftId = Guid.Empty, RightId = Guid.Empty, AllMismatches = 6, LrMismatches = 2, RlMismatches = 4 };
+            yield return new DisagreedDeltaDescriptor { Index = 3, LeftId = Guid.Empty, RightId = Guid.Empty, AllMismatches = 14, LrMismatches = 3, RlMismatches = 11 };
+            yield return new DisagreedDeltaDescriptor { Index = 4, LeftId = Guid.Empty, RightId = Guid.Empty, AllMismatches = 17, LrMismatches = 12, RlMismatches = 5 };
         }
     }
 }

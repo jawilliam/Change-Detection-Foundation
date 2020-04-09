@@ -47,7 +47,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Models.Impl\MockSolutionReviewExplorerModel.cs" />
-    <Compile Include="Models\DeltaComparisonDescriptor.cs" />
+    <Compile Include="Models\DisagreedDeltaBase.cs" />
+    <Compile Include="Models\DisagreedDeltaContent.cs" />
+    <Compile Include="Models\DisagreedDeltaDescriptor.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -62,7 +64,10 @@
     <Compile Include="Jawilliam.CDF.Labs.VSIXProjectPackage.cs" />
     <Compile Include="SolutionReviewExplorer.cs" />
     <Compile Include="SolutionReviewExplorerCommand.cs" />
-    <Compile Include="Views\SolutionReviewExplorerControl.xaml.cs">
+    <Compile Include="Views.Converters\NegateValueConverter.cs" />
+    <Compile Include="Views.Impl\MockSolutionReviewExplorerPassiveView.cs" />
+    <Compile Include="Views\ISolutionReviewExplorerPassiveView.cs" />
+    <Compile Include="Views.Impl\SolutionReviewExplorerControl.xaml.cs">
       <DependentUpon>SolutionReviewExplorerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SolutionReviewExplorerViewModel.cs" />
@@ -127,7 +132,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\SolutionReviewExplorerControl.xaml">
+    <Page Include="Views.Impl\SolutionReviewExplorerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

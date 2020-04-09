@@ -2,25 +2,12 @@
 
 namespace Jawilliam.CDF.Labs.VSIXProject.Models
 {
-    /// <summary>
-    /// Represents a summary view of a delta comparison.
-    /// </summary>
-    public class DeltaComparisonDescriptor
+    public partial class DisagreedDeltaDescriptor : DisagreedDeltaBase
     {
         /// <summary>
         /// Gets or sets row number given a particular ordering (e.g., by <see cref="LeftId"/>).
         /// </summary>
         public virtual int Index { get; set; }
-
-        /// <summary>
-        /// Gets or sets the left delta's Id. 
-        /// </summary>
-        public virtual Guid LeftId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the right delta's Id. 
-        /// </summary>
-        public virtual Guid RightId { get; set; }
 
         /// <summary>
         /// Gets or sets the total amount of disagreement matches.
