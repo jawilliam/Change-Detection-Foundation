@@ -180,6 +180,7 @@
     <Compile Include="Approach\MatchingInfoTests.cs" />
     <Compile Include="Approach.GumTree\FileRevisionPairAnalyzerTests.cs" />
     <Compile Include="Approach.GumTree\GumTreeNativeApproachTests.cs" />
+    <Compile Include="Approach\TestActionDescriptorEqualityComparer.cs" />
     <Compile Include="CSharp\CSharpFladTests.cs" />
     <Compile Include="CSharp\MatchingProvider.cs" />
     <Compile Include="CSharp\RDSLTests.cs" />
@@ -807,6 +808,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Actions\TestMatchDescriptorEqualityComparer.cs" />
     <Compile Include="XSkipTheseFileRevisionPairTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -845,7 +847,6 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Actions\" />
     <Folder Include="Approach.Matching.CSharp\" />
   </ItemGroup>
   <ItemGroup>

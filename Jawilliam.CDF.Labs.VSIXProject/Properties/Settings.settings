@@ -1,6 +1,42 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Jawilliam.CDF.Labs.VSIXProject.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FullOriginalAstPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FullOriginalAst.xml</Value>
+    </Setting>
+    <Setting Name="FullModifiedAstPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FullModifiedAst.xml</Value>
+    </Setting>
+    <Setting Name="LeftOriginalAstPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">LeftOriginalAst.xml</Value>
+    </Setting>
+    <Setting Name="LeftModifiedAstPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">LeftModifiedAst.xml</Value>
+    </Setting>
+    <Setting Name="RightOriginalAstPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RightOriginalAst.xml</Value>
+    </Setting>
+    <Setting Name="RightModifiedAstPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RightModifiedAst.xml</Value>
+    </Setting>
+    <Setting Name="RatedMatching" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RatedMatching.xml</Value>
+    </Setting>
+    <Setting Name="RatedDifferencing" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RatedDifferencing.xml</Value>
+    </Setting>
+    <Setting Name="OriginalFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">OriginalForReview.cs</Value>
+    </Setting>
+    <Setting Name="ModifiedFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ModifiedForReview.cs</Value>
+    </Setting>
+    <Setting Name="OriginalAstPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">OriginalAst.xml</Value>
+    </Setting>
+    <Setting Name="ModifiedAstPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ModifiedAst.xml</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

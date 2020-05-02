@@ -7,8 +7,18 @@ using System.Xml;
 
 namespace Jawilliam.CDF.Labs.Common.DBModel
 {
-    partial class ElementDescription
+    public partial class ElementDescription
     {
+        public ElementDescription()
+        {
+            //this.Type = "\"\"";
+            //this.Id = "\"-1\"";
+        }
+
+        public virtual string Type { get; set; } = "\"\"";
+        public virtual string Id { get; set; } = "\"-1\"";
+        public virtual string Hint { get; set; }
+
         public override string ToString()
         {
             return $"{this.Id}:{this.Type}";

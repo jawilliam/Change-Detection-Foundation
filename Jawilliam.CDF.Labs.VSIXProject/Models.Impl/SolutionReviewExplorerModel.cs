@@ -30,12 +30,12 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Models.Impl
         /// <summary>
         /// Backign field for <see cref="LeftApproach"/>.
         /// </summary>
-        private ChangeDetectionApproaches _leftApproach = ChangeDetectionApproaches.RepairedNativeGTtreefiedRoslynML;
+        private ApproachInfo _leftApproach;
 
         /// <summary>
         /// Gets or sets the left approach.
         /// </summary>
-        public virtual ChangeDetectionApproaches LeftApproach
+        public virtual ApproachInfo LeftApproach
         {
             get { return this._leftApproach; }
             set
@@ -48,12 +48,12 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Models.Impl
         /// <summary>
         /// Backing field for <see cref="RightApproach"/>.
         /// </summary>
-        private ChangeDetectionApproaches _rightApproach = ChangeDetectionApproaches.RepairedInverseNativeGTtreefiedRoslynML;
+        private ApproachInfo _rightApproach;
 
         /// <summary>
         /// Gets or sets the right approach.
         /// </summary>
-        public virtual ChangeDetectionApproaches RightApproach
+        public virtual ApproachInfo RightApproach
         {
             get { return this._rightApproach; }
             set

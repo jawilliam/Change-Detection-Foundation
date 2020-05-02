@@ -16,15 +16,19 @@
     <UserControl.Resources>
         <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True"/>
         <converters:NegateValueConverter x:Key="NegateBool"/>
+        <converters:IsNotEmptyICollectionValueConverter x:Key="IsNotEmptyICollection"/>
+        <converters:ReviewStateColorsConverter x:Key="ReviewStateColor"/>
     </UserControl.Resources>
-    <DockPanel DataContext="{Binding SolutionReviewExplorer, Source={StaticResource Locator}}" DataContextChanged="DockPanel_DataContextChanged">
-        <ToolBar DockPanel.Dock="Top">
+    <DockPanel DataContext="{Binding SolutionReviewExplorer, Source={StaticResource Locator}}"
+               DataContextChanged="DockPanel_DataContextChanged">
+        <DockPanel DockPanel.Dock="Left">
+            <ToolBar DockPanel.Dock="Top">
             <Button Content="LIST-deltas" ToolTip="List disagreed deltas" Command="{Binding ListDisagreedDeltasCommand}"/>
             <Button Content="LOAD-delta" ToolTip="Load selected disagreed delta" Command="{Binding LoadSelectedDisagreedDeltaCommand}"/>
-            <Button Content="START-review" ToolTip="Start a review session" Command="{Binding StartReviewCommand}"/>
-            <Button Content="END-review" ToolTip="End a review session" Command="{Binding EndReviewCommand}"/>
+            <Button Content="SUBMIT-review" ToolTip="Start a review session" Command="{Binding SubmitReviewCommand}"/>
+            <!--<Button Content="END-review" ToolTip="End a review session" Command="{Binding EndReviewCommand}"/>-->
         </ToolBar>
-        <Grid DockPanel.Dock="Top">
+            <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -43,23 +47,25 @@
                       IsEnabled="{Binding OnReview, Converter={StaticResource NegateBool}}"/>
             <TextBlock Text="Left Approach" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="4,2,2,2"/>
             <ComboBox Grid.Row="1" Grid.Column="1" Margin="0,2,2,2"
-                      ItemsSource="{Binding Path=Approaches}" DisplayMemberPath="Key"
-                      SelectedValuePath="Value" SelectedValue="{Binding Path=Model.LeftApproach}"
+                      ItemsSource="{Binding Path=Approaches}" DisplayMemberPath="Title"
+                      SelectedValue="{Binding Path=Model.LeftApproach}"
                       IsEnabled="{Binding OnReview, Converter={StaticResource NegateBool}}"/>
             <TextBlock Text="Right Approach" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="4,2,2,2"/>
             <ComboBox Grid.Row="2" Grid.Column="1" Margin="0,2,2,2" 
-                      ItemsSource="{Binding Path=Approaches}" DisplayMemberPath="Key"
-                      SelectedValuePath="Value" SelectedValue="{Binding Path=Model.RightApproach}"
+                      ItemsSource="{Binding Path=Approaches}" DisplayMemberPath="Title"
+                      SelectedValue="{Binding Path=Model.RightApproach}"
                       IsEnabled="{Binding OnReview, Converter={StaticResource NegateBool}}"/>
             <TextBlock Text="Delta Comparisons" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Margin="4,2,2,2"/>
             <ComboBox Grid.Row="3" Grid.Column="1" Margin="0,2,2,2" Grid.ColumnSpan="2" 
                       ItemsSource="{Binding Path=Model.DisagreedDeltas}" 
                       SelectedItem="{Binding Model.SelectedDisagreedDelta}"
-                      IsEnabled="{Binding OnReview, Converter={StaticResource NegateBool}}">
+                      IsEnabled="{Binding OnReview, Converter={StaticResource NegateBool}}"
+                      IsEditable="{Binding Model.DisagreedDeltas, Converter={StaticResource IsNotEmptyICollection}}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="models:DisagreedDeltaDescriptor">
                         <Grid Margin="0,0,0,5">
                             <Grid.RowDefinitions>
+                                <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
@@ -74,12 +80,12 @@
                                     Left-Id: <Run Text="{Binding Path=LeftId}" FontWeight="Bold"/>
                                 </TextBlock>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
-                                <TextBlock Padding="15,0,0,0">
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                                <TextBlock>
                                     Right-Id: <Run Text="{Binding Path=RightId}" FontWeight="Bold"/>
                                 </TextBlock>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
                                 <TextBlock>
                                     Mismatches (all: <Run Text="{Binding Path=AllMismatches}" FontWeight="Bold"/>, 
                                                 LR: <Run Text="{Binding Path=LrMismatches}" FontWeight="Bold"/>,
@@ -91,7 +97,123 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </Grid>
-        <TreeView DockPanel.Dock="Bottom"/>
+            <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding Model.LoadedDisagreedDelta.DisagreedMatches}">
+            <ListView.Resources>
+                <HierarchicalDataTemplate  DataType="{x:Type models:RateableMatch}">
+                    <Border Margin="3" BorderBrush="Black">
+                        <StackPanel>
+                            <ContentPresenter Content="{Binding DivergentMatch}"/>
+                            <TextBlock>
+                                <Run Text="REVIEW" FontWeight="Bold" Foreground="{Binding Reviewed, Converter={StaticResource ReviewStateColor} }"/>
+                            </TextBlock>
+                            <StackPanel Orientation="Vertical">
+                                <CheckBox Content="Good Match?"  IsChecked="{Binding GoodMatch}" Margin="0,0,15,0"/>
+                                <StackPanel Orientation="Horizontal" 
+                                            IsEnabled="{Binding GoodMatch, Converter={StaticResource NegateBool}, Mode=OneWay, ConverterParameter=false}">
+                                    <TextBlock Text="DELETED or EXPECTED MODIFIED: "
+                                               Foreground="{Binding ReviewedOriginal, Converter={StaticResource ReviewStateColor} }"></TextBlock>
+                                    <CheckBox Content="deleted? " IsChecked="{Binding DeletedOriginal}" Margin="10,0,0,0"/>
+                                    <TextBlock Margin="10,0,0,0" 
+                                               IsEnabled="{Binding DeletedOriginal, Converter={StaticResource NegateBool}, Mode=OneWay, ConverterParameter=true}">
+                                        GumTree <Run Text="partner's ID: " FontWeight="Bold"/><Run Text="{Binding GumTreeId}"/>
+                                    </TextBlock>
+                                    <TextBox Text="{Binding ExpectedModified4ThisOriginal_GumTreeId}" Width="50" 
+                                             IsEnabled="{Binding DeletedOriginal, Converter={StaticResource NegateBool}, Mode=OneWay, ConverterParameter=true}"/>
+                                    <TextBlock Margin="3,0,0,0" 
+                                               IsEnabled="{Binding DeletedOriginal, Converter={StaticResource NegateBool}, Mode=OneWay, ConverterParameter=true}">                                        
+                                        (Roslyn <Run Text="partner's ID: " FontWeight="Bold"/>
+                                               <Run Text="{Binding ExpectedModified4ThisOriginal.Id}"/>)
+                                    </TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" 
+                                            IsEnabled="{Binding GoodMatch, Converter={StaticResource NegateBool}, Mode=OneWay, ConverterParameter=false}">
+                                    <TextBlock Text="INSERTED or EXPECTED ORIGINAL:"
+                                               Foreground="{Binding ReviewedModified, Converter={StaticResource ReviewStateColor} }"></TextBlock>
+                                    <CheckBox Content="inserted?"  IsChecked="{Binding InsertedModified}" Margin="10,0,0,0"/>
+                                    <TextBlock Margin="10,0,0,0" 
+                                               IsEnabled="{Binding InsertedModified, Converter={StaticResource NegateBool}, Mode=OneWay, ConverterParameter=true}">
+                                        GumTree <Run Text="partner's ID: " FontWeight="Bold"/><Run Text="{Binding GumTreeId}"/>
+                                    </TextBlock>
+                                    <TextBox Text="{Binding ExpectedOriginal4ThisModified_GumTreeId}" Width="50" 
+                                             IsEnabled="{Binding InsertedModified, Converter={StaticResource NegateBool}, Mode=OneWay, ConverterParameter=true}"/>
+                                    <TextBlock Margin="3,0,0,0"
+                                               IsEnabled="{Binding InsertedModified, Converter={StaticResource NegateBool}, Mode=OneWay, ConverterParameter=true}">                                        
+                                        (Roslyn <Run Text="partner's ID: " FontWeight="Bold"/>
+                                               <Run Text="{Binding ExpectedOriginal4ThisModified.Id}"/>)
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate  DataType="{x:Type dbmodels:LRMatchSymptom}">
+                    <Border Margin="3">
+                        <StackPanel>
+                            <TextBlock>
+                                <Underline>Matched at LEFT, but not at RIGHT</Underline>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="Left Match to Review" FontWeight="Bold"/>
+                            </TextBlock>
+                            <ContentPresenter Content="{Binding Left}"/>
+                            <TextBlock>
+                                <Run Text="original at Right" FontWeight="Bold"/>
+                            </TextBlock>
+                            <ContentPresenter Content="{Binding OriginalAtRight}"/>
+                            <TextBlock>
+                                <Run Text="modified at Right" FontWeight="Bold"/>
+                            </TextBlock>
+                            <ContentPresenter Content="{Binding ModifiedAtRight}"/>
+                        </StackPanel>
+                    </Border>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate   DataType="{x:Type dbmodels:RLMatchSymptom}">
+                    <Border Margin="3">
+                        <StackPanel>
+                            <TextBlock>
+                                <Underline>Matched at RIGHT, but not at LEFT</Underline>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="Right Match to Review" FontWeight="Bold"/>
+                            </TextBlock>
+                            <ContentPresenter Content="{Binding Right}"/> 
+                            <TextBlock>
+                                <Run Text="original at Left" FontWeight="Bold"/>
+                            </TextBlock>
+                            <ContentPresenter Content="{Binding OriginalAtLeft}"/>
+                            <TextBlock>
+                                <Run Text="modified at Left" FontWeight="Bold"/>
+                            </TextBlock>
+                            <ContentPresenter Content="{Binding ModifiedAtLeft}"/>
+                        </StackPanel>
+                    </Border>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate  DataType="{x:Type dbmodels:BetweenMatchInfo}">
+                    <StackPanel>
+                        <ContentPresenter Content="{Binding Original}"/>
+                        <ContentPresenter Content="{Binding Modified}"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type dbmodels:ElementContext}">
+                    <TextBlock>
+                        GumTree <Run Text="ID: " FontWeight="Bold"/><Run Text="{Binding Element.GumTreeId}"/>
+                        Roslyn <Run Text="ID: " FontWeight="Bold"/><Run Text="{Binding Element.Id}"/>
+                        <Run Text=" "/><Run Text="{Binding Element.Type}" FontWeight="Bold"/>
+                        <Run Text=" "/><Run Text="{Binding Element.Hint}"/>
+                    </TextBlock>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type models:ElementDescription}">
+                    <TextBlock>
+                        Roslyn <Run Text="ID: " FontWeight="Bold"/><Run Text="{Binding Id}"/>
+                        <Run Text=" "/><Run Text="{Binding Type}" FontWeight="Bold"/>
+                        <Run Text=" "/><Run Text="{Binding Hint}"/>
+                    </TextBlock>
+                </HierarchicalDataTemplate>
+            </ListView.Resources>
+        </ListView>
+        </DockPanel>
+        <TextBlock DockPanel.Dock="Right" TextWrapping="Wrap"
+                   Text="{Binding Review, Mode=OneWay}"></TextBlock>
     </DockPanel>
 </UserControl>
 

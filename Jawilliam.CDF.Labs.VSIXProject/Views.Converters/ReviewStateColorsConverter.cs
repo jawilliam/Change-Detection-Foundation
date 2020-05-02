@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jawilliam.CDF.Labs.VSIXProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -6,16 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Jawilliam.CDF.Labs.VSIXProject.Views.Converters
 {
-
-    /// <summary>
-    /// Converts a boolean value, forward and backward, by negating the value. 
-    /// </summary>
-    [ValueConversion(typeof(bool), typeof(bool))]
-    [ValueConversion(typeof(bool?), typeof(bool?))]
-    public class NegateValueConverter : IValueConverter
+    [ValueConversion(typeof(bool?), typeof(Brush))]
+    public class ReviewStateColorsConverter : IValueConverter
     {
         /// <summary>
         /// Converts a value.
@@ -27,12 +24,12 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Views.Converters
         /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
         public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is null) 
-                return parameter;
-
-            if (!(value is bool))
-                throw new ArgumentException("The given value must be bool.");
-            return !(bool)value;
+            switch(value)
+            {
+                case true: return Brushes.Green;
+                case false: return Brushes.Red;
+                default: return Brushes.Black;
+            }
         }
 
         /// <summary>
@@ -45,11 +42,8 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Views.Converters
         /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
         public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is null) return null;
-
-            if (!(value is bool))
-                throw new ArgumentException("The given value must be bool.");
-            return !(bool)value;
+            throw new InvalidOperationException();
         }
+
     }
 }

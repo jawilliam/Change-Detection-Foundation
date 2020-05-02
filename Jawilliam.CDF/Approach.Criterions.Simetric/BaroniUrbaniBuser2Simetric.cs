@@ -18,8 +18,8 @@ namespace Jawilliam.CDF.Approach.Criterions.Simetric
         /// <returns>a double between 0 and 1 (0 = no similarity, 1 = matching strings).</returns>
         public override double GetSimilarity(IEnumerable<T> firstSequence, IEnumerable<T> secondSequence)
         {
-            var firstSeq = firstSequence?.ToArray() ?? new T[0];
-            var secondSeq = secondSequence?.ToArray() ?? new T[0];
+            var firstSeq = firstSequence?.ToArray() ?? Array.Empty<T>();
+            var secondSeq = secondSequence?.ToArray() ?? Array.Empty<T>();
             if (!firstSeq.Any() && !secondSeq.Any())
                 return 1;
 

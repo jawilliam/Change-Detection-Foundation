@@ -17,12 +17,12 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Models
         /// <summary>
         /// Gets or sets the left approach.
         /// </summary>
-        ChangeDetectionApproaches LeftApproach { get; set; }
+        ApproachInfo LeftApproach { get; set; }
 
         /// <summary>
         /// Gets or sets the right approach.
         /// </summary>
-        ChangeDetectionApproaches RightApproach { get; set; }
+        ApproachInfo RightApproach { get; set; }
 
         /// <summary>
         /// Gets the delta comparison summary to show.

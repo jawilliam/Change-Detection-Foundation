@@ -88,36 +88,18 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             {
                 this.SeedAsts = new RevisionPair<Dictionary<string, XElement>>
                 {
-                    Original = seedAsts.Original.PostOrder(n => n.Elements()
-                        .Where(ne => ne is XNode))
-                        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.GtID()),
-                    Modified = seedAsts.Modified.PostOrder(n => n.Elements()
-                        .Where(ne => ne is XNode))
-                        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.GtID())
+                    Original = seedAsts.Original.ToGtDictionary(),
+                    Modified = seedAsts.Modified.ToGtDictionary()
                 };
                 this.SeedAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
                 {
-                    Original = seedAsts.Original.PostOrder(n => n.Elements()
-                        .Where(ne => ne is XNode))
-                        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.RmId()),
-                    Modified = seedAsts.Modified.PostOrder(n => n.Elements()
-                        .Where(ne => ne is XNode))
-                        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.RmId())
+                    Original = seedAsts.Original.ToGtDictionary(),
+                    Modified = seedAsts.Modified.ToGtDictionary()
                 };
                 this.FullAsts = new RevisionPair<Dictionary<string, XElement>>
                 {
-                    Original = fullAsts.Original.PostOrder(n => n.Elements()
-                        .Where(ne => ne is XNode))
-                        //.Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.RmId()),
-                    Modified = fullAsts.Modified.PostOrder(n => n.Elements()
-                        .Where(ne => ne is XNode))
-                        //.Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.RmId())
+                    Original = fullAsts.Original.ToRmDictionary(),
+                    Modified = fullAsts.Modified.ToRmDictionary()
                 };
 
                 this.OMatches = seedDelta.Matches.ToDictionary(m => this.SeedAsts.Original[m.Attribute("oId").Value].RmId());

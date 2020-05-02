@@ -60,10 +60,10 @@ namespace Jawilliam.Tools.CCL
                     Name = r,
                     Approach = i < args.Approaches.Count 
                         ? (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), args.Approaches[i]) 
-                        : default(ChangeDetectionApproaches),
+                        : default,
                     FileFormat = i < args.FileFormats.Count
                         ? (FileFormatKind)Enum.Parse(typeof(FileFormatKind), args.FileFormats[i])
-                        : default(FileFormatKind),
+                        : default,
                     Direction = i < args.Directions.Count ? args.Directions[i] : null
                 });
 

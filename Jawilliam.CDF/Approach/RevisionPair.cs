@@ -12,11 +12,11 @@ namespace Jawilliam.CDF.Approach
         /// <summary>
         /// Gets or sets the element original version.
         /// </summary>
-        public T Original { get; set; }
+        public virtual T Original { get; set; }
 
         /// <summary>
         /// Gets or sets the element modified version.
         /// </summary>
-        public T Modified { get; set; }
+        public virtual T Modified { get; set; }
     }
 }

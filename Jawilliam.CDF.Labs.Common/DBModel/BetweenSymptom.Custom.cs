@@ -55,6 +55,21 @@ namespace Jawilliam.CDF.Labs.Common.DBModel
         /// </summary>
         /// <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized. </param>
         public abstract void WriteXml(XmlWriter writer);
+
+        /// <summary>
+        /// Gets the match existing in one solution, but not in the other.
+        /// </summary>
+        public abstract BetweenMatchInfo DisagreedMatch{ get; }
+
+        /// <summary>
+        /// Informs how the <see cref="DisagreedMatch"/>'s original element match in the other solution, in case it is.
+        /// </summary>
+        public abstract BetweenMatchInfo OriginalAt { get; }
+
+        /// <summary>
+        /// Informs how the <see cref="DisagreedMatch"/>'s modified element match in the other solution, in case it is.
+        /// </summary>
+        public abstract BetweenMatchInfo ModifiedAt { get; }
     }
 
     [XmlRoot("LrMatch")]
@@ -68,10 +83,24 @@ namespace Jawilliam.CDF.Labs.Common.DBModel
             this.ModifiedAtRight = new BetweenMatchInfo();
         }
 
-
         public BetweenMatchInfo Left { get; set; }
         public BetweenMatchInfo OriginalAtRight { get; set; }
         public BetweenMatchInfo ModifiedAtRight { get; set; }
+
+        /// <summary>
+        /// Gets the match existing in one solution, but not in the other.
+        /// </summary>
+        public override BetweenMatchInfo DisagreedMatch => this.Left;
+
+        /// <summary>
+        /// Informs how the <see cref="DisagreedMatch"/>'s original element match in the other solution, in case it is.
+        /// </summary>
+        public override BetweenMatchInfo OriginalAt => this.OriginalAtRight;
+
+        /// <summary>
+        /// Informs how the <see cref="DisagreedMatch"/>'s modified element match in the other solution, in case it is.
+        /// </summary>
+        public override BetweenMatchInfo ModifiedAt => this.ModifiedAtRight;
 
         /// <summary>
         /// Reconstructs an object from the associated XML string.
@@ -138,6 +167,21 @@ namespace Jawilliam.CDF.Labs.Common.DBModel
         public BetweenMatchInfo Right { get; set; }
         public BetweenMatchInfo OriginalAtLeft { get; set; }
         public BetweenMatchInfo ModifiedAtLeft { get; set; }
+
+        /// <summary>
+        /// Gets the match existing in one solution, but not in the other.
+        /// </summary>
+        public override BetweenMatchInfo DisagreedMatch => this.Right;
+
+        /// <summary>
+        /// Informs how the <see cref="DisagreedMatch"/>'s original element match in the other solution, in case it is.
+        /// </summary>
+        public override BetweenMatchInfo OriginalAt => this.OriginalAtLeft;
+
+        /// <summary>
+        /// Informs how the <see cref="DisagreedMatch"/>'s modified element match in the other solution, in case it is.
+        /// </summary>
+        public override BetweenMatchInfo ModifiedAt => this.ModifiedAtLeft;
 
         /// <summary>
         /// Reconstructs an object from the associated XML string.

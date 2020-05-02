@@ -11,6 +11,8 @@ var	fileManager = EntityFrameworkTemplateFileManager.Create(this);
 var itemCollection = new EdmMetadataLoader(textTransform.Host, textTransform.Errors).CreateEdmItemCollection(inputFile);
 var codeStringGenerator = new CodeStringGenerator(code, typeMapper, ef);
 
+// Lets generate manual code in the case of
+itemCollection = itemCollection.Where(it => !it.ToString().EndsWith(".ElementDescription")).ToList();
 if (!typeMapper.VerifyCaseInsensitiveTypeUniqueness(typeMapper.GetAllGlobalItems(itemCollection), inputFile))
 {
     return string.Empty;

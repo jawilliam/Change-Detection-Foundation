@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -31,6 +33,31 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             return source != null
                 ? source.Attribute("GtID")?.Value ?? throw new InvalidOperationException("GtID attribute cannot be null")
                 : throw new ArgumentNullException(nameof(source));
+        }
+
+        /// <summary>
+        /// Returns a dictionary indexing the elements having RoslynML Id.
+        /// </summary>
+        /// <param name="source">The xml-based represented element.</param>
+        /// <returns>a dictionary indexing with their RoslynML Id those elements having RoslynML Id.</returns>
+        public static Dictionary<string, XElement> ToRmDictionary(this XElement source)
+        {
+            return source?.PostOrder(n => n.Elements()
+                        .Where(ne => ne is XNode))
+                        .ToDictionary(n => n.RmId());
+        }
+
+        /// <summary>
+        /// Returns a dictionary indexing the elements having Roslyn-like GumTree Id.
+        /// </summary>
+        /// <param name="source">The xml-based represented element.</param>
+        /// <returns>a dictionary indexing with their Roslyn-like GumTree Id those elements having Roslyn-like GumTree Id</returns>
+        public static Dictionary<string, XElement> ToGtDictionary(this XElement source)
+        {
+            return source?.PostOrder(n => n.Elements()
+                       .Where(ne => ne is XNode))
+                       .Where(ne => ne.Attribute("GtID")?.Value != null)
+                       .ToDictionary(n => n.GtID());
         }
 
         /// <summary>
@@ -82,8 +109,6 @@ namespace Jawilliam.CDF.CSharp.RoslynML
 
             return content.Length > 30 ? content.Substring(0, 30) : content;
         }
-
-
 
         /// <summary>
         /// Returns a content hint of the given content. 

@@ -22,7 +22,7 @@ namespace Tests.Jawilliam.CDF.Labs.VSIXProject
 
         protected virtual SolutionReviewExplorerViewModel CreateViewModel()
         {
-            var model = new MockSolutionReviewExplorerModel();
+            var model = new SolutionReviewExplorerModel();
             var service = new MockSolutionReviewExplorerService();
             var passiveView = new MockSolutionReviewExplorerPassiveView();
             return new SolutionReviewExplorerViewModel(model, service)
@@ -51,12 +51,12 @@ namespace Tests.Jawilliam.CDF.Labs.VSIXProject
         public void IfNonCurrentDisagreedDelta_CannotStartReview()
         {
             var vm = this.CreateViewModel();
-            Assert.IsFalse(vm.CanExecuteStartReviewCommand());
+            Assert.IsFalse(vm.CanExecuteSubmitReviewCommand());
             Assert.IsFalse(vm.OnReview);
             Assert.IsFalse(vm.CanExecuteEndReviewCommand());
 
             vm.ExecuteListDisagreedDeltasCommand();
-            Assert.IsTrue(vm.CanExecuteStartReviewCommand());
+            Assert.IsTrue(vm.CanExecuteSubmitReviewCommand());
             Assert.IsFalse(vm.OnReview);
             Assert.IsFalse(vm.CanExecuteEndReviewCommand());
 

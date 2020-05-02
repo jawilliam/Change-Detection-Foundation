@@ -25,7 +25,15 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Services
         /// <param name="project">project name.</param>
         /// <param name="leftDeltaId">left delta's ID.</param>
         /// <param name="rightDeltaId">right delta's ID.</param>
+        /// <param name="info">describes the appproach being loaded.</param>
         /// <returns>The set of found disagreed mismatches.</returns>
-        DisagreedDeltaContent LoadDisagreedDelta(string project, Guid leftDeltaId, Guid rightDeltaId);
+        DisagreedDeltaContent LoadDisagreedDelta(string project, Guid leftDeltaId, Guid rightDeltaId, ApproachInfo info);
+
+        /// <summary>
+        /// Saves the manually rated delta.
+        /// </summary>
+        /// <param name="project">project name.</param>
+        /// <param name="delta">delta to be submitted.</param>
+        void SubmitReview(string project, Delta delta);
     }
 }

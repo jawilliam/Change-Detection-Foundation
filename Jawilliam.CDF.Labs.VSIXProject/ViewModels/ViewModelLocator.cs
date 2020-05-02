@@ -31,11 +31,11 @@ namespace Jawilliam.CDF.Labs.VSIXProject.ViewModels
 
             SimpleIoc.Default.Register<SolutionReviewExplorerViewModel>();
 
-            //SimpleIoc.Default.Register(NewSolutionReviewExplorerModel);
-            //SimpleIoc.Default.Register(NewSolutionReviewExplorerService);
+            SimpleIoc.Default.Register(NewSolutionReviewExplorerModel);
+            SimpleIoc.Default.Register(NewSolutionReviewExplorerService);
 
-            SimpleIoc.Default.Register<ISolutionReviewExplorerModel, MockSolutionReviewExplorerModel>();
-            SimpleIoc.Default.Register<ISolutionReviewExplorerService, MockSolutionReviewExplorerService>();
+            //SimpleIoc.Default.Register<ISolutionReviewExplorerModel, MockSolutionReviewExplorerModel>();
+            //SimpleIoc.Default.Register<ISolutionReviewExplorerService, MockSolutionReviewExplorerService>();
 
             //SimpleIoc.Default.Register<IDialogService, DialogService>();
             //SimpleIoc.Default.Register<INavigationService, NavigationService>();

@@ -18,40 +18,40 @@ knitr::opts_chunk$set(echo = FALSE)
 SCCDICAST_Corpus <- read_csv("D:/ExperimentLogs/MSR20/SCCDICAST_Corpus.csv")
 
 behaviorComparisons <- NULL
-behaviorComparisons <- data.frame(list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2042_42.txt", "C*(2042)pl,it", "C(42)pl,it"), stringsAsFactors = FALSE)
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2048_48.txt", "C*(2048)pl,et", "C(48)pl,et"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2032_32.txt", "C*(2032)rl,it", "C(32)rl,it"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_10.txt", "C*(2010)rl,et", "C(10)rl,et"))
+behaviorComparisons <- data.frame(list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2048_48.txt", "F*(2048)rl,et", "F(48)rl,et"), stringsAsFactors = FALSE)
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2042_42.txt", "F*(2042)rl,it", "F(42)rl,it"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2032_32.txt", "F*(2032)dl,it", "F(32)dl,it"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_10.txt", "F*(2010)dl,et", "F(10)dl,et"))
 
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2040_1040.txt", "D*(2040)pl,it", "D(1040)pl,it"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2038_1038.txt", "D*(2038)pl,et", "D(1038)pl,et"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2030_1030.txt", "D*(2030)rl,it", "D(1030)rl,it"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2028_1028.txt", "D*(2028)rl,et", "D(1028)rl,et"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2040_1040.txt", "P*(2040)rl,it", "P(1040)rl,it"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2038_1038.txt", "P*(2038)dl,et", "P(1038)rl,et"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2030_1030.txt", "P*(2030)dl,it", "P(1030)dl,it"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2028_1028.txt", "P*(2028)dl,et", "P(1028)dl,et"))
 
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2048.txt", "C*(2010)rl,et", "C*(2048)pl,et"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2028_2038.txt", "D*(2028)rl,et", "D*(2038)pl,et"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1050_1054.txt", "E(1050)rl,et", "E(1054)pl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2048.txt", "F*(2010)dl,et", "F*(2048)rl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2028_2038.txt", "P*(2028)dl,et", "P*(2038)rl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1050_1054.txt", "L(1050)dl,et", "L(1054)rl,et"))
 
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2042_2040.txt", "C*(2042)pl,it", "D*(2040)pl,it"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2042_1056.txt", "C*(2042)pl,it", "E(1056)pl,it"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2040_1056.txt", "D*(2040)pl,it", "E(1056)pl,it"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2042_2040.txt", "F*(2042)rl,it", "P*(2040)rl,it"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2042_1056.txt", "F*(2042)rl,it", "L(1056)rl,it"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2040_1056.txt", "P*(2040)rl,it", "L(1056)rl,it"))
 
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2048_2038.txt", "C*(2048)pl,et", "D*(2038)pl,et"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2048_1054.txt", "C*(2048)pl,et", "E(1054)pl,et"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2038_1054.txt", "D*(2038)pl,et", "E(1054)pl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2048_2038.txt", "F*(2048)rl,et", "P*(2038)rl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2048_1054.txt", "F*(2048)rl,et", "L(1054)rl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2038_1054.txt", "P*(2038)rl,et", "L(1054)rl,et"))
 
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2032_2030.txt", "C*(2032)rl,it", "D*(2030)rl,it"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2032_1052.txt", "C*(2032)rl,it", "E(1052)rl,it"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2030_1052.txt", "D*(2030)rl,it", "E(1052)rl,it"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2032_2030.txt", "F*(2032)dl,it", "P*(2030)dl,it"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2032_1052.txt", "F*(2032)dl,it", "L(1052)dl,it"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2030_1052.txt", "P*(2030)dl,it", "L(1052)dl,it"))
 
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2028.txt", "C*(2010)rl,et", "D*(2028)rl,et"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1050.txt", "C*(2010)rl,et", "E(1050)rl,et"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2028_1050.txt", "D*(2028)rl,et", "E(1050)rl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_2028.txt", "F*(2010)dl,et", "P*(2028)dl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_1050.txt", "F*(2010)dl,et", "L(1050)dl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2028_1050.txt", "P*(2028)dl,et", "L(1050)dl,et"))
 
 for (i in 1:nrow(behaviorComparisons)) 
 {
   BetweenSymptomsStats <- read_delim(behaviorComparisons[i, 1], ";", escape_double = FALSE, trim_ws = TRUE)
-  BetweenSymptomsStats <- BetweenSymptomsStats[which(BetweenSymptomsStats[4] != 0 & BetweenSymptomsStats[10] != 0),] 
+  BetweenSymptomsStats <- BetweenSymptomsStats[which(BetweenSymptomsStats[4] > 0 & BetweenSymptomsStats[10] > 0),] 
   BetweenSymptomsStats <- subset(BetweenSymptomsStats, Project %in% SCCDICAST_Corpus$Project & 
                                                        toupper(PrincipalRevisionPair) %in% SCCDICAST_Corpus$RevisionPair_Id) 
   

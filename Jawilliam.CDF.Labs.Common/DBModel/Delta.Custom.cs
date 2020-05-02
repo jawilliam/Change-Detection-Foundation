@@ -32,94 +32,10 @@ namespace Jawilliam.CDF.Labs.Common.DBModel
         {
             get
             {
-                //switch (this.Approach)
-                //{
-                //    case ChangeDetectionApproaches.Manually:
-                //    case ChangeDetectionApproaches.NativeGumTree:
-                //    case ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher:
-                //    case ChangeDetectionApproaches.NativeGumTreeWithXyMatcher:
-                //    case ChangeDetectionApproaches.InverseOfNativeGumTree:
-                //    case ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher:
-                //    case ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher:
-                //    case ChangeDetectionApproaches.NativeGumTreeWithoutComments:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynML:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruning:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruning:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithIncludeTrivia:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithIncludeTrivia:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningDefoliation:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliation:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia:
-                //        return this.GetNativeGumTreeResult();
-                //    default:
-                //        throw new InvalidEnumArgumentException();
-                //}
                 return this.GetNativeGumTreeResult();
             }
             set
             {
-                //switch (this.Approach)
-                //{
-                //    case ChangeDetectionApproaches.Manually:
-                //    case ChangeDetectionApproaches.NativeGumTree:
-                //    case ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher:
-                //    case ChangeDetectionApproaches.NativeGumTreeWithXyMatcher:
-                //    case ChangeDetectionApproaches.InverseOfNativeGumTree:
-                //    case ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher:
-                //    case ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher:
-                //    case ChangeDetectionApproaches.NativeGumTreeWithoutComments:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynML:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruning:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruning:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithIncludeTrivia:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithIncludeTrivia:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningDefoliation:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliation:
-                //    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia:
-                //    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia:
-                //        this.SetNativeGumTreeResult(value);
-                //        break;
-                //    default:
-                //        throw new InvalidEnumArgumentException();
-                //}
-
                 this.SetNativeGumTreeResult(value);
             }
         }
