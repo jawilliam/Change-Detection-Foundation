@@ -48,12 +48,6 @@ namespace Jawilliam.Tools.CCL
                     Direction = args.FullDirection
                 };
 
-                //var seedCounterpart = new
-                //{
-                //    FileFormat = (FileFormatKind)Enum.Parse(typeof(FileFormatKind), args.SeedFileFormat),
-                //    Direction = args.SeedDirection
-                //};
-
                 var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
                 var loader = new RoslynML();
                 var selector = new RoslynMLPruneSelector();
@@ -73,16 +67,21 @@ namespace Jawilliam.Tools.CCL
                 }
 
                 var expander = new DeltaExpander();
-                foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1)))
+                foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1))
+                    .Where(p => frpPerProjects?.Any(f => f.project == p.Name) ?? true))
                 {
                     foreach (var configuration in configurations)
                     {
                         var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                         ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
 
-                        var deltaIds = (from d in dbRepository.Deltas
-                                        where d.Report == null && d.Approach == configuration.Approach
-                                        select d.Id).ToList();
+                        var deltaIds = frpPerProjects?
+                            .Where(f => f.project == project.Name)
+                            .Select(f => f.frpId)
+                            .ToList();
+                        deltaIds ??= (from d in dbRepository.Deltas
+                                      where d.Report == null && d.Approach == configuration.Approach
+                                      select d.Id).ToList();
 
                         if (args.Trace != null)
                         {
@@ -116,17 +115,6 @@ namespace Jawilliam.Tools.CCL
                                     : dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == fullCounterpart.FileFormat &&
                                                                                            ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id);
 
-                            //var seedOriginal = seedCounterpart.Direction == "Forward"
-                            //        ? dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == seedCounterpart.FileFormat &&
-                            //                                                               ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id)
-                            //        : dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == seedCounterpart.FileFormat &&
-                            //                                                               ff.FileVersion.Id == delta.RevisionPair.FileVersion.Id);
-                            //var seedModified = seedCounterpart.Direction == "Forward"
-                            //        ? dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == seedCounterpart.FileFormat &&
-                            //                                                               ff.FileVersion.Id == delta.RevisionPair.FileVersion.Id)
-                            //        : dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == seedCounterpart.FileFormat &&
-                            //                                                               ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id);
-
                             var configurationOriginal = configuration.Direction == "Forward"
                                     ? dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == configuration.FileFormat &&
                                                                                            ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id)
@@ -143,8 +131,6 @@ namespace Jawilliam.Tools.CCL
 
                             var xFullOriginal = XElement.Load(new StringReader(fullOriginal.XmlTree));
                             var xFullModified = XElement.Load(new StringReader(fullModified.XmlTree));
-                            //var xSeedOriginal = XElement.Load(new StringReader(seedOriginal.XmlTree));
-                            //var xSeedModified = XElement.Load(new StringReader(seedModified.XmlTree));
                             var xConfigurationOriginal = XElement.Load(new StringReader(configurationOriginal.XmlTree));
                             var xÇonfigurationModified = XElement.Load(new StringReader(configurationModified.XmlTree));
                             var xSeedOriginal = XElement.Load(new StringReader(configurationOriginal.XmlTree));
@@ -182,7 +168,6 @@ namespace Jawilliam.Tools.CCL
                                 expander.Expand(prunedAsts, fullAsts, fullDelta);
                                 annotations.RunTime = (Environment.TickCount - start).ToString(CultureInfo.InvariantCulture);
                                 expandedDelta.XAnnotations = annotations;
-                                
 
                                 if (args.Trace != null)
                                 {
@@ -247,13 +232,8 @@ namespace Jawilliam.Tools.CCL
                 if (fullDelta.Matches == null) throw new ArgumentNullException("seedDelta.Matches");
                 if (fullDelta.Actions == null) throw new ArgumentNullException("seedDelta.Actions");
 
-                //RevisionPair<Dictionary<string, XElement>> _seedAsts;
                 RevisionPair<Dictionary<string, XElement>> _seedAstsGlobal;
                 RevisionPair<Dictionary<string, XElement>> _fullAsts;
-                //RevisionPair<Dictionary<string, XElement>> _fullAstsGlobal;
-                //RevisionPair<Dictionary<string, XElement>> _fullAstsGlobal;
-                //(IEnumerable<XElement> Matches, IEnumerable<XElement> Actions) _seedDelta;
-                //(List<XElement> Matches, List<XElement> Actions) _fullDelta;
                 Dictionary<string, XElement> _oMatches;
                 Dictionary<string, XElement> _mMatches;
                 Dictionary<string, XElement> _mInserts;
@@ -261,19 +241,6 @@ namespace Jawilliam.Tools.CCL
                 Dictionary<string, XElement> _oUpdates;
                 Dictionary<string, XElement> _oMoves;
 
-                //try
-                //{
-                //_seedAsts = new RevisionPair<Dictionary<string, XElement>>
-                //{
-                //    Original = seedAsts.Original.PostOrder(n => n.Elements()
-                //        .Where(ne => ne is XNode))
-                //        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                //        .ToDictionary(n => n.GtID()),
-                //    Modified = seedAsts.Modified.PostOrder(n => n.Elements()
-                //        .Where(ne => ne is XNode))
-                //        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                //        .ToDictionary(n => n.GtID())
-                //};
                 _seedAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
                 {
                     Original = seedAsts.Original.PostOrder(n => n.Elements()
@@ -296,28 +263,12 @@ namespace Jawilliam.Tools.CCL
                         .Where(ne => ne.Attribute("GtID")?.Value != null)
                         .ToDictionary(n => n.GtID())
                 };
-                //_fullAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
+                //foreach (var item in fullDelta.Matches)
                 //{
-                //    Original = fullAsts.Original.PostOrder(n => n.Elements()
-                //        .Where(ne => ne is XNode))
-                //        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                //        .ToDictionary(n => n.RmId()),
-                //    Modified = fullAsts.Modified.PostOrder(n => n.Elements()
-                //        .Where(ne => ne is XNode))
-                //        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                //        .ToDictionary(n => n.RmId())
-                //};
-                //_fullAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
-                //{
-                //    Original = fullAsts.Original.PostOrder(n => n.Elements()
-                //        .Where(ne => ne is XNode))
-                //        //.Where(ne => ne.Attribute("GtID")?.Value != null)
-                //        .ToDictionary(n => n.RmId()),
-                //    Modified = fullAsts.Modified.PostOrder(n => n.Elements()
-                //        .Where(ne => ne is XNode))
-                //        //.Where(ne => ne.Attribute("GtID")?.Value != null)
-                //        .ToDictionary(n => n.RmId())
-                //};
+                //    if (!_fullAsts.Original.ContainsKey(item.Attribute("oId").Value))
+                //        ;
+                //    Debug.Assert(_fullAsts.Original.ContainsKey(item.Attribute("oId").Value));
+                //}
 
                 _oMatches = fullDelta.Matches.ToDictionary(m => _fullAsts.Original[m.Attribute("oId").Value].RmId());
                 _mMatches = fullDelta.Matches.ToDictionary(m => _fullAsts.Modified[m.Attribute("mId").Value].RmId());
@@ -367,8 +318,6 @@ namespace Jawilliam.Tools.CCL
 
                                 if (_oMoves.ContainsKey(o.RmId()))
                                 {
-                                    //var oParent = o.Ancestors().First(a => _seedAstsGlobal.Original.ContainsKey(a.RmId()));
-                                    //var mParent = _oMatches[oParent.RmId()];
                                     var mParent = m.Ancestors()
                                         .First(a => _seedAstsGlobal.Modified.ContainsKey(a.RmId()));
                                     _seedDelta.Actions.Add(new XElement("Move",
@@ -406,7 +355,6 @@ namespace Jawilliam.Tools.CCL
                 }
 
                 return _seedDelta;
-                //}
             }
 
             private static void _DeleteSeedElement((List<XElement> Matches, List<XElement> Actions) _seedDelta, XElement oFullElement)
@@ -420,7 +368,6 @@ namespace Jawilliam.Tools.CCL
 
             private static void _InsertSeedElement(RevisionPair<Dictionary<string, XElement>> _seedAstsGlobal, RevisionPair<Dictionary<string, XElement>> _fullAsts, Dictionary<string, XElement> _mMatches, Dictionary<string, XElement> _mInserts, (List<XElement> Matches, List<XElement> Actions) _seedDelta, XElement mSeedElement)
             {
-                //var insert = _mInserts[mSeedElement.RmId()];
                 var m = _seedAstsGlobal.Modified[mSeedElement.RmId()];
                 var mParent = m.Ancestors().First(a => _seedAstsGlobal.Modified.ContainsKey(a.RmId()));
                 var oParent = _mMatches.ContainsKey(mParent.RmId())
@@ -436,201 +383,6 @@ namespace Jawilliam.Tools.CCL
                     new XAttribute("pLb", oParent.Attribute("kind")?.Value ?? oParent.Name.LocalName),
                     new XAttribute("pos", "-1")));
             }
-
-            ///// <summary>
-            ///// Computes the full delta starting from a seed one. 
-            ///// </summary>
-            ///// <param name="seedAsts">The seed AST revision pair used to generate the delta to be expanded.</param>
-            ///// <param name="fullAsts">The AST revision pair to use when generating the full delta.</param>
-            ///// <param name="fullDelta">the delta to be expanded.</param>
-            ///// <returns>the expanded delta.</returns>
-            //private (IEnumerable<XElement> Matches, IEnumerable<XElement> Actions) SetUp(
-            //    RevisionPair<XElement> seedAsts,
-            //    RevisionPair<XElement> fullAsts,
-            //    (IEnumerable<XElement> Matches, IEnumerable<XElement> Actions) fullDelta)
-            //{
-            //    if (seedAsts?.Original == null) throw new ArgumentNullException("seedAsts.Original");
-            //    if (seedAsts?.Modified == null) throw new ArgumentNullException("seedAsts.Modified");
-            //    if (fullAsts?.Original == null) throw new ArgumentNullException("fullAsts.Original");
-            //    if (fullAsts?.Modified == null) throw new ArgumentNullException("fullAsts.Modified");
-            //    if (fullDelta.Matches == null) throw new ArgumentNullException("seedDelta.Matches");
-            //    if (fullDelta.Actions == null) throw new ArgumentNullException("seedDelta.Actions");
-
-            //    RevisionPair<Dictionary<string, XElement>> _seedAsts;
-            //    RevisionPair<Dictionary<string, XElement>> _seedAstsGlobal;
-            //    RevisionPair<Dictionary<string, XElement>> _fullAsts;
-            //    RevisionPair<Dictionary<string, XElement>> _fullAstsGlobal;
-            //    //(IEnumerable<XElement> Matches, IEnumerable<XElement> Actions) _seedDelta;
-            //    //(List<XElement> Matches, List<XElement> Actions) _fullDelta;
-            //    Dictionary<string, XElement> _oMatches;
-            //    Dictionary<string, XElement> _mMatches;
-            //    Dictionary<string, XElement> _mInserts;
-            //    Dictionary<string, XElement> _oDeletes;
-            //    Dictionary<string, XElement> _oUpdates;
-            //    Dictionary<string, XElement> _oMoves;
-
-            //    //try
-            //    //{
-            //    _seedAsts = new RevisionPair<Dictionary<string, XElement>>
-            //    {
-            //        Original = seedAsts.Original.PostOrder(n => n.Elements()
-            //            .Where(ne => ne is XNode))
-            //            .Where(ne => ne.Attribute("GtID")?.Value != null)
-            //            .ToDictionary(n => n.GtID()),
-            //        Modified = seedAsts.Modified.PostOrder(n => n.Elements()
-            //            .Where(ne => ne is XNode))
-            //            .Where(ne => ne.Attribute("GtID")?.Value != null)
-            //            .ToDictionary(n => n.GtID())
-            //    };
-            //    _seedAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
-            //    {
-            //        Original = seedAsts.Original.PostOrder(n => n.Elements()
-            //            .Where(ne => ne is XNode))
-            //            .Where(ne => ne.Attribute("GtID")?.Value != null)
-            //            .ToDictionary(n => n.RmId()),
-            //        Modified = seedAsts.Modified.PostOrder(n => n.Elements()
-            //            .Where(ne => ne is XNode))
-            //            .Where(ne => ne.Attribute("GtID")?.Value != null)
-            //            .ToDictionary(n => n.RmId())
-            //    };
-            //    _fullAsts = new RevisionPair<Dictionary<string, XElement>>
-            //    {
-            //        Original = fullAsts.Original.PostOrder(n => n.Elements()
-            //            .Where(ne => ne is XNode))
-            //            .Where(ne => ne.Attribute("GtID")?.Value != null)
-            //            .ToDictionary(n => n.GtID()),
-            //        Modified = fullAsts.Modified.PostOrder(n => n.Elements()
-            //            .Where(ne => ne is XNode))
-            //            .Where(ne => ne.Attribute("GtID")?.Value != null)
-            //            .ToDictionary(n => n.GtID())
-            //    };
-            //    _fullAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
-            //    {
-            //        Original = fullAsts.Original.PostOrder(n => n.Elements()
-            //            .Where(ne => ne is XNode))
-            //            //.Where(ne => ne.Attribute("GtID")?.Value != null)
-            //            .ToDictionary(n => n.RmId()),
-            //        Modified = fullAsts.Modified.PostOrder(n => n.Elements()
-            //            .Where(ne => ne is XNode))
-            //            //.Where(ne => ne.Attribute("GtID")?.Value != null)
-            //            .ToDictionary(n => n.RmId())
-            //    };
-
-            //    _oMatches = fullDelta.Matches.ToDictionary(m => _seedAsts.Original[m.Attribute("oId").Value].RmId());
-            //    _mMatches = fullDelta.Matches.ToDictionary(m => _seedAsts.Modified[m.Attribute("mId").Value].RmId());
-            //    _mInserts = fullDelta.Actions.Where(a => a.Name.LocalName == "Insert").ToDictionary(m => _seedAsts.Modified[m.Attribute("eId").Value].RmId());
-            //    _oDeletes = fullDelta.Actions.Where(a => a.Name.LocalName == "Delete").ToDictionary(m => _seedAsts.Original[m.Attribute("eId").Value].RmId());
-            //    _oUpdates = fullDelta.Actions.Where(a => a.Name.LocalName == "Update").ToDictionary(m => _seedAsts.Original[m.Attribute("eId").Value].RmId());
-            //    _oMoves = fullDelta.Actions.Where(a => a.Name.LocalName == "Move").ToDictionary(m => _seedAsts.Original[m.Attribute("eId").Value].RmId());
-
-            //    foreach (var mFullElement in seedAsts.Modified.PreOrder(n => n.Elements()
-            //                                                  .Where(ne => ne is XNode))
-            //                                                  .Where(ne => ne.Attribute("GtID")?.Value != null))
-            //    {
-            //        if (_mMatches.ContainsKey(mFullElement.RmId()))
-            //        {
-            //            var match = _mMatches[mFullElement.RmId()];
-            //            var o = _fullAstsGlobal.Original[_fullAsts.Original[match.Attribute("oId").Value].RmId()];
-            //            var m = _fullAstsGlobal.Modified[_fullAsts.Modified[match.Attribute("mId").Value].RmId()];
-            //            Debug.Assert(mFullElement.RmId() == o.RmId());
-
-            //            _oMatches.Remove(o.RmId());
-            //            if (_oUpdates.ContainsKey(o.RmId()))
-            //                _oUpdates.Remove(o.RmId());
-            //            if (_oMoves.ContainsKey(o.RmId()))
-            //                _oMoves.Remove(o.RmId());
-
-            //            _oDeletes.Add(o.RmId(),
-            //                new XElement("Delete",
-            //                    new XAttribute("eId", o.GtID()),
-            //                    new XAttribute("eLb", o.Attribute("kind")?.Value ?? o.Name.LocalName),
-            //                    new XAttribute("eVl", "##"),
-            //                    new XAttribute("toRepair", true)));
-
-            //            _mInserts.Add(m.RmId(),
-            //                new XElement("Insert",
-            //                    new XAttribute("eId", m.GtID()),
-            //                    new XAttribute("eLb", m.Attribute("kind")?.Value ?? m.Name.LocalName),
-            //                    new XAttribute("eVl", "##"),
-            //                    new XAttribute("pId", m.GtID()),
-            //                    new XAttribute("pLb", m.Attribute("kind")?.Value ?? m.Name.LocalName),
-            //                    new XAttribute("pos", "-1"),
-            //                    new XAttribute("toRepair", true)));
-            //        }
-            //    }
-            //    foreach (var oFullElement in fullAsts.Original.PreOrder(n => n.Elements()
-            //                                                  .Where(ne => ne is XNode))
-            //                                                  .Where(ne => ne.Attribute("GtID")?.Value != null))
-            //    {
-            //        if (_oMatches.ContainsKey(oFullElement.RmId()))
-            //        {
-            //            var match = _oMatches[oFullElement.RmId()];
-            //            var o = _fullAstsGlobal.Original[_fullAsts.Original[match.Attribute("oId").Value].RmId()];
-            //            var m = _fullAstsGlobal.Modified[_fullAsts.Modified[match.Attribute("mId").Value].RmId()];
-
-            //            _oMatches.Remove(oFullElement.RmId());
-            //            if (_oUpdates.ContainsKey(oFullElement.RmId()))
-            //                _oUpdates.Remove(oFullElement.RmId());
-            //            if (_oMoves.ContainsKey(oFullElement.RmId()))
-            //                _oMoves.Remove(oFullElement.RmId());
-
-            //            _oDeletes.Add(oFullElement.RmId(),
-            //                new XElement("Delete",
-            //                    new XAttribute("eId", oFullElement.GtID()),
-            //                    new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
-            //                    new XAttribute("eVl", "##"),
-            //                    new XAttribute("toRepair", true)));
-
-            //            _mInserts.Add(m.RmId(),
-            //                new XElement("Insert",
-            //                    new XAttribute("eId", m.GtID()),
-            //                    new XAttribute("eLb", m.Attribute("kind")?.Value ?? m.Name.LocalName),
-            //                    new XAttribute("eVl", "##"),
-            //                    new XAttribute("pId", m.GtID()),
-            //                    new XAttribute("pLb", m.Attribute("kind")?.Value ?? m.Name.LocalName),
-            //                    new XAttribute("pos", "-1"),
-            //                    new XAttribute("toRepair", true)));
-            //        }
-            //    }
-
-            //    var _fullDelta = (Matches: new List<XElement>(_oMatches.Count()),
-            //                      Actions: new List<XElement>(_mInserts.Count + _oUpdates.Count + _oMoves.Count + _oDeletes.Count));
-            //    foreach (var mFullElement in fullAsts.Modified.PreOrder(n => n.Elements()
-            //                                                      .Where(ne => ne is XNode))
-            //                                                      .Where(ne => ne.Attribute("GtID")?.Value != null))
-            //    {
-            //        if (_mInserts.ContainsKey(mFullElement.RmId()))
-            //        {
-            //            _fullDelta.Actions.Add(_mInserts[mFullElement.RmId()]);
-            //        }
-            //        else
-            //        {
-            //            var match = _mMatches[mFullElement.RmId()];
-            //            var o = _fullAstsGlobal.Original[_fullAsts.Original[match.Attribute("oId").Value].RmId()];
-            //            var m = _fullAstsGlobal.Modified[_fullAsts.Modified[match.Attribute("mId").Value].RmId()];
-            //            _fullDelta.Matches.Add(_mMatches[mFullElement.RmId()]);
-
-            //            if (_oUpdates.ContainsKey(o.RmId()))
-            //                _fullDelta.Actions.Add(_oUpdates[o.RmId()]);
-
-            //            if (_oMoves.ContainsKey(o.RmId()))
-            //                _fullDelta.Actions.Add(_oMoves[o.RmId()]);
-            //        }
-            //    }
-
-            //    foreach (var oFullElement in fullAsts.Original.PreOrder(n => n.Elements()
-            //                                                      .Where(ne => ne is XNode))
-            //                                                      .Where(ne => ne.Attribute("GtID")?.Value != null))
-            //    {
-            //        if (_oDeletes.ContainsKey(oFullElement.RmId()))
-            //        {
-            //            _fullDelta.Actions.Add(_oDeletes[oFullElement.RmId()]);
-            //        }
-            //    }
-
-            //    return _fullDelta;
-            //    //}
-            //}
         }
     }
 

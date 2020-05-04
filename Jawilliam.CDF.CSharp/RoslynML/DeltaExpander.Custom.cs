@@ -93,8 +93,8 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 };
                 this.SeedAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
                 {
-                    Original = seedAsts.Original.ToGtDictionary(),
-                    Modified = seedAsts.Modified.ToGtDictionary()
+                    Original = seedAsts.Original.ToRmDictionary(),
+                    Modified = seedAsts.Modified.ToRmDictionary()
                 };
                 this.FullAsts = new RevisionPair<Dictionary<string, XElement>>
                 {
@@ -210,17 +210,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                         //var insertedChild = this.SeedAsts.Modified.ContainsKey(fact.Attribute("eId").Value)
                         //    ? this.SeedAsts.Modified[fact.Attribute("eId").Value]
                         //    : null;
-                        if (fact.Attribute("eLb").Value != "Token" && !this.SeedAsts.Modified.ContainsKey(fact.Attribute("eId").Value)) // then it is a defoliated element.
+                        if (fact.Attribute("eLb").Value != "Token" && !this.SeedAstsGlobal.Modified.ContainsKey(fact.Attribute("eGId").Value)) // then it is a defoliated element.
                             this.ForEachM(this.FullAsts.Modified[fact.Attribute("eGId").Value]);
                         break;
                     case "Delete":
                         //var deletedChild = this.FullAsts.Original[this.SeedAsts.Original[fact.Attribute("eId").Value].RmId()];
-                        if (fact.Attribute("eLb").Value != "Token" && !this.SeedAsts.Original.ContainsKey(fact.Attribute("eId").Value)) // then it is a defoliated element.
+                        if (fact.Attribute("eLb").Value != "Token" && !this.SeedAstsGlobal.Original.ContainsKey(fact.Attribute("eGId").Value)) // then it is a defoliated element.
                             this.ForEachO(this.FullAsts.Original[fact.Attribute("eGId").Value]);
                         break;
                     case "Match":
                         //var mChild = this.FullAsts.Modified[this.SeedAsts.Modified[fact.Attribute("mId").Value].RmId()]; 
-                        if (fact.Attribute("mLb").Value != "Token" && !this.SeedAsts.Modified.ContainsKey(fact.Attribute("mId").Value))
+                        if (fact.Attribute("mLb").Value != "Token" && !this.SeedAstsGlobal.Modified.ContainsKey(fact.Attribute("mGId").Value))
                             this.ForEachM(this.FullAsts.Modified[fact.Attribute("mGId").Value]);
                         break;
                 }

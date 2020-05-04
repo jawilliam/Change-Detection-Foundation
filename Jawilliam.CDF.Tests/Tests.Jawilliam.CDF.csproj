@@ -542,12 +542,8 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderMethodDeclarationSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderNameColonSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderNameEqualsSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderNameColonSyntaxTests.Custom.cs" />
+    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderNameEqualsSyntaxTests.Custom.cs" />
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderNameMemberCrefSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>

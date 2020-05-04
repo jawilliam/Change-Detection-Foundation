@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using Jawilliam.CDF.Approach;
 using System.Collections.ObjectModel;
 using Jawilliam.CDF.CSharp.RoslynML;
+using System.Data.Entity.Infrastructure;
 
 namespace Jawilliam.CDF.Labs.VSIXProject.Services.Impl
 {
@@ -46,6 +47,7 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Services.Impl
             IList<DeltaComparison> deltaComparisons = null;
             using (var db = this.CreateRepository(project))
             {
+                ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 600;
                 deltaComparisons = db.DeltaComparisonSet.AsNoTracking().Where(s =>
                      (s.Left.Approach == leftApproach && s.Right.Approach == rightApproach) ||
                      (s.Right.Approach == leftApproach && s.Left.Approach == rightApproach)).ToList();                
@@ -86,6 +88,7 @@ namespace Jawilliam.CDF.Labs.VSIXProject.Services.Impl
             Delta review = null;
             using (var db = this.CreateRepository(project))
             {
+                ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 600;
                 deltaComparison = db.DeltaComparisonSet.AsNoTracking()
                     .Include("Left.RevisionPair.FromFileVersion.Content")
                     .Include("Left.RevisionPair.FileVersion.Content")

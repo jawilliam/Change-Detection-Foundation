@@ -106,7 +106,9 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	   syntaxNode.Root.Label.ToString() == "XmlElementSyntax" ||	   
 	   syntaxNode.Root.Label.ToString() == "XmlNameSyntax" ||	   
 	   syntaxNode.Root.Label.ToString() == "XmlNameAttributeSyntax" ||	   
-	   syntaxNode.Root.Label.ToString() == "XmlTextAttributeSyntax")
+	   syntaxNode.Root.Label.ToString() == "XmlTextAttributeSyntax" ||	   
+	   syntaxNode.Root.Label.ToString() == "NameColonSyntax" ||	   
+	   syntaxNode.Root.Label.ToString() == "NameEqualsSyntax")
 		continue;
 	
 	var isUpdatable = false;
