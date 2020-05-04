@@ -283,10 +283,15 @@ namespace Jawilliam.CDF.Labs
         /// <param name="token"></param>
         protected override void RecognizeCore(bool saveChanges, FileRevisionPair pair, Delta leftDelta, Delta rightDelta, CancellationToken token)
         {
+            var deltaComparison = this.SqlRepository.DeltaComparisonSet
+                .SingleOrDefault(dc => dc.LeftId == leftDelta.Id && dc.RightId == rightDelta.Id);
+            if (deltaComparison != null)
+                deltaComparison.Matching = null;
+
             var symptoms = this.Compare(leftDelta, rightDelta, pair, token).ToList();
             if (symptoms.Any())
             {
-                var deltaComparison = this.SqlRepository.DeltaComparisonSet.SingleOrDefault(dc => dc.LeftId == leftDelta.Id && dc.RightId == rightDelta.Id);
+                //var deltaComparison = this.SqlRepository.DeltaComparisonSet.SingleOrDefault(dc => dc.LeftId == leftDelta.Id && dc.RightId == rightDelta.Id);
                 if (deltaComparison == null)
                 {
                     deltaComparison = this.SqlRepository.DeltaComparisonSet.Create();

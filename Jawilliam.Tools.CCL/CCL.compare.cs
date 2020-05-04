@@ -67,13 +67,21 @@ namespace Jawilliam.Tools.CCL
                     Direction = i < args.Directions.Count ? args.Directions[i] : null
                 });
 
+                var frpPerProjects = OnTheseConfig(args.OnThese)?.ToList();
+
                 var recognizer = new BetweenComparison { MillisecondsTimeout = 600000 };
-                foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1)))
+                foreach (var project in ProjectsConfig(Projects, args.From, args.To, frpPerProjects))
                 {
+                    var frps = frpPerProjects?.Where(frp => frp.project == project.Name).ToDictionary(frp => frp.frpId);
                     foreach (var configuration in configurations)
                     {
                         var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                         ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+
+                        //var deltaIds = DeltasConfig(project.Name,
+                        //    from d in dbRepository.Deltas
+                        //    where d.Report == null && d.Approach == configuration.Approach
+                        //    select d.Id, frpPerProjects);
 
                         switch (configuration.Direction)
                         {
@@ -89,13 +97,13 @@ namespace Jawilliam.Tools.CCL
                         recognizer.SqlRepository = dbRepository;
                         recognizer.Cancel = null;
 
-                        Func<FileRevisionPair, bool> skipThese = delegate (FileRevisionPair pair)
+                        bool skipThese(FileRevisionPair pair)
                         {
                             var anyOriginal = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FromFileVersion.Id && ff.Kind == refApproach.FileFormat);
                             var anyModified = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FileVersion.Id && ff.Kind == configuration.FileFormat);
 
-                            return !anyOriginal || !anyModified;
-                        };
+                            return !anyOriginal || !anyModified || (!frps?.ContainsKey(pair.Principal.Id) ?? false);
+                        }
 
                         ElementTree result = null;
                         Dictionary<string, ElementTree> lOriginalTree = null, lModifiedTree = null, rOriginalTree = null, rModifiedTree = null;
@@ -1128,6 +1136,9 @@ namespace Jawilliam.Tools.CCL
 
         [Option(ShortName = "to")]
         public int To { get; set; } = 107;
+
+        [Option(ShortName = "onThese")]
+        public string OnThese { get; set; }
     }
 
     public class RunCompareOnFlyArgs : IArgumentModel

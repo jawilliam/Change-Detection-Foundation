@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Jawilliam.Tools.CCL
@@ -122,5 +123,41 @@ namespace Jawilliam.Tools.CCL
             (@"E:\Repositories\Xamarin.Mobile", "XamarinMobile"),
             (@"E:\Repositories\xunit", "XUnit")
         };
+
+
+
+        internal static IEnumerable<(string project, Guid frpId)> OnTheseConfig(string onThesePath)
+        {
+            if (onThesePath == null)
+                return null;
+
+            return System.IO.File.ReadAllLines(onThesePath).Skip(1)
+                .Select<string, (string project, Guid frpId)>(delegate (string line, int i)
+                {
+                    var values = line.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values == null || values.Length != 2)
+                        throw new ApplicationException($"Bad formed entry: line {i}.");
+
+                    return (values[1], Guid.Parse(values[0]));
+                });
+        }
+
+        internal static IEnumerable<(string Path, string Name)> ProjectsConfig(IEnumerable<(string Path, string Name)> projects,
+            int from, int to,
+            IEnumerable<(string project, Guid frpId)> onTheseConfig)
+        {
+            return projects.Skip(from - 1).Take(to - (from - 1))
+                .Where(p => onTheseConfig?.Any(f => f.project == p.Name) ?? true);
+        }
+
+        internal static List<Guid> DeltasConfig(string projectName, IEnumerable<Guid> deltaIds,
+            IEnumerable<(string project, Guid frpId)> onTheseConfig)
+        {
+            return onTheseConfig?
+                        .Where(f => f.project == projectName)
+                        .Select(f => f.frpId)
+                        .ToList()
+                        ?? deltaIds.ToList();
+        }
     }
 }

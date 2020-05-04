@@ -52,36 +52,19 @@ namespace Jawilliam.Tools.CCL
                 var loader = new RoslynML();
                 var selector = new RoslynMLPruneSelector();
 
-                (string project, Guid frpId)[] frpPerProjects = null;
-                if (args.OnThese != null)
-                {
-                    frpPerProjects = System.IO.File.ReadAllLines(args.OnThese).Skip(1)
-                        .Select<string, (string project, Guid frpId)>(delegate(string line, int i)
-                        {
-                            var values = line.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                            if (values == null || values.Length != 2)
-                                throw new ApplicationException($"Bad formed entry: line {i}.");
-
-                            return (values[1], Guid.Parse(values[0]));
-                        }).ToArray();
-                }
+                var frpPerProjects = OnTheseConfig(args.OnThese)?.ToList();
 
                 var expander = new DeltaExpander();
-                foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1))
-                    .Where(p => frpPerProjects?.Any(f => f.project == p.Name) ?? true))
+                foreach (var project in ProjectsConfig(Projects, args.From, args.To, frpPerProjects))
                 {
                     foreach (var configuration in configurations)
                     {
                         var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                         ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
-
-                        var deltaIds = frpPerProjects?
-                            .Where(f => f.project == project.Name)
-                            .Select(f => f.frpId)
-                            .ToList();
-                        deltaIds ??= (from d in dbRepository.Deltas
-                                      where d.Report == null && d.Approach == configuration.Approach
-                                      select d.Id).ToList();
+                        var deltaIds = DeltasConfig(project.Name, 
+                            from d in dbRepository.Deltas
+                            where d.Report == null && d.Approach == configuration.Approach
+                            select d.Id, frpPerProjects);
 
                         if (args.Trace != null)
                         {
