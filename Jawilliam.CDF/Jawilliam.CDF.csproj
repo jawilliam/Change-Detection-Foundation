@@ -161,7 +161,9 @@
     <Compile Include="Approach.GumTree\InteropArgs.cs" />
     <Compile Include="Approach.Choices\Choice.cs" />
     <Compile Include="Approach.Annotations.Impl\Annotation.cs" />
-    <Compile Include="Approach\DetectionResult.cs" />
+    <Compile Include="C:\Users\jawil\Desktop\DetectionResult.cs">
+      <Link>Approach\DetectionResult.cs</Link>
+    </Compile>
     <Compile Include="Approach.Impl\Approach.cs" />
     <Compile Include="Approach\IBeginDetection.cs" />
     <Compile Include="Approach\IBeginStep.cs" />
