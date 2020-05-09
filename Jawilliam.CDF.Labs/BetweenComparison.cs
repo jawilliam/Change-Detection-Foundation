@@ -285,6 +285,7 @@ namespace Jawilliam.CDF.Labs
         {
             var deltaComparison = this.SqlRepository.DeltaComparisonSet
                 .SingleOrDefault(dc => dc.LeftId == leftDelta.Id && dc.RightId == rightDelta.Id);
+
             if (deltaComparison != null)
                 deltaComparison.Matching = null;
 
@@ -305,6 +306,11 @@ namespace Jawilliam.CDF.Labs
                     Matching = symptoms
                 };
                 deltaComparison.XMatching = xMatching;
+            }
+            else
+            {
+                if(deltaComparison != null)
+                    this.SqlRepository.DeltaComparisonSet.Remove(deltaComparison);
             }
         }
 
