@@ -210,16 +210,16 @@ for (i in 1:nrow(behaviorComparisons))
   cat("\n\n----------Matching Set Comparisons (all mismatches): ")
   
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[27] > 0),]
-  cat("\nMISMATCH L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  cat("\nMISMATCH LR+RL: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   
    cat("\n\n----------Matching Set Comparisons (LR mismatches): ")
   
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[28] > 0),]
-  cat("\nLRMISMATCH L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  cat("\nLRMISMATCH LR: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   
    cat("\n\n----------Matching Set Comparisons (RL mismatches): ")
   
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[29] > 0),]
-  cat("\nRLMISMATCH L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  cat("\nRLMISMATCH RL: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
 }
 ```
