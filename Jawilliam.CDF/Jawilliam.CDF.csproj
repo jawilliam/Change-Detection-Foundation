@@ -31,10 +31,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=5.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.5.2.0\lib\net461\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -162,6 +175,7 @@
     <Compile Include="Approach.Choices\Choice.cs" />
     <Compile Include="Approach.Annotations.Impl\Annotation.cs" />
     <Compile Include="Approach.Impl\Approach.cs" />
+    <Compile Include="SCCD\DeletedElementArgs.cs" />
     <Compile Include="Approach\DetectionResult.cs" />
     <Compile Include="Approach\IBeginDetection.cs" />
     <Compile Include="Approach\IBeginStep.cs" />
@@ -169,6 +183,17 @@
     <Compile Include="Approach\IEndDetection.cs" />
     <Compile Include="Approach\IEndStep.cs" />
     <Compile Include="Approach.Annotations\IMatchingAnnotation.cs" />
+    <Compile Include="SCCD\IChange.cs" />
+    <Compile Include="SCCD\IAction.cs" />
+    <Compile Include="SCCD\IDetection.cs" />
+    <Compile Include="SCCD\IMatch.cs" />
+    <Compile Include="SCCD\Base\Detection.cs" />
+    <Compile Include="SCCD\Base\Solution.cs" />
+    <Compile Include="SCCD\INotifyInsertedElement.cs" />
+    <Compile Include="SCCD\INotifyDeletedElement.cs" />
+    <Compile Include="SCCD\INotifyMovedElement.cs" />
+    <Compile Include="SCCD\INotifyUpdatedElement.cs" />
+    <Compile Include="SCCD\InsertedElementArgs.cs" />
     <Compile Include="Approach\IService.cs" />
     <Compile Include="Approach\IServiceLocator.cs" />
     <Compile Include="Approach\LoadRevisionPairDelegate.cs" />
@@ -178,6 +203,10 @@
     <Compile Include="Approach.Annotations.Impl\AnnotationSetService.cs" />
     <Compile Include="Approach\MatchDescriptor.cs" />
     <Compile Include="Approach\MatchDescriptorEqualityComparer.cs" />
+    <Compile Include="SCCD\ISolution.cs" />
+    <Compile Include="SCCD\MovedElementArgs.cs" />
+    <Compile Include="SCCD\UpdatedElementArgs.cs" />
+    <Compile Include="SCCD\MatchedElementArgs.cs" />
     <Compile Include="Approach\RuntimeContext.cs" />
     <Compile Include="DomainExtensions.cs" />
     <Compile Include="Domain\IDifferentiable.cs" />
@@ -200,6 +229,7 @@
     <Compile Include="GTED\ITree.cs" />
     <Compile Include="GTED\Node.cs" />
     <Compile Include="GTED\Tree.cs" />
+    <Compile Include="SCCD\INotifyMatchedElement.cs" />
     <Compile Include="KruskalAlgorithm.cs" />
     <Compile Include="Evaluation\RedundancyFinder.cs" />
     <Compile Include="Approach.Choices\MatchingDiscoveryChoice.cs" />
@@ -224,7 +254,9 @@
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Approach.Impl\Type System.cd" />
+    <None Include="SCCD\SCCD Primitives.cd" />
     <None Include="Approach\Type System.cd" />
     <None Include="packages.config" />
     <None Include="UniDM\Type System.cd" />

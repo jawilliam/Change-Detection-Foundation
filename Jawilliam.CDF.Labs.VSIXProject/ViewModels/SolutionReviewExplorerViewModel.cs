@@ -324,6 +324,7 @@ namespace Jawilliam.CDF.Labs.VSIXProject.ViewModels
             var dr = (DetectionResult)this.Model.LoadedDisagreedDelta.Review.DetectionResult;
             System.IO.File.WriteAllText(Settings.Default.RatedMatching, dr.WriteXmlColumn());
             this.RaisePropertyChanged(ObservableObject.GetPropertyName(() => this.Review));
+            this.SubmitReviewCommand?.RaiseCanExecuteChanged();
             //System.IO.File.WriteAllText(Settings.Default.RatedDifferencing, this.Model.LoadedDisagreedDelta.FullAsts.Item2.ToString());
         }
 

@@ -18,15 +18,5 @@ namespace Jawilliam.CDF.Approach.Annotations
         /// Gets the actions that affect the annotated element.
         /// </summary>
         IList<EditAction<TElement>> Actions { get; }
-
-        ///// <summary>
-        ///// Gets or sets the label of the annotated element.
-        ///// </summary>
-        //int Label { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the value of the annotated element.
-        ///// </summary>
-        //object Value { get; set; }
     }
 }

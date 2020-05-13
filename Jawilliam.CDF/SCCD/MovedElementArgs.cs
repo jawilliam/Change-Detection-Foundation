@@ -1,0 +1,23 @@
+﻿using System;
+
+namespace Jawilliam.CDF.SCCD
+{
+    /// <summary>
+    /// Provides data for the <see cref="INotifyMovedElement{TElement}.MovedElement"/>.
+    /// </summary>
+    /// <typeparam name="TElement">Type of the notified elements.</typeparam>
+    public class MovedElementArgs<TElement> : EventArgs
+    {
+        /// <summary>
+        /// Gets or sets the original version of the moved element.
+        /// </summary>
+        public virtual TElement Original { get; set; }
+
+        /// <summary>
+        /// Gets or sets the modified version of the moved element.
+        /// </summary>
+        public virtual TElement Modified { get; set; }
+    }
+}
+
+    

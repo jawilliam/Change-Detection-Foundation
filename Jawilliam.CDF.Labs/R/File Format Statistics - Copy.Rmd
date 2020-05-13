@@ -24,7 +24,7 @@ behaviorComparisons <- data.frame(list("D:/ExperimentLogs/MSR20/BetweenSymptomsS
 behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2010_10.txt", "F*(2010)dl,et", "F(10)dl,et"))
 
 #behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2040_1040.txt", "P*(2040)rl,it", "P(1040)rl,it"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2038_1038.txt", "P*(2038)dl,et", "P(1038)rl,et"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2038_1038.txt", "P*(2038)rl,et", "P(1038)rl,et"))
 #behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2030_1030.txt", "P*(2030)dl,it", "P(1030)dl,it"))
 behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_2028_1028.txt", "P*(2028)dl,et", "P(1028)dl,et"))
 
@@ -66,10 +66,10 @@ for (i in 1:nrow(behaviorComparisons))
   cat("\n\n----------Delta Comparisons: ")
   
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[4] != BetweenSymptomsStats[10]),]
-  cat("\nL!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
+  cat("\nDeltaL!=DeltaR: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   theseValues <- abs(BetweenSymptomsStats[4] - BetweenSymptomsStats[10])
   summary <- summary(theseValues[which(theseValues[1] != 0),])
-  cat("\nabs(L-R)", "median", summary[3], " ; max", summary[6])
+  cat("\nabs(L-R)", "median", summary[3], " ; 3rdQtl", summary[5], " ; max", summary[6])
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[4] < BetweenSymptomsStats[10]),]
   cat("\nL<R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[4] > BetweenSymptomsStats[10]),]
@@ -90,7 +90,7 @@ for (i in 1:nrow(behaviorComparisons))
   print(res)
   theseValues <- BetweenSymptomsStats[4] - BetweenSymptomsStats[10]
   summary <- summary(theseValues[which(theseValues[1] != 0),])
-  cat("(L-R)", "median", summary[3], " ; max", summary[6])
+  cat("(L-R)", "median", summary[3], " ; 3rdQtl", summary[5], " ; max", summary[6])
   
   cat("\n\n----------Delta Comparisons (INSERT): ")
   
@@ -98,7 +98,7 @@ for (i in 1:nrow(behaviorComparisons))
   cat("\nINSERT L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   theseValues <- abs(BetweenSymptomsStats[5] - BetweenSymptomsStats[11])
   summary <- summary(theseValues[which(theseValues[1] != 0),])
-  cat("\nINSERT abs(L-R)", "median", summary[3], " ; max", summary[6])
+  cat("\nINSERT abs(L-R)", "median", summary[3], " ; 3rdQtl", summary[5], " ; max", summary[6])
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[5] < BetweenSymptomsStats[11]),]
   cat("\nINSERT L<R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[5] > BetweenSymptomsStats[11]),]
@@ -119,7 +119,7 @@ for (i in 1:nrow(behaviorComparisons))
   print(res)
   theseValues <- BetweenSymptomsStats[5] - BetweenSymptomsStats[11]
   summary <- summary(theseValues[which(theseValues[1] != 0),])
-  cat("INSERT (L-R)", "median", summary[3], " ; max", summary[6])
+  cat("INSERT (L-R)", "median", summary[3], " ; 3rdQtl", summary[5], " ; max", summary[6])
   
   cat("\n\n----------Delta Comparisons (DELETE): ")
   
@@ -127,7 +127,7 @@ for (i in 1:nrow(behaviorComparisons))
   cat("\nDELETE L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   theseValues <- abs(BetweenSymptomsStats[6] - BetweenSymptomsStats[12])
   summary <- summary(theseValues[which(theseValues[1] != 0),])
-  cat("\nDELETE abs(L-R)", "median", summary[3], " ; max", summary[6])
+  cat("\nDELETE abs(L-R)", "median", summary[3], " ; 3rdQtl", summary[5], " ; max", summary[6])
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[6] < BetweenSymptomsStats[12]),]
   cat("\nDELETE L<R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[6] > BetweenSymptomsStats[12]),]
@@ -147,7 +147,7 @@ for (i in 1:nrow(behaviorComparisons))
   print(res)
   theseValues <- BetweenSymptomsStats[6] - BetweenSymptomsStats[12]
   summary <- summary(theseValues[which(theseValues[1] != 0),])
-  cat("DELETE (L-R)", "median", summary[3], " ; max", summary[6])
+  cat("DELETE (L-R)", "median", summary[3], " ; 3rdQtl", summary[5], " ; max", summary[6])
   
   cat("\n\n----------Delta Comparisons (UPDATE): ")
   
@@ -155,7 +155,7 @@ for (i in 1:nrow(behaviorComparisons))
   cat("\nUPDATE L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   theseValues <- abs(BetweenSymptomsStats[7] - BetweenSymptomsStats[13])
   summary <- summary(theseValues[which(theseValues[1] != 0),])
-  cat("\nUPDATE abs(L-R)", "median", summary[3], " ; max", summary[6])
+  cat("\nUPDATE abs(L-R)", "median", summary[3], " ; 3rdQtl", summary[5], " ; max", summary[6])
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[7] < BetweenSymptomsStats[13]),]
   cat("\nUPDATE L<R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[7] > BetweenSymptomsStats[13]),]
@@ -176,7 +176,7 @@ for (i in 1:nrow(behaviorComparisons))
   print(res)
   theseValues <- BetweenSymptomsStats[7] - BetweenSymptomsStats[13]
   summary <- summary(theseValues[which(theseValues[1] != 0),])
-  cat("UPDATE (L-R)", "median", summary[3], " ; max", summary[6])
+  cat("UPDATE (L-R)", "median", summary[3], " ; 3rdQtl", summary[5], " ; max", summary[6])
   
   cat("\n\n----------Delta Comparisons (MOVE): ")
   
@@ -184,7 +184,7 @@ for (i in 1:nrow(behaviorComparisons))
   cat("\nMOVE L!=R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   theseValues <- abs(BetweenSymptomsStats[8] - BetweenSymptomsStats[14])
   summary <- summary(theseValues[which(theseValues[1] != 0),])
-  cat("\nMOVE abs(L-R)", "median", summary[3], " ; max", summary[6])
+  cat("\nMOVE abs(L-R)", "median", summary[3], " ; 3rdQtl", summary[5], " ; max", summary[6])
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[8] < BetweenSymptomsStats[14]),]
   cat("\nMOVE L<R: ", nrow(theseRows), "(%", round(nrow(theseRows)/total*100, 2), ")")
   theseRows <- BetweenSymptomsStats[which(BetweenSymptomsStats[8] > BetweenSymptomsStats[14]),]
@@ -205,7 +205,7 @@ for (i in 1:nrow(behaviorComparisons))
   print(res)
   theseValues <- BetweenSymptomsStats[8] - BetweenSymptomsStats[14]
   summary <- summary(theseValues[which(theseValues[1] != 0),])
-  cat("MOVE (L-R)", "median", summary[3], " ; max", summary[6])
+  cat("MOVE (L-R)", "median", summary[3], " ; 3rdQtl", summary[5], " ; max", summary[6])
   
   cat("\n\n----------Matching Set Comparisons (all mismatches): ")
   
