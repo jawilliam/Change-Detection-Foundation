@@ -22,6 +22,7 @@ namespace Jawilliam.CDF.Labs.DBModel
         /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized. </param>
         public virtual void ReadXml(XmlReader reader, string elementPrefix)
         {
+            this.ScopeHint = reader.GetAttribute($"{elementPrefix}ScopeHint");
             this.Element = new ElementDescription();
             this.Element.ReadXml(reader, elementPrefix);
         }
@@ -32,6 +33,9 @@ namespace Jawilliam.CDF.Labs.DBModel
         /// <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized. </param>
         public virtual void WriteXml(XmlWriter writer, string elementPrefix)
         {
+            if (this.ScopeHint != null)
+                writer.WriteAttributeString($"{elementPrefix}ScopeHint", this.ScopeHint);
+
             if (this.Element != null)
                 this.Element.WriteXml(writer, elementPrefix);
         }

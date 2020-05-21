@@ -117,8 +117,14 @@ namespace Jawilliam.CDF.Labs
             switch (way)
             {
                 case "LR":
-                    missedOriginal = leftOriginalTree[missedMatch.Original.Id];
-                    missedModified = leftModifiedTree[missedMatch.Modified.Id];
+                    //missedOriginal = leftOriginalTree[missedMatch.Original.Id];
+                    missedOriginal = leftOriginalTree.ContainsKey(missedMatch.Original.Id)
+                        ? leftOriginalTree[missedMatch.Original.Id]
+                        : null;
+                    //missedModified = leftModifiedTree[missedMatch.Modified.Id];
+                    missedModified = leftModifiedTree.ContainsKey(missedMatch.Modified.Id)
+                        ? leftModifiedTree[missedMatch.Modified.Id]
+                        : null;
                     var lr = new LRMatchSymptom
                     {
                         //Id = Guid.NewGuid(),
@@ -127,8 +133,12 @@ namespace Jawilliam.CDF.Labs
                         {
                             PartName = this.Config.LeftName,
                             Approach = (int)this.Config.Left,
-                            Original = this.CreateElementContext(missedOriginal),
-                            Modified = this.CreateElementContext(missedModified)
+                            Original = missedOriginal != null 
+                                ? this.CreateElementContext(missedOriginal)
+                                : this.CreateElementContext(missedMatch.Original),
+                            Modified = missedModified != null
+                                ? this.CreateElementContext(missedModified)
+                                : this.CreateElementContext(missedMatch.Modified)
                         }
                     };
 
@@ -143,8 +153,12 @@ namespace Jawilliam.CDF.Labs
                     {
                         PartName = this.Config.RightName,
                         Approach = (int)this.Config.Right,
-                        Original = this.CreateElementContext(divergentOriginal),
-                        Modified = this.CreateElementContext(divergentModified)
+                        Original = divergentOriginal != null
+                                ? this.CreateElementContext(divergentOriginal)
+                                : this.CreateElementContext(divergentMatch?.Original),
+                        Modified = divergentModified != null
+                                ? this.CreateElementContext(divergentModified)
+                                : this.CreateElementContext(divergentMatch?.Modified)
                     };
 
                     divergentMatch = this.Config.DivergentMatchForModified("LR", missedMatch, leftDetection, rightDetection);
@@ -158,15 +172,23 @@ namespace Jawilliam.CDF.Labs
                     {
                         PartName = this.Config.RightName,
                         Approach = (int)this.Config.Right,
-                        Original = this.CreateElementContext(divergentOriginal),
-                        Modified = this.CreateElementContext(divergentModified)
+                        Original = divergentOriginal != null
+                                ? this.CreateElementContext(divergentOriginal)
+                                : this.CreateElementContext(divergentMatch?.Original),
+                        Modified = divergentModified != null
+                                ? this.CreateElementContext(divergentModified)
+                                : this.CreateElementContext(divergentMatch?.Modified)
                     };
 
                     return lr;
                 case "RL":
                     //var r = rightOriginalTree.PostOrder(n => n.Children).OrderBy(n => n.Root.Id).Where(n => int.Parse(n.Root.Id) >= 3261).ToArray();
-                    missedOriginal = rightOriginalTree[missedMatch.Original.Id];
-                    missedModified = rightModifiedTree[missedMatch.Modified.Id];
+                    missedOriginal = rightOriginalTree.ContainsKey(missedMatch.Original.Id)
+                        ? rightOriginalTree[missedMatch.Original.Id]
+                        : null;
+                    missedModified = rightModifiedTree.ContainsKey(missedMatch.Modified.Id)
+                        ? rightModifiedTree[missedMatch.Modified.Id]
+                        : null;
                     var rl = new RLMatchSymptom
                     {
                         //Id = Guid.NewGuid(),
@@ -175,8 +197,12 @@ namespace Jawilliam.CDF.Labs
                         {
                             PartName = this.Config.RightName,
                             Approach = (int)this.Config.Right,
-                            Original = this.CreateElementContext(missedOriginal),
-                            Modified = this.CreateElementContext(missedModified)
+                            Original = missedOriginal != null
+                                ? this.CreateElementContext(missedOriginal)
+                                : this.CreateElementContext(missedMatch.Original),
+                            Modified = missedModified != null
+                                ? this.CreateElementContext(missedModified)
+                                : this.CreateElementContext(missedMatch.Modified)
                         }
                     };
 
@@ -191,8 +217,12 @@ namespace Jawilliam.CDF.Labs
                     {
                         PartName = this.Config.LeftName,
                         Approach = (int)this.Config.Left,
-                        Original = this.CreateElementContext(divergentOriginal),
-                        Modified = this.CreateElementContext(divergentModified)
+                        Original = divergentOriginal != null
+                                ? this.CreateElementContext(divergentOriginal)
+                                : this.CreateElementContext(divergentMatch?.Original),
+                        Modified = divergentModified != null
+                                ? this.CreateElementContext(divergentModified)
+                                : this.CreateElementContext(divergentMatch?.Modified)
                     };
 
                     divergentMatch = this.Config.DivergentMatchForModified("RL", missedMatch, rightDetection, leftDetection);
@@ -206,8 +236,12 @@ namespace Jawilliam.CDF.Labs
                     {
                         PartName = this.Config.LeftName,
                         Approach = (int)this.Config.Left,
-                        Original = this.CreateElementContext(divergentOriginal),
-                        Modified = this.CreateElementContext(divergentModified)
+                        Original = divergentOriginal != null
+                                ? this.CreateElementContext(divergentOriginal)
+                                : this.CreateElementContext(divergentMatch?.Original),
+                        Modified = divergentModified != null
+                                ? this.CreateElementContext(divergentModified)
+                                : this.CreateElementContext(divergentMatch?.Modified)
                     };
 
                     return rl;
@@ -224,6 +258,21 @@ namespace Jawilliam.CDF.Labs
                     Hint = missedOriginal?.Root.Value,
                     Id = missedOriginal?.Root.Id ?? "-1",
                     Type = missedOriginal?.Root.Label ?? ""
+                },
+                //ScopeHint = missedOriginal == null ? null : this.GetPath(missedOriginal.Ancestors())
+            };
+        }
+
+        private ElementContext CreateElementContext(ElementVersion missedOriginal)
+        {
+            return new ElementContext
+            {
+                ScopeHint = $"##FILTEREDOUT?##",
+                Element = new ElementDescription
+                {
+                    Hint = missedOriginal?.Value,
+                    Id = missedOriginal?.Id ?? "-1",
+                    Type = missedOriginal?.Label ?? ""
                 },
                 //ScopeHint = missedOriginal == null ? null : this.GetPath(missedOriginal.Ancestors())
             };
