@@ -1,26 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
   "definitions": {
-    "Extension": {
-      "oneOf": [
-        {
-          "type": "object",
-          "required": [ "Service", "." ],
-          "additionalProperties": false,
-          "properties": {
-            "Service": { "type": "string" },
-            ".": { "type": "string" },
-            "Args": { "type": "string" }
-          }
-        }
-      ]
-    },
-    "ExtensionSupport": {
-      "type": "object",
-      "properties": {
-        "Extension": { "$ref": "#/definitions/Extension" }
-      }
-    },
     "Member": {
       "type": "object",
       "required": [ "Expression" ],
@@ -31,166 +11,153 @@
         "Expression": {
           "type": "string"
         },
-        "Extension": { "$ref": "#/definitions/Extension" }
+        "Extension": { "$ref": "#/definitions/Condition" }
+      }
+    },
+    "MatchPropagationRule": {
+      "type": "object",
+      "description": "It declares the finding of a match.",
+      "required": [ "Match" ],
+      "additionalProperties": false,
+      "properties": {
+        "Match": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [ "Original", "Modified" ],
+          "properties": {
+            "Original": { "$ref": "#/definitions/Member" },
+            "Modified": { "$ref": "#/definitions/Member" },
+            "Propagation": {
+              "oneOf": [
+                { "type": "boolean" },
+                { "$ref": "#/definitions/Condition" }
+              ]
+            },
+            "Recovery": {
+              "oneOf": [
+                { "type": "boolean" },
+                { "$ref": "#/definitions/Condition" }
+              ]
+            },
+            "Update": {
+              "oneOf": [
+                {
+                  "type": "boolean",
+                  "default": true
+                },
+                { "$ref": "#/definitions/Condition" }
+              ]
+            }
+          }
+        },
+        "Extension": { "$ref": "#/definitions/Condition" }
+      }
+    },
+    "DeletePropagationRule": {
+      "type": "object",
+      "description": "It declares the computing of a delete action.",
+      "required": [ "Delete" ],
+      "additionalProperties": false,
+      "properties": {
+        "Delete": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Original": { "$ref": "#/definitions/Member" },
+            "Propagation": {
+              "oneOf": [
+                { "type": "boolean" },
+                { "$ref": "#/definitions/Condition" }
+              ]
+            },
+            "Recovery": {
+              "oneOf": [
+                { "type": "boolean" },
+                { "$ref": "#/definitions/Condition" }
+              ]
+            }
+          }
+        },
+        "Extension": { "$ref": "#/definitions/Condition" }
+      }
+    },
+    "InsertPropagationRule": {
+      "type": "object",
+      "description": "It declares the computing of an insert action.",
+      "required": [ "Insert" ],
+      "additionalProperties": false,
+      "properties": {
+        "Insert": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Into": { "$ref": "#/definitions/Member" },
+            "Modified": { "$ref": "#/definitions/Member" },
+            "Propagation": {
+              "oneOf": [
+                { "type": "boolean" },
+                { "$ref": "#/definitions/Condition" }
+              ]
+            },
+            "Recovery": {
+              "oneOf": [
+                { "type": "boolean" },
+                { "$ref": "#/definitions/Condition" }
+              ]
+            }
+          }
+        },
+        "Extension": { "$ref": "#/definitions/Condition" }
+      }
+    },
+    "UpdatePropagationRule": {
+      "type": "object",
+      "description": "It declares the computing of an update action.",
+      "required": [ "Update" ],
+      "additionalProperties": false,
+      "properties": {
+        "Update": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [ "Original", "Modified" ],
+          "properties": {
+            "Original": { "$ref": "#/definitions/Member" },
+            "Modified": { "$ref": "#/definitions/Member" },
+            "Propagation": {
+              "oneOf": [
+                { "type": "boolean" },
+                { "$ref": "#/definitions/Condition" }
+              ]
+            },
+            "Recovery": {
+              "oneOf": [
+                { "type": "boolean" },
+                { "$ref": "#/definitions/Condition" }
+              ]
+            }
+          }
+        },
+        "Extension": { "$ref": "#/definitions/Condition" }
       }
     },
     "PropagationRule": {
       "oneOf": [
         {
-          "type": "object",
-          "required": [ "Match" ],
-          "additionalProperties": false,
-          "properties": {
-            "Match": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [ "Original", "Modified" ],
-              "properties": {
-                "Original": { "$ref": "#/definitions/Member" },
-                "Modified": { "$ref": "#/definitions/Member" },
-                "Propagation": {
-                  "oneOf": [
-                    { "type": "boolean" },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                },
-                "Recovery": {
-                  "oneOf": [
-                    { "type": "boolean" },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                },
-                "Update": {
-                  "oneOf": [
-                    {
-                      "type": "boolean",
-                      "default": true
-                    },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                }
-              }
-            },
-            "Extension": { "$ref": "#/definitions/Extension" }
-          }
+          "$ref": "#/definitions/MatchPropagationRule"
         },
         {
-          "type": "object",
-          "required": [ "Delete" ],
-          "additionalProperties": false,
-          "properties": {
-            "Delete": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "Original": { "$ref": "#/definitions/Member" },
-                "Propagation": {
-                  "oneOf": [
-                    { "type": "boolean" },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                },
-                "Recovery": {
-                  "oneOf": [
-                    { "type": "boolean" },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                }
-              }
-            },
-            "Extension": { "$ref": "#/definitions/Extension" }
-          }
+          "$ref": "#/definitions/DeletePropagationRule"
         },
         {
-          "type": "object",
-          "required": [ "Insert" ],
-          "additionalProperties": false,
-          "properties": {
-            "Insert": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "Original": { "$ref": "#/definitions/Member" },
-                "Modified": { "$ref": "#/definitions/Member" },
-                "Propagation": {
-                  "oneOf": [
-                    { "type": "boolean" },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                },
-                "Recovery": {
-                  "oneOf": [
-                    { "type": "boolean" },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                }
-              }
-            },
-            "Extension": { "$ref": "#/definitions/Extension" }
-          }
+          "$ref": "#/definitions/InsertPropagationRule"
         },
         {
-          "type": "object",
-          "required": [ "Relabel" ],
-          "additionalProperties": false,
-          "properties": {
-            "Relabel": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [ "Original", "Modified" ],
-              "properties": {
-                "Original": { "$ref": "#/definitions/Member" },
-                "Modified": { "$ref": "#/definitions/Member" },
-                "Propagation": {
-                  "oneOf": [
-                    { "type": "boolean" },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                },
-                "Recovery": {
-                  "oneOf": [
-                    { "type": "boolean" },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                }
-              }
-            },
-            "Extension": { "$ref": "#/definitions/Extension" }
-          }
-        },
-        {
-          "type": "object",
-          "required": [ "Update" ],
-          "additionalProperties": false,
-          "properties": {
-            "Update": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [ "Original", "Modified" ],
-              "properties": {
-                "Original": { "$ref": "#/definitions/Member" },
-                "Modified": { "$ref": "#/definitions/Member" },
-                "Propagation": {
-                  "oneOf": [
-                    { "type": "boolean" },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                },
-                "Recovery": {
-                  "oneOf": [
-                    { "type": "boolean" },
-                    { "$ref": "#/definitions/Extension" }
-                  ]
-                }
-              }
-            },
-            "Extension": { "$ref": "#/definitions/Extension" }
-          }
+          "$ref": "#/definitions/UpdatePropagationRule"
         }
       ]
     },
     "Propagation": {
-      "description": "Defines the rules to be applied once known a particular match, delete, or insert.",
+      "description": "It defines the rules to be applied once known a particular match, delete, insert, or update.",
       "type": "array",
       "additionalItems": false,
       "additionalProperties": false,
@@ -198,10 +165,12 @@
     },
     "Hashtags": {
       "type": "array",
+      "description": "Labels to take into consideration.",
       "items": { "type": "string" }
     },
     "ServiceConfig": {
       "type": "object",
+      "description": "Labels multiple members.",
       "properties": {
         "#": {
           "type": "array",
@@ -228,6 +197,7 @@
       }
     },
     "Condition": {
+      "description": "According to the context, it declares a simple instruction or multiple conditions.",
       "oneOf": [
         {
           "description": "Expression fragment",
@@ -260,7 +230,7 @@
           }
         }
       ]
-    }
+    },
     "ElementType": {
       "properties": {
         "Name": {
@@ -285,7 +255,7 @@
                 "properties": {
                   "Property": { "type": "string" },
                   "Path": { "type": "string" },
-                  "Extension": { "$ref": "#/definitions/Extension" }
+                  "Extension": { "$ref": "#/definitions/Condition" }
                 }
               }
             ]
@@ -306,7 +276,7 @@
                 "description": "Name of the current rule.",
                 "type": "string"
               },
-              "Modified": {
+              "ModifiedType": {
                 "description": "Name of the modified element type.",
                 "type": "string"
               },
@@ -335,12 +305,14 @@
               "Service": { "type": "string" },
               "ElementConfig": {
                 "type": "object",
+                "description": "It labels the element.",
                 "additionalProperties": false,
                 "properties": {
                   "#": { "$ref": "#/definitions/Hashtags" },
-                  "Extension": { "$ref": "#/definitions/Extension" },
+                  "Extension": { "$ref": "#/definitions/Condition" },
                   "MembersConfig": {
                     "type": "array",
+                    "description": "One member with multiple labels.",
                     "items": {
                       "allOf": [
                         {
@@ -356,6 +328,7 @@
                   },
                   "ConfigMembers": {
                     "type": "object",
+                    "description": "One label for multiple members.",
                     "properties": {
                       "#": { "type": "string" },
                       "Expressions": {
