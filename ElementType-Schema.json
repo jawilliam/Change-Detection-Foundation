@@ -261,118 +261,124 @@
         }
       ]
     }
-  },
-
-  "properties": {
-    "Name": {
-      "type": "string",
-      "description": "Name of the element type."
-    },
-    "RepresentationType": {
-      "type": "string",
-      "description": "Name of the Roslyn type."
-    },
-    "Members": {
-      "description": "List of properties and features.",
-      "type": "array",
-      "additionalItems": false,
-      "additionalProperties": false,
-      "items": {
-        "oneOf": [
-          {
+    "ElementType": {
+      "properties": {
+        "Name": {
+          "type": "string",
+          "description": "Name of the element type."
+        },
+        "RepresentationType": {
+          "type": "string",
+          "description": "Name of the Roslyn type."
+        },
+        "Members": {
+          "description": "List of properties and features.",
+          "type": "array",
+          "additionalItems": false,
+          "additionalProperties": false,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [ "Property", "Path" ],
+                "additionalProperties": false,
+                "properties": {
+                  "Property": { "type": "string" },
+                  "Path": { "type": "string" },
+                  "Extension": { "$ref": "#/definitions/Extension" }
+                }
+              }
+            ]
+          }
+        },
+        "Matching": {
+          "type": "array",
+          "description": "Defines choices for matching the current element type.",
+          "minItems": 1,
+          "additionalItems": false,
+          "additionalProperties": false,
+          "items": {
             "type": "object",
-            "required": [ "Property", "Path" ],
-            "additionalProperties": false,
+            "description": "Defines a matching candidate",
+            "required": [ "Rule", "Modified" ],
             "properties": {
-              "Property": { "type": "string" },
-              "Path": { "type": "string" },
-              "Extension": { "$ref": "#/definitions/Extension" }
+              "Rule": {
+                "description": "Name of the current rule.",
+                "type": "string"
+              },
+              "Modified": {
+                "description": "Name of the modified element type.",
+                "type": "string"
+              },
+              "Criteria": { "$ref": "#/definitions/Condition" },
+              "OnMatch": { "$ref": "#/definitions/Propagation" }
             }
           }
-        ]
-      }
-    },
-    "Matching": {
-      "type": "array",
-      "description": "Defines choices for matching the current element type.",
-      "minItems": 1,
-      "additionalItems": false,
-      "additionalProperties": false,
-      "items": {
-        "type": "object",
-        "description": "Defines a matching candidate",
-        "required": [ "Rule", "Modified" ],
-        "properties": {
-          "Rule": {
-            "description": "Name of the current rule.",
-            "type": "string"
-          },
-          "Modified": {
-            "description": "Name of the modified element type.",
-            "type": "string"
-          },
-          "Criteria": { "$ref": "#/definitions/Condition" },
-          "OnMatch": { "$ref": "#/definitions/Propagation" }
-        }
-      }
-    },
-    "Differencing": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "OnDelete": { "$ref": "#/definitions/Propagation" },
-        "OnInsert": { "$ref": "#/definitions/Propagation" }
-      }
-    },
-    "Metadata": {
-      "type": "array",
-      "additionalProperties": false,
-      "additionalItems": false,
-      "items": {
-        "type": "object",
-        "required": [ "Service", "ElementConfig" ],
-        "additionalProperties": false,
-        "properties": {
-          "Service": { "type": "string" },
-          "ElementConfig": {
+        },
+        "Differencing": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "OnDelete": { "$ref": "#/definitions/Propagation" },
+            "OnInsert": { "$ref": "#/definitions/Propagation" }
+          }
+        },
+        "Metadata": {
+          "type": "array",
+          "additionalProperties": false,
+          "additionalItems": false,
+          "items": {
             "type": "object",
+            "required": [ "Service", "ElementConfig" ],
             "additionalProperties": false,
             "properties": {
-              "#": { "$ref": "#/definitions/Hashtags" },
-              "Extension": { "$ref": "#/definitions/Extension" },
-              "MembersConfig": {
-                "type": "array",
-                "items": {
-                  "allOf": [
-                    {
-                      "$ref": "#/definitions/Member"
-                    },
-                    {
-                      "properties": {
-                        "#": { "$ref": "#/definitions/Hashtags" }
+              "Service": { "type": "string" },
+              "ElementConfig": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "#": { "$ref": "#/definitions/Hashtags" },
+                  "Extension": { "$ref": "#/definitions/Extension" },
+                  "MembersConfig": {
+                    "type": "array",
+                    "items": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/Member"
+                        },
+                        {
+                          "properties": {
+                            "#": { "$ref": "#/definitions/Hashtags" }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "ConfigMembers": {
+                    "type": "object",
+                    "properties": {
+                      "#": { "type": "string" },
+                      "Expressions": {
+                        "type": "array",
+                        "items": { "type": "string" }
                       }
                     }
-                  ]
-                }
-              },
-              "ConfigMembers": {
-                "type": "object",
-                "properties": {
-                  "#": { "type": "string" },
-                  "Expressions": {
-                    "type": "array",
-                    "items": { "type": "string" }
                   }
                 }
               }
             }
           }
         }
-      }
+      },
+      "required": [ "Name" ],
+      "additionalProperties": false,
+      "title": "JSON Schema To Define an Element Type",
+      "type": "object"
     }
   },
-  "required": [ "Name" ],
-  "additionalProperties": false,
-  "title": "JSON Schema To Define an Element Type",
-  "type": "object"
+
+  "oneOf": [
+    { "$ref": "#/definitions/ElementType" }
+  ]  
+  
 }
