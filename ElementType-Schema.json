@@ -279,7 +279,7 @@
           "items": {
             "type": "object",
             "description": "Defines a matching candidate",
-            "required": [ "Rule", "Modified" ],
+            "required": [ "Rule", "ModifiedType" ],
             "properties": {
               "Rule": {
                 "description": "Name of the current rule.",
