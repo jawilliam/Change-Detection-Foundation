@@ -47,6 +47,15 @@
                 },
                 { "$ref": "#/definitions/Condition" }
               ]
+            },
+            "OverrideRelation": {
+              "oneOf": [
+                {
+                  "type": "boolean",
+                  "default": true
+                },
+                { "$ref": "#/definitions/Condition" }
+              ]
             }
           }
         },
