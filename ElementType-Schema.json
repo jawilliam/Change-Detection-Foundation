@@ -39,7 +39,7 @@
                 { "$ref": "#/definitions/Condition" }
               ]
             },
-            "Update": {
+            "UpdateValue": {
               "oneOf": [
                 {
                   "type": "boolean",
@@ -48,11 +48,11 @@
                 { "$ref": "#/definitions/Condition" }
               ]
             },
-            "OverrideRelation": {
+            "UpdateRelation": {
               "oneOf": [
                 {
                   "type": "boolean",
-                  "default": true
+                  "default": false
                 },
                 { "$ref": "#/definitions/Condition" }
               ]
