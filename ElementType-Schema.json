@@ -39,7 +39,7 @@
                 { "$ref": "#/definitions/Condition" }
               ]
             },
-            "UpdateValue": {
+            "Update": {
               "oneOf": [
                 {
                   "type": "boolean",
@@ -48,11 +48,20 @@
                 { "$ref": "#/definitions/Condition" }
               ]
             },
-            "UpdateRelation": {
+            "Move": {
               "oneOf": [
                 {
                   "type": "boolean",
-                  "default": false
+                  "default": true
+                },
+                { "$ref": "#/definitions/Condition" }
+              ]
+            },
+            "DisplayMove": {
+              "oneOf": [
+                {
+                  "type": "boolean",
+                  "default": true
                 },
                 { "$ref": "#/definitions/Condition" }
               ]
@@ -119,36 +128,6 @@
         "Extension": { "$ref": "#/definitions/Condition" }
       }
     },
-    "UpdatePropagationRule": {
-      "type": "object",
-      "description": "It declares the computing of an update action.",
-      "required": [ "Update" ],
-      "additionalProperties": false,
-      "properties": {
-        "Update": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [ "Original", "Modified" ],
-          "properties": {
-            "Original": { "$ref": "#/definitions/Member" },
-            "Modified": { "$ref": "#/definitions/Member" },
-            "Propagation": {
-              "oneOf": [
-                { "type": "boolean" },
-                { "$ref": "#/definitions/Condition" }
-              ]
-            },
-            "Recovery": {
-              "oneOf": [
-                { "type": "boolean" },
-                { "$ref": "#/definitions/Condition" }
-              ]
-            }
-          }
-        },
-        "Extension": { "$ref": "#/definitions/Condition" }
-      }
-    },
     "PropagationRule": {
       "oneOf": [
         {
@@ -159,9 +138,6 @@
         },
         {
           "$ref": "#/definitions/InsertPropagationRule"
-        },
-        {
-          "$ref": "#/definitions/UpdatePropagationRule"
         }
       ]
     },
