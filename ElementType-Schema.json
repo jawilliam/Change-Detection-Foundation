@@ -27,6 +27,7 @@
           "properties": {
             "Original": { "$ref": "#/definitions/Member" },
             "Modified": { "$ref": "#/definitions/Member" },
+            "MutuallyExclusiveGroup": { "type": "string" },
             "Propagation": {
               "oneOf": [
                 { "type": "boolean" },
@@ -82,6 +83,7 @@
           "additionalProperties": false,
           "properties": {
             "Original": { "$ref": "#/definitions/Member" },
+            "MutuallyExclusiveGroup": { "type": "string" },
             "Propagation": {
               "oneOf": [
                 { "type": "boolean" },
@@ -111,6 +113,7 @@
           "properties": {
             "Into": { "$ref": "#/definitions/Member" },
             "Modified": { "$ref": "#/definitions/Member" },
+            "MutuallyExclusiveGroup": { "type": "string" },
             "Propagation": {
               "oneOf": [
                 { "type": "boolean" },
@@ -235,11 +238,31 @@
             "oneOf": [
               {
                 "type": "object",
-                "required": [ "Property", "Path" ],
+                "required": [ "Property", "Path", "Index", "Type" ],
                 "additionalProperties": false,
                 "properties": {
                   "Property": { "type": "string" },
                   "Path": { "type": "string" },
+                  "Index": { "type": "integer" },
+                  "Type": { "type": "string" },
+                  "ReadOnly": {
+                    "type": "boolean",
+                    "description": "false by default"
+                  },
+                  "Optional": {
+                    "type": "boolean",
+                    "description": "false by default"
+                  },
+                  "Collection": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "ElementType": { "type": "string" },
+                      "Separator": { "type": "string" }
+                    }
+                  },
+                  "#": { "$ref": "#/definitions/Hashtags" },
+                  "MutuallyExclusiveGroup": { "type": "string" },
                   "Extension": { "$ref": "#/definitions/Condition" }
                 }
               }
@@ -258,8 +281,31 @@
             "required": [ "Rule", "ModifiedType" ],
             "properties": {
               "Rule": {
-                "description": "Name of the current rule.",
-                "type": "string"
+                "type": "object",
+                "description": "Describes and represents the underlying rule.",
+                "required": [ "Name", "Field" ],
+                "additionalProperties": false,
+                "properties": {
+                  "Name": {
+                    "description": "Name of the current rule.",
+                    "type": "string"
+                  },
+                  "Field": {
+                    "type": "object",
+                    "required": [ "Name", "Init" ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "Name": {
+                        "type": "string",
+                        "description": "Name of the corresponding field."
+                      },
+                      "Init": {
+                        "type": "string",
+                        "description": "When initialiazig, this is the assigned code expression"
+                      }
+                    }
+                  }
+                }
               },
               "ModifiedType": {
                 "description": "Name of the modified element type.",
