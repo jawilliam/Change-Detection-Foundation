@@ -283,21 +283,21 @@
               "Rule": {
                 "type": "object",
                 "description": "Describes and represents the underlying rule.",
-                "required": [ "Name", "Field" ],
+                "required": [ "Name", "Member" ],
                 "additionalProperties": false,
                 "properties": {
                   "Name": {
                     "description": "Name of the current rule.",
                     "type": "string"
                   },
-                  "Field": {
+                  "Member": {
                     "type": "object",
                     "required": [ "Name", "Init" ],
                     "additionalProperties": false,
                     "properties": {
                       "Name": {
                         "type": "string",
-                        "description": "Name of the corresponding field."
+                        "description": "Name of the corresponding member(s), such as a field and/or property."
                       },
                       "Init": {
                         "type": "string",
